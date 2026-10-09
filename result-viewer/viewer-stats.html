@@ -1,0 +1,100 @@
+<title>Просмотрщик результата: статистика</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: single reading column; summary tiles first, then tables with inline bars. */
+:root{--bg:#f6f5fa;--panel:#ffffff;--line:#e3e0ec;--ink:#1b1825;--mute:#6b6680;--accent:#7a4ff0;--accent-soft:#7a4ff01f;--warn:#b26b00;
+--f-d:"Unbounded","Onest",system-ui,sans-serif;--f-b:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;--f-m:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0c12;--panel:#16141e;--line:#2a2638;--ink:#ece9f5;--mute:#9a94ad;--accent:#a684ff;--accent-soft:#a684ff26;--warn:#f4b740;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d0c12;--panel:#16141e;--line:#2a2638;--ink:#ece9f5;--mute:#9a94ad;--accent:#a684ff;--accent-soft:#a684ff26;--warn:#f4b740;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-b);padding-inline:16px;padding-block:40px 64px}
+.wrap{max-width:960px;margin-inline:auto;display:grid;gap:36px}
+h1,h2{margin:0;text-wrap:balance}
+h1{font:500 clamp(24px,3.6vw,36px)/1.15 var(--f-d)}
+h2{font:600 19px/1.3 var(--f-b)}
+p{margin:0}
+.eyebrow{font:12px var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.lead{color:var(--mute);max-width:68ch}
+header{display:grid;gap:10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:4px;align-content:start}
+.tile .l{font-size:13px;color:var(--mute)}
+.tile .b{font:500 26px/1.15 var(--f-d);font-variant-numeric:tabular-nums}
+.tile .s{font-size:13px;color:var(--mute)}
+.tile.warn .b{color:var(--warn)}
+section{display:grid;gap:12px}
+.note{font-size:13.5px;color:var(--mute);max-width:75ch}
+.tw{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+th{font-size:12.5px;font-weight:500;color:var(--mute)}
+.n{text-align:right;white-space:nowrap}
+td .en{display:block;font-weight:500}
+td .ru{display:block;font-size:12.5px;color:var(--mute)}
+.barcell{width:34%;min-width:160px}
+.barcell .bar{display:inline-block;height:10px;border-radius:5px;background:var(--accent);vertical-align:middle;margin-right:8px}
+.barcell .v{font-size:13.5px}
+tr.muted .bar{background:var(--mute)}
+.tools{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px}
+.trow{display:grid;grid-template-columns:minmax(0,9rem) 1fr auto;gap:10px;align-items:center;font-size:14px}
+.tn{font-family:var(--f-m);font-size:12.5px;overflow-wrap:anywhere}
+.tb .bar{display:block;height:10px;border-radius:5px;background:var(--line)}
+.trow.hl .tb .bar{background:var(--accent)}
+.trow.hl .tn,.trow.hl .tv{color:var(--accent);font-weight:600}
+.tv{font-variant-numeric:tabular-nums;text-align:right;min-width:4.5rem}
+ol{margin:0;padding-left:1.3em;display:grid;gap:8px;max-width:75ch}
+footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px}
+</style>
+<div class="wrap">
+<header>
+  <span class="eyebrow">ZenCreator · Amplitude, проект Production · данные на 9 октября 2026</span>
+  <h1>Просмотрщик результата: статистика</h1>
+  <p class="lead">Из просмотрщика в основном скачивают и повторяют настройки. Промо-баннер вариаций почти не кликают, а фотошуты из готового результата создают редко. Цифры зафиксированы на дату отчёта и не обновляются.</p>
+</header>
+
+<div class="tiles">
+  <div class="tile"><span class="l">Пользователи просмотрщика, 30 дней</span><span class="b">23 848</span><span class="s">12 856 за последние 7 дней</span></div>
+  <div class="tile"><span class="l">Скачивали результат, 30 дней</span><span class="b">58%</span><span class="s">13 868 человек, 1 048 753 скачиваний</span></div>
+  <div class="tile warn"><span class="l">Ошибки скачивания, 30 дней</span><span class="b">3,5%</span><span class="s">попыток; ошибку видели 3 799 человек (16%)</span></div>
+  <div class="tile"><span class="l">Фотошуты из готового результата, 30 дней</span><span class="b">139</span><span class="s">из 6 931 фотошутов (2,0%)</span></div>
+  <div class="tile"><span class="l">Задачи из готового результата, 30 дней</span><span class="b">4,6%</span><span class="s">115 504 из 2 487 258 задач</span></div>
+</div>
+
+<section>
+  <h2>Просмотрщик в целом, 30 дней</h2>
+  <p class="note">Сколько раз случилось событие и сколько разных людей его сделали. Доля считается от 23 848 пользователей просмотрщика.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Событие</th><th class="n">Событий</th><th class="n">Людей</th><th class="n">Доля людей</th><th class="n">На человека</th></tr></thead>
+    <tbody><tr><td><span class="en">Results Viewed</span><span class="ru">Просмотр результата (каждое перелистывание)</span></td><td class="n">6 371 745</td><td class="n">23 848</td><td class="n">100,0%</td><td class="n">267,2</td></tr><tr><td><span class="en">Results Downloaded</span><span class="ru">Скачивание</span></td><td class="n">1 048 753</td><td class="n">13 868</td><td class="n">58,2%</td><td class="n">75,6</td></tr><tr><td><span class="en">Results Sent</span><span class="ru">Отправка в другой инструмент</span></td><td class="n">86 276</td><td class="n">4 582</td><td class="n">19,2%</td><td class="n">18,8</td></tr><tr><td><span class="en">Generation Rated</span><span class="ru">Оценка</span></td><td class="n">36 204</td><td class="n">3 317</td><td class="n">13,9%</td><td class="n">10,9</td></tr><tr><td><span class="en">Results Download Error</span><span class="ru">Ошибка скачивания</span></td><td class="n">38 124</td><td class="n">3 799</td><td class="n">15,9%</td><td class="n">10,0</td></tr><tr><td><span class="en">Result Page Viewed</span><span class="ru">Открытие страницы результатов</span></td><td class="n">101 987</td><td class="n">8 927</td><td class="n">37,4%</td><td class="n">11,4</td></tr></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Какие кнопки нажимают, 7 дней</h2>
+  <p class="note">Клики по тексту кнопки (автотрекинг Amplitude, собирает данные с начала октября). Доля — от 12 856 человек, открывавших просмотрщик за те же 7 дней. «Download» и «Edit» есть и в других местах интерфейса, поэтому их значения могут быть завышены. Серым отмечены кнопки промо-баннера вариаций.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Кнопка</th><th class="n">Клики</th><th class="n">Люди</th><th>Доля пользователей просмотрщика</th></tr></thead>
+    <tbody><tr class=""><td><span class="en">Download</span><span class="ru">Скачать</span></td><td class="n">61 840</td><td class="n">2 647</td><td class="barcell"><span class="bar" style="width:100.0%"></span><span class="v">20,6%</span></td></tr><tr class=""><td><span class="en">Reuse Settings</span><span class="ru">Повторить настройки</span></td><td class="n">13 356</td><td class="n">1 421</td><td class="barcell"><span class="bar" style="width:53.7%"></span><span class="v">11,1%</span></td></tr><tr class=""><td><span class="en">Variations</span><span class="ru">Вариации</span></td><td class="n">2 234</td><td class="n">929</td><td class="barcell"><span class="bar" style="width:35.1%"></span><span class="v">7,2%</span></td></tr><tr class=""><td><span class="en">Send to Tool</span><span class="ru">Отправить в инструмент</span></td><td class="n">5 993</td><td class="n">909</td><td class="barcell"><span class="bar" style="width:34.3%"></span><span class="v">7,1%</span></td></tr><tr class=""><td><span class="en">Edit</span><span class="ru">Редактировать</span></td><td class="n">6 651</td><td class="n">834</td><td class="barcell"><span class="bar" style="width:31.5%"></span><span class="v">6,5%</span></td></tr><tr class=""><td><span class="en">Retry Task</span><span class="ru">Повторить задачу</span></td><td class="n">4 899</td><td class="n">745</td><td class="barcell"><span class="bar" style="width:28.1%"></span><span class="v">5,8%</span></td></tr><tr class=""><td><span class="en">Create Video</span><span class="ru">Создать видео</span></td><td class="n">1 390</td><td class="n">344</td><td class="barcell"><span class="bar" style="width:13.0%"></span><span class="v">2,7%</span></td></tr><tr class=""><td><span class="en">Upscale Standard</span><span class="ru">Апскейл</span></td><td class="n">812</td><td class="n">230</td><td class="barcell"><span class="bar" style="width:8.7%"></span><span class="v">1,8%</span></td></tr><tr class="muted"><td><span class="en">5 variants</span><span class="ru">Баннер: 5 вариаций</span></td><td class="n">87</td><td class="n">51</td><td class="barcell"><span class="bar" style="width:1.9%"></span><span class="v">0,4%</span></td></tr><tr class="muted"><td><span class="en">10 variants</span><span class="ru">Баннер: 10 вариаций</span></td><td class="n">26</td><td class="n">15</td><td class="barcell"><span class="bar" style="width:0.6%"></span><span class="v">0,1%</span></td></tr></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Куда уходят из готового результата, 30 дней</h2>
+  <p class="note">Задачи, созданные из существующего результата (Retry, Reuse Settings, Send to Tool, Create Video, Edit), по инструменту. Фотошут выделен. Через какую кнопку создана задача, по данным разделить нельзя.</p>
+  <div class="tools"><div class="trow"><span class="tn">videogen</span><span class="tb"><span class="bar" style="width:100.0%"></span></span><span class="tv">48 161</span></div><div class="trow"><span class="tn">image_editor</span><span class="tb"><span class="bar" style="width:93.1%"></span></span><span class="tv">44 835</span></div><div class="trow"><span class="tn">collaber</span><span class="tb"><span class="bar" style="width:11.6%"></span></span><span class="tv">5 582</span></div><div class="trow"><span class="tn">video2video</span><span class="tb"><span class="bar" style="width:11.5%"></span></span><span class="tv">5 540</span></div><div class="trow"><span class="tn">by_prompt</span><span class="tb"><span class="bar" style="width:9.3%"></span></span><span class="tv">4 455</span></div><div class="trow"><span class="tn">text_to_video</span><span class="tb"><span class="bar" style="width:3.9%"></span></span><span class="tv">1 884</span></div><div class="trow"><span class="tn">faceswap</span><span class="tb"><span class="bar" style="width:3.7%"></span></span><span class="tv">1 800</span></div><div class="trow"><span class="tn">by_ref</span><span class="tb"><span class="bar" style="width:3.6%"></span></span><span class="tv">1 757</span></div><div class="trow"><span class="tn">carousel</span><span class="tb"><span class="bar" style="width:0.9%"></span></span><span class="tv">411</span></div><div class="trow"><span class="tn">couplegen</span><span class="tb"><span class="bar" style="width:0.7%"></span></span><span class="tv">340</span></div><div class="trow"><span class="tn">video_upscaler</span><span class="tb"><span class="bar" style="width:0.7%"></span></span><span class="tv">317</span></div><div class="trow"><span class="tn">upscaler</span><span class="tb"><span class="bar" style="width:0.4%"></span></span><span class="tv">178</span></div><div class="trow hl"><span class="tn">photoshoot</span><span class="tb"><span class="bar" style="width:0.4%"></span></span><span class="tv">139</span></div><div class="trow"><span class="tn">video_merger</span><span class="tb"><span class="bar" style="width:0.4%"></span></span><span class="tv">117</span></div><div class="trow"><span class="tn">lipsync</span><span class="tb"><span class="bar" style="width:0.4%"></span></span><span class="tv">11</span></div><div class="trow"><span class="tn">facegen</span><span class="tb"><span class="bar" style="width:0.4%"></span></span><span class="tv">3</span></div></div>
+</section>
+
+<section>
+  <h2>Что это значит для редизайна</h2>
+  <ol>
+    <li>Промо-баннер вариаций почти не кликают: 0,5% пользователей за неделю. Его можно заменить переключателем количества вариаций без заметного риска для выручки.</li>
+    <li>Reuse Settings — вторая по охвату кнопка после скачивания (11,1%). Её стоит держать на виду рядом со «Скачать».</li>
+    <li>Variations, Send to Tool, Edit и Retry используют в 2–4 раза чаще, чем Create Video и Upscale. Порядок кнопок стоит строить по этим цифрам.</li>
+    <li>Фотошуты из просмотрщика почти не создают (2,0% всех фотошутов). Если это цель, нужна отдельная кнопка вроде «Фотошут с этим лицом».</li>
+    <li>Ошибку скачивания за месяц видел каждый шестой пользователь просмотрщика. Это стоит разобрать отдельно.</li>
+  </ol>
+</section>
+
+<footer>Источник: Amplitude, организация zencreator, проект Production (717020). События: Results Viewed, Results Downloaded, Results Sent, Generation Rated, Results Download Error, Result Page Viewed, Task Created (type, sourceTaskId), [Amplitude] Element Clicked (Element Text). Выгрузка 9 октября 2026, окна «последние 30 дней» и «последние 7 дней».</footer>
+</div>
