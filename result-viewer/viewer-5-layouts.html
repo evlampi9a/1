@@ -279,6 +279,11 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 <style>
 .abar>button{white-space:nowrap!important;display:inline-flex!important;flex-direction:row!important;align-items:center;gap:6px;padding:12px 14px!important}
 .abar>button .c{margin-left:4px}
+.abar.tight{gap:6px;padding:10px 8px}
+.abar.tight>button{padding:10px 10px!important;font-size:13px}
+.abar.tight .cta{padding:10px 14px!important}
+.sf .nx1{margin-bottom:4px}
+.sf-info{gap:12px}
 .nx1{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:7px 8px;border-radius:12px;border:1px solid #9b6bff80;background:#9b6bff1a}
 .nx1 .th{position:relative;width:40px;height:40px;border-radius:8px;overflow:hidden;background:#000}
 .nx1 .th img{position:static!important;width:100%!important;height:100%!important;object-fit:cover;max-width:none!important;max-height:none!important;filter:none!important}
@@ -363,10 +368,16 @@ const NXB=(cls)=>`<button class="${cls} nxbtn"><b>▶</b><span class="k-img">О�
 const pulse=el=>{el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');};
 document.querySelectorAll('.viewer').forEach(vw=>{
   const sb=vw.querySelector('.side .sb'), acts=vw.querySelector('.sheet .acts'), abar=vw.querySelector('.abar');
-  if(abar){ abar.style.flexWrap='nowrap'; abar.querySelectorAll('.send').forEach(s=>s.textContent='↗ В инструмент ▾'); }
+  if(abar){ abar.style.flexWrap='wrap'; abar.querySelectorAll('.send').forEach(s=>s.textContent='↗ В инструмент ▾');
+    const fit=()=>{ const ed=[...abar.children].find(b=>/Изменить|Промпт/.test(b.textContent)); if(!ed) return; ed.textContent='✎ Изменить промпт'; abar.classList.remove('tight'); const sd=abar.querySelector('.send'); if(sd) sd.textContent='↗ В инструмент ▾'; if(abar.offsetHeight>80){ ed.textContent='✎ Промпт'; abar.classList.add('tight'); if(sd) sd.textContent='↗ Отправить ▾'; } };
+    new ResizeObserver(fit).observe(abar); fit(); }
   let el;
   if(acts){ const h=document.createElement('div'); h.innerHTML=NXB('sec'); el=h.firstElementChild; acts.insertBefore(el, acts.children[1]); acts.style.gridTemplateColumns='1.2fr 1.3fr 1fr 1fr 1fr'; }
-  else if(sb){ const h=document.createElement('div'); h.innerHTML=NX; el=h.firstElementChild; sb.append(el); }
+  else if(sb){ const h=document.createElement('div'); h.innerHTML=NX; el=h.firstElementChild;
+    const side=vw.querySelector('.side'), sf=side.querySelector('.sf');
+    if(sf){ sf.insertBefore(el, sf.firstChild); }
+    else { const bot=document.createElement('div'); bot.className='sf sf-info'; const rate=sb.querySelector('.rate'); if(rate) bot.append(rate); bot.append(el); side.append(bot); side.style.gridTemplateRows='auto minmax(0,1fr) auto'; }
+  }
   const dl=vw.querySelector('.dl'); if(dl) dl.onclick=e=>{e.stopPropagation();vw.toast&&vw.toast('Скачано');el&&pulse(el);};
 });
 document.querySelectorAll('.phone').forEach(ph=>{
