@@ -105,15 +105,23 @@ section{display:grid;gap:16px}
   .toast{left:50%}
 }
 @media (max-width:480px){.ib .lbl{display:none}.vctl i{width:70px}}
-.mrate{display:flex;align-items:center;gap:0;background:#000a;border:1px solid #ffffff1f;border-radius:999px;padding:2px 4px 2px 10px;font-size:12px;color:#cfcfd6;backdrop-filter:blur(6px)}
-.mrate .q{margin-right:2px;white-space:nowrap}
-.mrate button{background:none;border:0;width:30px;height:30px;border-radius:999px;font-size:16px;filter:grayscale(1);opacity:.7;cursor:pointer}
-.mrate button:hover,.mrate button[aria-pressed="true"]{filter:none;opacity:1;background:#ffffff1a}
-@media (max-width:700px){.mrate .q{display:none}}
-.ph-rcard{position:absolute;left:12px;right:12px;top:96px;background:#1d1a24;border:1px solid #3a3446;border-radius:14px;padding:10px 12px;z-index:9;box-shadow:0 10px 30px #0008}
-.ph-rcard .t{font-size:13px;color:#fff;display:flex;justify-content:space-between}.ph-rcard .t span{color:var(--mute);font-size:12px}
-.ph-rcard .e{display:flex;justify-content:space-between;margin-top:6px}
-.ph-rcard .e button{width:44px;height:44px;border-radius:12px;border:0;background:#2a2734;font-size:20px}
+.thumbs{display:inline-flex;gap:2px;margin-left:auto;flex:0 0 auto}
+.thumbs button{width:32px;height:32px;border-radius:8px;border:1px solid transparent;background:none;color:var(--mute);display:grid;place-items:center;cursor:pointer;padding:0}
+.thumbs svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.thumbs button:hover{background:#ffffff0f;color:var(--ink)}
+.thumbs button[aria-pressed="true"]{color:#fff;background:#ffffff14;border-color:var(--line)}
+.thumbs button[aria-pressed="true"] svg{fill:currentColor;fill-opacity:.25}
+.phone .thumbs button{width:36px;height:36px}
+.why{position:absolute;z-index:8;background:#1d1a24;border:1px solid #3a3446;border-radius:12px;padding:10px;box-shadow:0 10px 30px #0008;width:260px}
+.why .t{font-size:13px;color:#fff;margin-bottom:8px}
+.why .c{display:flex;flex-wrap:wrap;gap:6px}
+.why .c button{border:1px solid var(--line);background:#ffffff0a;color:var(--ink);border-radius:999px;padding:6px 10px;font-size:12.5px;cursor:pointer}
+.why .c button:hover{background:#ffffff14}
+.ph-why{position:absolute;left:0;right:0;bottom:0;z-index:12;background:#1d1a24;border-top:1px solid #3a3446;border-radius:18px 18px 0 0;padding:10px 14px 28px}
+.ph-why .grab{display:block;width:36px;height:4px;border-radius:2px;background:#ffffff33;margin:0 auto 10px}
+.ph-why .t{font-size:14px;color:#fff;margin-bottom:10px}
+.ph-why .c{display:flex;flex-wrap:wrap;gap:8px}
+.ph-why .c button{min-height:44px;border:1px solid var(--line);background:#ffffff0a;color:var(--ink);border-radius:999px;padding:0 14px;font-size:13.5px}
 </style><style>
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tab{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;text-align:left;display:grid;gap:1px}
@@ -327,7 +335,7 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 <section style="display:grid;gap:10px"><h2 style="margin-top:8px">Правила для разработки</h2>
 <ul style="margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px;max-width:85ch">
 <li><b>«Следующий шаг» — компактный и ничего не закрывает:</b> на компьютере это одна строка в панели (превью, название, «Сделать»), на телефоне и в варианте C — одна выделенная кнопка в ряду кнопок. Ведёт в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
-<li><b>Оценка — на самом результате, а не в панели:</b> на компьютере маленькая плашка «Как результат? 😣🙁😐🙂😄» в левом верхнем углу медиа, рядом со счётчиком (как реакции у Midjourney и лайки у Krea). На телефоне — карточка с крупными иконками сразу после «Сохранить в Фото»: человек уже посмотрел результат и решил его сохранить, это лучший момент спросить. Оценку ставят 14% пользователей, но 36 тыс. оценок в месяц — единственный сигнал о качестве моделей, поэтому она должна быть рядом с результатом, а не висеть посреди информации.</li>
+<li><b>Оценка — тихие 👍 / 👎 рядом с названием модели, не поверх результата и не в группе действий.</b> На компьютере — в шапке панели вместо лишнего «Готово» (в просмотрщике результат всегда готов); без панели — в строке с промптом. На телефоне — в строке «Wan 3.0 · 5 с · 720p», кнопки 36 px. Нажатие 👎 открывает «Что не так?» с причинами (лицо, руки, движение, не по промпту, качество) — это полезнее для команды моделей, чем 5 смайлов. Ничего не всплывает само: оценку ставят 14% пользователей, остальным она не должна мешать.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -400,22 +408,47 @@ document.querySelectorAll('img.nxi').forEach(i=>i.src=SRC);
 const setKind=k=>{document.body.classList.toggle('kind-img',k==='img');document.getElementById('k-img').setAttribute('aria-pressed',k==='img');document.getElementById('k-vid').setAttribute('aria-pressed',k!=='img');};
 document.getElementById('k-img').onclick=()=>setKind('img'); document.getElementById('k-vid').onclick=()=>setKind('vid');
 
-/* оценка: из панели на сам результат */
-const EMO=[['Плохо','😣'],['Так себе','🙁'],['Нормально','😐'],['Хорошо','🙂'],['Отлично','😄']];
+
+/* оценка: 👍/👎 рядом с названием модели; 👎 спрашивает причину */
+const UP='<svg viewBox="0 0 24 24"><path d="M7 10v11H4V10h3zm0 0l4-8c1.7 0 2.8 1.2 2.5 2.9L13 9h5.6c1.3 0 2.2 1.2 1.9 2.4l-1.8 7.4c-.3 1.3-1.4 2.2-2.7 2.2H7"/></svg>';
+const DOWN='<svg viewBox="0 0 24 24" style="transform:scaleY(-1)"><path d="M7 10v11H4V10h3zm0 0l4-8c1.7 0 2.8 1.2 2.5 2.9L13 9h5.6c1.3 0 2.2 1.2 1.9 2.4l-1.8 7.4c-.3 1.3-1.4 2.2-2.7 2.2H7"/></svg>';
+const REASONS=['Лицо не похоже','Руки или тело','Движение','Не по промпту','Плохое качество','Другое'];
+const mkThumbs=()=>{const d=document.createElement('span');d.className='thumbs';d.innerHTML=`<button aria-label="Хороший результат" title="Хороший результат">${UP}</button><button aria-label="Плохой результат" title="Плохой результат">${DOWN}</button>`;return d;};
 document.querySelectorAll('.viewer').forEach(vw=>{
   vw.querySelectorAll('.side .rate, .det .rate, .sf-info .rate').forEach(r=>r.remove());
-  const tb=vw.querySelector('.tb.l'); if(!tb) return;
-  const r=document.createElement('div'); r.className='mrate';
-  r.innerHTML='<span class="q">Как результат?</span>'+EMO.map(([a,e])=>`<button aria-label="${a}">${e}</button>`).join('');
-  r.onclick=e=>{const b=e.target.closest('button'); if(!b) return; e.stopPropagation(); r.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); r.querySelector('.q').textContent='Спасибо!';};
-  tb.append(r);
+  const host=vw.querySelector('.side .sh')||vw.querySelector('.sheet .top'); if(!host) return;
+  const th=mkThumbs(); const st=host.querySelector('.status');
+  if(st) st.replaceWith(th); else host.insertBefore(th, host.querySelector('.det-t'));
+  if(!st) th.style.marginLeft='0';
+  const why=document.createElement('div'); why.className='why'; why.hidden=true;
+  why.innerHTML='<div class="t">Что не так? Поможет улучшить модель</div><div class="c">'+REASONS.map(r=>`<button>${r}</button>`).join('')+'</div>';
+  vw.append(why);
+  const [up,down]=th.querySelectorAll('button');
+  const set=b=>[up,down].forEach(x=>x.setAttribute('aria-pressed',x===b));
+  up.onclick=e=>{e.stopPropagation();set(up);why.hidden=true;vw.toast&&vw.toast('Спасибо за оценку');};
+  down.onclick=e=>{e.stopPropagation();set(down);const r=down.getBoundingClientRect(),v=vw.getBoundingClientRect();
+    why.style.left=Math.max(8,Math.min(r.right-v.left-260,v.width-268))+'px';
+    if(st){why.style.top=(r.bottom-v.top+6)+'px';why.style.bottom='';} else {why.style.bottom=(v.bottom-r.top+6)+'px';why.style.top='';}
+    why.hidden=false;};
+  why.onclick=e=>{e.stopPropagation();if(e.target.tagName==='BUTTON'){why.hidden=true;vw.toast&&vw.toast('Спасибо, учтём');}};
+  document.addEventListener('click',()=>why.hidden=true);
 });
 document.querySelectorAll('.phone').forEach(ph=>{
-  const sv=ph.querySelector('.ph-save'); if(!sv) return;
-  const card=document.createElement('div'); card.className='ph-rcard'; card.hidden=true;
-  card.innerHTML='<div class="t">Сохранено в Фото. Как результат? <span>✕</span></div><div class="e">'+EMO.map(([a,e])=>`<button aria-label="${a}">${e}</button>`).join('')+'</div>';
-  card.onclick=e=>{e.stopPropagation(); if(e.target.tagName==='BUTTON'){card.querySelector('.t').firstChild.textContent='Спасибо за оценку! '; setTimeout(()=>card.hidden=true,900);} else if(e.target.tagName==='SPAN') card.hidden=true;};
-  ph.append(card);
-  sv.addEventListener('click',e=>{ if(e.target.tagName==='BUTTON' && !e.target.classList.contains('cancel')){ setTimeout(()=>{ const t=ph.querySelector('.ph-toast'); if(t) t.hidden=true; card.querySelector('.t').firstChild.textContent='Сохранено в Фото. Как результат? '; card.hidden=false; clearTimeout(card._t); card._t=setTimeout(()=>card.hidden=true,6000); },0);} });
+  const host=ph.querySelector('.ph-info .h')||ph.querySelector('.ph-sheet .top'); if(!host) return;
+  const th=mkThumbs(); const btn=host.querySelector('.ph-copy');
+  if(btn&&btn.textContent.includes('Копировать')) btn.textContent='Копировать';
+  host.insertBefore(th, btn); th.style.marginRight='2px';
+  if(host.classList.contains('h')){ host.style.gap='6px'; host.firstElementChild.style.marginRight='auto'; th.style.marginLeft='0'; }
+  else th.style.marginLeft='0';
+  const sh=document.createElement('div'); sh.className='ph-why'; sh.hidden=true;
+  sh.innerHTML='<span class="grab"></span><div class="t">Что не так?</div><div class="c">'+REASONS.map(r=>`<button>${r}</button>`).join('')+'</div>';
+  ph.append(sh);
+  const [up,down]=th.querySelectorAll('button');
+  const toast=t=>{const el=ph.querySelector('.ph-toast');if(!el)return;el.textContent=t;el.hidden=false;clearTimeout(el._t);el._t=setTimeout(()=>el.hidden=true,1400);};
+  const set=b=>[up,down].forEach(x=>x.setAttribute('aria-pressed',x===b));
+  up.onclick=e=>{e.stopPropagation();set(up);sh.hidden=true;toast('Спасибо за оценку');};
+  down.onclick=e=>{e.stopPropagation();set(down);sh.hidden=false;};
+  sh.onclick=e=>{e.stopPropagation();if(e.target.tagName==='BUTTON'){sh.hidden=true;toast('Спасибо, учтём');}};
+  document.addEventListener('click',()=>sh.hidden=true);
 });
 </script>
