@@ -9,20 +9,31 @@
  {"metric_type":"TOTALS","event":{"event":"ce:Lounge: фото в чате — генерация завершилась","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"ce:Lounge: фото в чате — ошибка генерации","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"ce:Lounge: видео в чате — генерация завершилась","where":[],"group_by":[]}},
- {"metric_type":"TOTALS","event":{"event":"ce:Lounge: видео в чате — ошибка генерации","where":[],"group_by":[]}}
+ {"metric_type":"TOTALS","event":{"event":"ce:Lounge: видео в чате — ошибка генерации","where":[],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: зашёл в Lounge","where":[],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Onboarding Started","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"Lounge Character Created","where":[],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Character Created","where":[],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Episode Started","where":[],"group_by":[]}}
 ]}
-Колонки по порядку: A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
-PF = фото: генераций завершилось, PE = фото: ошибок, VF = видео: генераций завершилось, VE = видео: ошибок.
+Колонки по порядку:
+ A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
+ PF = фото: генераций завершилось, PE = фото: ошибок, VF = видео: генераций завершилось, VE = видео: ошибок,
+ DAU = зашли в Lounge, NEW = начали онбординг (новые), CH = создано персонажей (штук), CHU = людей создали персонажей,
+ EP = людей начали эпизод.
 Доля ошибок (как на дашборде): фото = PE / PF, видео = VE / VF, в процентах с одним знаком после запятой.
 Если PF (или VF) = 0 — вместо процента пиши «генераций не было».
 Порог нормы — до 5% включительно. Если доля > 5% — поставь в начале этой строки ⚠️.
 
-2. Slack: slack_send_message, channel_id C0C0ZEMEN1J, текст (дата вчерашняя ДД.ММ.ГГГГ):
+2. Slack: slack_send_message, channel_id C0C0ZEMEN1J, текст (дата вчерашняя ДД.ММ.ГГГГ, числа целые):
 
 **Lounge · статистика за <дата>**
-• Кредитов потрачено: <A> (потратили <B> чел.)
+• Зашли в Lounge: <DAU> чел. (новых: <NEW>)
 • Писали сообщения персонажам: <C> чел.
 • Диалоги 5+ сообщений: <D> чел.
+• Создано персонажей: <CH> (создали <CHU> чел.)
+• Начали эпизод: <EP> чел.
+• Кредитов потрачено: <A> (потратили <B> чел.)
 • Ошибки генерации фото: <доля>% (<PE> из <PF>)
 • Ошибки генерации видео: <доля>% (<VE> из <VF>)
 <https://app.amplitude.com/analytics/zencreator/dashboard/z09za0qn|Дашборд Lounge>
