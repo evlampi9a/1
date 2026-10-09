@@ -36,6 +36,12 @@ td .ru{display:block;font-size:12.5px;color:var(--mute)}
 .barcell .bar{display:inline-block;height:10px;border-radius:5px;background:var(--accent);vertical-align:middle;margin-right:8px}
 .barcell .v{font-size:13.5px}
 tr.muted .bar{background:var(--mute)}
+tr.safe .vd{color:var(--ok);font-weight:600}
+tr.mid .vd{color:var(--warn)}
+.vd{font-size:13.5px}
+:root{--ok:#14804a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ok:#2fd27a}}
+:root[data-theme="dark"]{--ok:#2fd27a}
 .tools{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px}
 .trow{display:grid;grid-template-columns:minmax(0,9rem) 1fr auto;gap:10px;align-items:center;font-size:14px}
 .tn{font-family:var(--f-m);font-size:12.5px;overflow-wrap:anywhere}
@@ -79,6 +85,16 @@ footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding
   </table></div>
 </section>
 
+<section id="revenue">
+  <h2>Сколько выручки проходит через каждую кнопку, в месяц</h2>
+  <p class="note">Оценка сверху. Клики за 7 дней пересчитаны на месяц и умножены на стоимость задачи, которую создаёт кнопка, в кредитах. Кредиты переведены в доллары по средней выручке на потраченный кредит: $0,0832 (выручка $3 768 774 делённая на 45,3 млн потраченных кредитов за 30 дней). Доля — от всей выручки за 30 дней. Часть людей при удалении кнопки дойдёт до того же действия другим путём, поэтому реальная потеря будет меньше.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Кнопка</th><th class="n">Кликов в месяц</th><th class="n">Кредитов за действие</th><th>Выручка через кнопку</th><th class="n">Доля выручки</th><th>Вывод</th></tr></thead>
+    <tbody><tr class=""><td><span class="en">Reuse Settings</span><span class="ru">Повторить настройки</span></td><td class="n">57 240</td><td class="n">18,2</td><td class="barcell"><span class="bar" style="width:100.0%"></span><span class="v">$86 653</span></td><td class="n">2,30%</td><td class="vd">не убирать</td></tr><tr class=""><td><span class="en">Send to Tool</span><span class="ru">Отправить в инструмент</span></td><td class="n">25 684</td><td class="n">26,2</td><td class="barcell"><span class="bar" style="width:64.6%"></span><span class="v">$55 974</span></td><td class="n">1,49%</td><td class="vd">не убирать</td></tr><tr class=""><td><span class="en">Retry Task</span><span class="ru">Повторить задачу</span></td><td class="n">20 996</td><td class="n">26,2</td><td class="barcell"><span class="bar" style="width:52.8%"></span><span class="v">$45 756</span></td><td class="n">1,21%</td><td class="vd">не убирать</td></tr><tr class=""><td><span class="en">Create Video</span><span class="ru">Создать видео</span></td><td class="n">5 957</td><td class="n">52,1</td><td class="barcell"><span class="bar" style="width:29.8%"></span><span class="v">$25 816</span></td><td class="n">0,68%</td><td class="vd">не убирать</td></tr><tr class=""><td><span class="en">Variations</span><span class="ru">Вариации</span></td><td class="n">9 574</td><td class="n">15</td><td class="barcell"><span class="bar" style="width:13.8%"></span><span class="v">$11 946</span></td><td class="n">0,32%</td><td class="vd">не убирать</td></tr><tr class="mid"><td><span class="en">Edit</span><span class="ru">Редактировать</span></td><td class="n">28 504</td><td class="n">3,3</td><td class="barcell"><span class="bar" style="width:9.0%"></span><span class="v">$7 824</span></td><td class="n">0,21%</td><td class="vd">оставить, но можно убрать в «Ещё»</td></tr><tr class="safe"><td><span class="en">5 variants</span><span class="ru">Баннер: 5 вариаций</span></td><td class="n">373</td><td class="n">15</td><td class="barcell"><span class="bar" style="width:0.5%"></span><span class="v">$465</span></td><td class="n">0,01%</td><td class="vd">можно убрать</td></tr><tr class="safe"><td><span class="en">Upscale Standard</span><span class="ru">Апскейл</span></td><td class="n">3 480</td><td class="n">1</td><td class="barcell"><span class="bar" style="width:0.3%"></span><span class="v">$289</span></td><td class="n">0,01%</td><td class="vd">можно убрать</td></tr><tr class="safe"><td><span class="en">10 variants</span><span class="ru">Баннер: 10 вариаций</span></td><td class="n">111</td><td class="n">30</td><td class="barcell"><span class="bar" style="width:0.3%"></span><span class="v">$278</span></td><td class="n">0,01%</td><td class="vd">можно убрать</td></tr><tr class="free"><td><span class="en">Download</span><span class="ru">Скачать</span></td><td class="n">265 029</td><td class="n">0</td><td class="barcell"><span class="bar" style="width:0.0%"></span><span class="v">$0</span></td><td class="n">0,00%</td><td class="vd">не трогать: главное действие</td></tr></tbody>
+  </table></div>
+  <p class="note">Откуда стоимость: Variations, баннер и Upscale — цена, указанная в интерфейсе. Create Video, Edit, Send to Tool и Retry — средняя стоимость задач соответствующего типа, созданных из готового результата (Task Created с заполненным sourceTaskId). Reuse Settings — средняя стоимость любой задачи, потому что после неё задача создаётся уже на странице инструмента. Клик почти всегда заканчивается задачей: в течение 30 минут после клика задачу создают 92–96% нажавших Retry, Upscale, Edit, Reuse Settings и Create Video.</p>
+</section>
+
 <section>
   <h2>Куда уходят из готового результата, 30 дней</h2>
   <p class="note">Задачи, созданные из существующего результата (Retry, Reuse Settings, Send to Tool, Create Video, Edit), по инструменту. Фотошут выделен. Через какую кнопку создана задача, по данным разделить нельзя.</p>
@@ -88,6 +104,7 @@ footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding
 <section>
   <h2>Что это значит для редизайна</h2>
   <ol>
+    <li>Без заметных потерь можно убрать промо-баннер вариаций и кнопку Upscale: через них проходит меньше $1 тыс. в месяц, это 0,03% выручки. Create Video убирать нельзя: её нажимают редко, но через неё проходит около $26 тыс. в месяц.</li>
     <li>Промо-баннер вариаций почти не кликают: 0,5% пользователей за неделю. Его можно заменить переключателем количества вариаций без заметного риска для выручки.</li>
     <li>Reuse Settings — вторая по охвату кнопка после скачивания (11,1%). Её стоит держать на виду рядом со «Скачать».</li>
     <li>Variations, Send to Tool, Edit и Retry используют в 2–4 раза чаще, чем Create Video и Upscale. Порядок кнопок стоит строить по этим цифрам.</li>
