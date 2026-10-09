@@ -122,6 +122,57 @@ section{display:grid;gap:16px}
 .ph-why .t{font-size:14px;color:#fff;margin-bottom:10px}
 .ph-why .c{display:flex;flex-wrap:wrap;gap:8px}
 .ph-why .c button{min-height:44px;border:1px solid var(--line);background:#ffffff0a;color:var(--ink);border-radius:999px;padding:0 14px;font-size:13.5px}
+
+/* ===== движение и состояния ===== */
+:root{--t-fast:120ms;--t:180ms;--t-sheet:240ms;--ease:cubic-bezier(.2,.8,.2,1)}
+button{transition:background-color var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease),color var(--t-fast) var(--ease),box-shadow var(--t) var(--ease),transform var(--t-fast) var(--ease),opacity var(--t) var(--ease)}
+button:active{transform:scale(.97)}
+.cta:active,.sec:active,.nxbtn:active{transform:scale(.985)}
+.sec:hover{background:#2a2734;border-color:#5a536b}
+.ib:hover{border-color:#ffffff40}
+.tab:hover{border-color:#5a536b}
+.link:hover{color:#b893ff}
+/* стрелки и верхние кнопки проявляются при наведении на медиа (только мышь) */
+@media (hover:hover){
+ .viewer .nav{opacity:0}
+ .viewer .media:hover .nav,.viewer .nav:focus-visible{opacity:1}
+ .viewer .nav:hover{background:#ffffff26;transform:translateY(-50%) scale(1.06)}
+ .viewer .nav:active{transform:translateY(-50%) scale(.96)}
+}
+.viewer img.main{transition:filter var(--t) var(--ease)}
+/* всплывающие меню */
+@keyframes popIn{from{opacity:0;transform:translateY(4px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes popUp{from{opacity:0;transform:translateY(-4px) scale(.98)}to{opacity:1;transform:none}}
+.pop:not([hidden]){animation:popIn var(--t) var(--ease);transform-origin:bottom right}
+.morepop:not([hidden]){animation-name:popUp;transform-origin:top right}
+.why:not([hidden]){animation:popUp var(--t) var(--ease);transform-origin:top right}
+/* шторки на телефоне */
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.ph-pop:not([hidden]),.ph-why:not([hidden]),.ph-save:not([hidden]){animation:sheetUp var(--t-sheet) var(--ease),dim var(--t-sheet) var(--ease);box-shadow:0 0 0 1000px #0009}
+@keyframes dim{from{box-shadow:0 0 0 1000px #0000}}
+/* тосты */
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,-6px)}to{opacity:1;transform:translate(-50%,0)}}
+.toast:not([hidden]),.ph-toast:not([hidden]){animation:toastIn var(--t) var(--ease)}
+/* детали в варианте C */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.det:not([hidden]){animation:fadeDown var(--t) var(--ease)}
+/* следующий шаг */
+.nx1{transition:border-color var(--t-fast) var(--ease),background-color var(--t-fast) var(--ease)}
+.nx1:hover{border-color:#b893ff;background:#9b6bff26}
+.nx1 .go:hover{background:#a97dff}
+.nx1 .th img{transition:transform var(--t) var(--ease)}
+.nx1:hover .th img{transform:scale(1.08)}
+.nxbtn:hover{background:#9b6bff40!important}
+/* оценка */
+@keyframes thumbPop{40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.thumbs button[aria-pressed="true"]{animation:thumbPop 260ms var(--ease)}
+.why .c button:active,.ph-why .c button:active{background:#9b6bff33;border-color:#9b6bff}
+/* скачивание: состояния прямо на кнопке */
+.cta.dl .spin,.cta.ph-dl .spin{width:15px;height:15px;border-radius:50%;border:2px solid #ffffff40;border-top-color:#fff;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cta.dl.done{border-color:#4ade8066!important}
+.copy.ok,.ph-copy.ok{color:var(--ok)!important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}.cta.dl .spin{animation:none}}
 </style><style>
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tab{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;text-align:left;display:grid;gap:1px}
@@ -336,6 +387,7 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 <ul style="margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px;max-width:85ch">
 <li><b>«Следующий шаг» — компактный и ничего не закрывает:</b> на компьютере это одна строка в панели (превью, название, «Сделать»), на телефоне и в варианте C — одна выделенная кнопка в ряду кнопок. Ведёт в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
 <li><b>Оценка — тихие 👍 / 👎 рядом с названием модели, не поверх результата и не в группе действий.</b> На компьютере — в шапке панели вместо лишнего «Готово» (в просмотрщике результат всегда готов); без панели — в строке с промптом. На телефоне — в строке «Wan 3.0 · 5 с · 720p», кнопки 36 px. Нажатие 👎 открывает «Что не так?» с причинами (лицо, руки, движение, не по промпту, качество) — это полезнее для команды моделей, чем 5 смайлов. Ничего не всплывает само: оценку ставят 14% пользователей, остальным она не должна мешать.</li>
+<li><b>Движение и состояния.</b> Наведение на кнопку: фон и рамка светлеют за 120 мс; нажатие — сжатие до 97%. Стрелки листания появляются при наведении на медиа (на сенсорных экранах их нет — там свайп). Смена результата — сдвиг на 14 px с проявлением, 200 мс. Меню «⋯» и «Отправить» — появление со сдвигом 4 px, 180 мс; шторки на телефоне выезжают снизу, 240 мс. «Скачать» показывает состояние прямо на кнопке: «Скачивается…» со спиннером → «✓ Скачано» → после этого подсвечивается «Следующий шаг». «Копировать» → «✓ Скопировано» на 1,3 с. 👍/👎 коротко «подпрыгивают» при нажатии. Одна кривая для всего: cubic-bezier(.2,.8,.2,1). При «уменьшить движение» в системе анимации отключаются.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -451,4 +503,21 @@ document.querySelectorAll('.phone').forEach(ph=>{
   sh.onclick=e=>{e.stopPropagation();if(e.target.tagName==='BUTTON'){sh.hidden=true;toast('Спасибо, учтём');}};
   document.addEventListener('click',()=>sh.hidden=true);
 });
+
+/* движение: смена результата, состояния скачивания, «Скопировано» */
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.viewer').forEach(vw=>{
+  const main=vw.querySelector('img.main'), g=vw.go;
+  const slide=d=>{ if(!RM) main.animate([{opacity:.35,transform:`translateX(${d*14}px)`},{opacity:1,transform:'none'}],{duration:200,easing:'cubic-bezier(.2,.8,.2,1)'}); };
+  vw.go=d=>{g(d);slide(d);};
+  vw.querySelector('.prev').addEventListener('click',()=>slide(-1));
+  vw.querySelector('.next').addEventListener('click',()=>slide(1));
+  const dl=vw.querySelector('.dl'), nx=vw.querySelector('.nx1, .nxbtn');
+  if(dl){ const html=dl.innerHTML; dl.onclick=e=>{ e.stopPropagation(); if(dl.dataset.busy) return; dl.dataset.busy=1;
+      dl.innerHTML='<span class="spin"></span> Скачивается…';
+      setTimeout(()=>{ dl.innerHTML='✓ Скачано'; dl.classList.add('done'); if(nx){nx.classList.remove('pulse');void nx.offsetWidth;nx.classList.add('pulse');}
+        setTimeout(()=>{ dl.innerHTML=html; dl.classList.remove('done'); delete dl.dataset.busy; },1600); },700); }; }
+});
+document.querySelectorAll('.copy, .ph-copy').forEach(c=>{ if(!/Копировать/.test(c.textContent)) return; const t=c.textContent;
+  c.addEventListener('click',()=>{ c.textContent='✓ Скопировано'; c.classList.add('ok'); clearTimeout(c._t); c._t=setTimeout(()=>{c.textContent=t;c.classList.remove('ok');},1300); }); });
 </script>
