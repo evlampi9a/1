@@ -67,6 +67,13 @@ h3.sub{margin:8px 0 0;font:600 16px/1.3 var(--f-b)}
 .verdict{display:inline-block;font:11px var(--f-m);border:1px solid;border-radius:999px;padding:2px 8px;white-space:nowrap}
 .verdict.good{color:var(--ok)}.verdict.mid{color:var(--warn)}.verdict.bad{color:var(--bad,#c23b3b)}
 .ux .lead{font-size:14.5px!important}
+.devt td.dv{min-width:170px}
+.dbar{display:block;height:8px;border-radius:4px;margin-bottom:4px}
+.dbar.m,.lg.m{background:var(--accent)}
+.dbar.d,.lg.d{background:var(--mute)}
+.lg{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.devt .v{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.devt .s{font-size:12px;color:var(--mute);margin-left:6px}
 </style>
 <div class="wrap">
 <header>
@@ -99,6 +106,57 @@ h3.sub{margin:8px 0 0;font:600 16px/1.3 var(--f-b)}
     <thead><tr><th>Кнопка</th><th class="n">Клики</th><th class="n">Люди</th><th>Доля пользователей просмотрщика</th></tr></thead>
     <tbody><tr class=""><td><span class="en">Download</span><span class="ru">Скачать</span></td><td class="n">61 840</td><td class="n">2 647</td><td class="barcell"><span class="bar" style="width:100.0%"></span><span class="v">20,6%</span></td></tr><tr class=""><td><span class="en">Reuse Settings</span><span class="ru">Повторить настройки</span></td><td class="n">13 356</td><td class="n">1 421</td><td class="barcell"><span class="bar" style="width:53.7%"></span><span class="v">11,1%</span></td></tr><tr class=""><td><span class="en">Variations</span><span class="ru">Вариации</span></td><td class="n">2 234</td><td class="n">929</td><td class="barcell"><span class="bar" style="width:35.1%"></span><span class="v">7,2%</span></td></tr><tr class=""><td><span class="en">Send to Tool</span><span class="ru">Отправить в инструмент</span></td><td class="n">5 993</td><td class="n">909</td><td class="barcell"><span class="bar" style="width:34.3%"></span><span class="v">7,1%</span></td></tr><tr class=""><td><span class="en">Edit</span><span class="ru">Редактировать</span></td><td class="n">6 651</td><td class="n">834</td><td class="barcell"><span class="bar" style="width:31.5%"></span><span class="v">6,5%</span></td></tr><tr class=""><td><span class="en">Retry Task</span><span class="ru">Повторить задачу</span></td><td class="n">4 899</td><td class="n">745</td><td class="barcell"><span class="bar" style="width:28.1%"></span><span class="v">5,8%</span></td></tr><tr class=""><td><span class="en">Create Video</span><span class="ru">Создать видео</span></td><td class="n">1 390</td><td class="n">344</td><td class="barcell"><span class="bar" style="width:13.0%"></span><span class="v">2,7%</span></td></tr><tr class=""><td><span class="en">Upscale Standard</span><span class="ru">Апскейл</span></td><td class="n">812</td><td class="n">230</td><td class="barcell"><span class="bar" style="width:8.7%"></span><span class="v">1,8%</span></td></tr><tr class="muted"><td><span class="en">5 variants</span><span class="ru">Баннер: 5 вариаций</span></td><td class="n">87</td><td class="n">51</td><td class="barcell"><span class="bar" style="width:1.9%"></span><span class="v">0,4%</span></td></tr><tr class="muted"><td><span class="en">10 variants</span><span class="ru">Баннер: 10 вариаций</span></td><td class="n">26</td><td class="n">15</td><td class="barcell"><span class="bar" style="width:0.6%"></span><span class="v">0,1%</span></td></tr></tbody>
   </table></div>
+</section>
+
+<section id="devices">
+  <h2>Телефон и компьютер, 7 дней</h2>
+  <p class="note">Те же кнопки просмотрщика, разделённые по устройству пользователя (свойство Amplitude «Device type»). Телефон — iPhone, Android и iPad; компьютер — Windows, Mac и Linux. Доля считается от пользователей просмотрщика на этом устройстве за те же 7 дней.</p>
+  <div class="tiles">
+    <div class="tile"><span class="l">Пользователи просмотрщика с телефона</span><span class="b">8 743</span><span class="s">59,9% всех, кто открывал просмотрщик</span></div>
+    <div class="tile"><span class="l">Пользователи просмотрщика с компьютера</span><span class="b">5 850</span><span class="s">40,1%</span></div>
+    <div class="tile"><span class="l">Скачивают с телефона / с компьютера</span><span class="b">16,0% / 23,6%</span><span class="s">на компьютере скачивают чаще и больше: 28,4 скачиваний на человека против 16,2</span></div>
+  </div>
+  <div class="tw"><table class="devt">
+    <thead><tr><th>Кнопка</th><th><span class="lg m"></span>Телефон: доля пользователей</th><th><span class="lg d"></span>Компьютер: доля пользователей</th><th class="n">Кликов на человека, телефон</th><th class="n">Кликов на человека, компьютер</th></tr></thead>
+    <tbody><tr><td><span class="en">Download</span><span class="ru">Скачать</span></td>
+<td class="dv"><span class="dbar m" style="width:68%"></span><span class="v">16,0%</span><span class="s">1 403 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:100%"></span><span class="v">23,6%</span><span class="s">1 378 чел.</span></td>
+<td class="n">16,2</td><td class="n">28,4</td></tr><tr><td><span class="en">Reuse Settings</span><span class="ru">Повторить настройки</span></td>
+<td class="dv"><span class="dbar m" style="width:44%"></span><span class="v">10,3%</span><span class="s">899 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:46%"></span><span class="v">10,7%</span><span class="s">627 чел.</span></td>
+<td class="n">8,2</td><td class="n">9,4</td></tr><tr><td><span class="en">Send to Tool</span><span class="ru">Отправить в инструмент</span></td>
+<td class="dv"><span class="dbar m" style="width:29%"></span><span class="v">6,7%</span><span class="s">590 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:28%"></span><span class="v">6,5%</span><span class="s">380 чел.</span></td>
+<td class="n">5,6</td><td class="n">7,0</td></tr><tr><td><span class="en">Retry Task</span><span class="ru">Повторить задачу</span></td>
+<td class="dv"><span class="dbar m" style="width:24%"></span><span class="v">5,6%</span><span class="s">486 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:21%"></span><span class="v">5,0%</span><span class="s">295 чел.</span></td>
+<td class="n">5,2</td><td class="n">8,1</td></tr><tr><td><span class="en">Edit</span><span class="ru">Редактировать</span></td>
+<td class="dv"><span class="dbar m" style="width:25%"></span><span class="v">5,8%</span><span class="s">507 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:27%"></span><span class="v">6,3%</span><span class="s">367 чел.</span></td>
+<td class="n">6,8</td><td class="n">8,7</td></tr><tr><td><span class="en">Variations</span><span class="ru">Вариации</span></td>
+<td class="dv"><span class="dbar m" style="width:25%"></span><span class="v">5,8%</span><span class="s">508 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:32%"></span><span class="v">7,5%</span><span class="s">437 чел.</span></td>
+<td class="n">2,2</td><td class="n">2,5</td></tr><tr><td><span class="en">Create Video</span><span class="ru">Создать видео</span></td>
+<td class="dv"><span class="dbar m" style="width:8%"></span><span class="v">1,9%</span><span class="s">169 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:14%"></span><span class="v">3,3%</span><span class="s">192 чел.</span></td>
+<td class="n">3,8</td><td class="n">3,9</td></tr><tr><td><span class="en">Upscale Standard</span><span class="ru">Апскейл</span></td>
+<td class="dv"><span class="dbar m" style="width:6%"></span><span class="v">1,3%</span><span class="s">117 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:8%"></span><span class="v">1,9%</span><span class="s">114 чел.</span></td>
+<td class="n">3,5</td><td class="n">3,5</td></tr><tr><td><span class="en">5 variants</span><span class="ru">Баннер: 5 вариаций</span></td>
+<td class="dv"><span class="dbar m" style="width:1%"></span><span class="v">0,3%</span><span class="s">29 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:2%"></span><span class="v">0,4%</span><span class="s">24 чел.</span></td>
+<td class="n">1,3</td><td class="n">2,1</td></tr><tr><td><span class="en">10 variants</span><span class="ru">Баннер: 10 вариаций</span></td>
+<td class="dv"><span class="dbar m" style="width:0%"></span><span class="v">0,1%</span><span class="s">7 чел.</span></td>
+<td class="dv"><span class="dbar d" style="width:1%"></span><span class="v">0,1%</span><span class="s">8 чел.</span></td>
+<td class="n">2,1</td><td class="n">1,4</td></tr></tbody>
+  </table></div>
+  <ol class="rules">
+    <li><b>Большинство на телефоне:</b> 59,9% пользователей просмотрщика заходят с телефона. Мобильная версия — основная, а не дополнительная.</li>
+    <li><b>На телефоне реже скачивают</b> (16,0% против 23,6%) и скачивают меньше файлов. Похоже, скачивание на телефоне неудобное; «Скачать → Сохранить в Фото» в редизайне решает именно это.</li>
+    <li><b>Повтор и правка одинаково нужны на обоих устройствах:</b> «Повторить настройки», «Отправить в инструмент», «Повторить задачу» и «Редактировать» нажимают 5–11% и там, и там. Эти кнопки должны быть под рукой и на телефоне.</li>
+    <li><b>Создать видео, апскейл и вариации — чаще на компьютере,</b> но и там это 2–8% людей. На телефоне их можно спокойно держать в меню «Отправить в инструмент».</li>
+  </ol>
+  <p class="note">Человек, который заходил и с телефона, и с компьютера, считается в обеих группах, поэтому сумма телефон + компьютер (14 593) больше общего числа пользователей просмотрщика за неделю (12 856).</p>
 </section>
 
 <section id="revenue">
