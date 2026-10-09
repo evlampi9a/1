@@ -42,7 +42,7 @@ section{display:grid;gap:16px}
 
 /* ---- the viewer ---- */
 .viewer{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 340px;height:min(86vh,860px);min-height:560px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000}
-.stage{position:relative;display:grid;grid-template-rows:minmax(0,1fr) auto;min-width:0;min-height:0;background:#050407}
+.stage{position:relative;display:grid;grid-template-rows:minmax(0,1fr);min-width:0;min-height:0;background:#050407}
 .media{position:relative;min-height:0;display:grid;place-items:center;padding:56px 72px 20px}
 .media img{position:absolute;left:72px;right:72px;top:56px;bottom:44px;width:calc(100% - 144px);height:calc(100% - 100px);object-fit:contain;display:block}
 .tb{position:absolute;top:12px;display:flex;gap:6px;align-items:center;z-index:3}
@@ -55,10 +55,6 @@ section{display:grid;gap:16px}
 .nav.l{left:14px}.nav.r{right:14px}
 .vctl{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;font:12px var(--f-m);color:#ddd;background:#000b;border-radius:999px;padding:5px 12px;white-space:nowrap}
 .vctl i{display:block;width:150px;height:3px;border-radius:2px;background:linear-gradient(90deg,#fff 40%,#ffffff33 40%)}
-.strip{display:flex;gap:6px;justify-content:center;padding:10px 14px 12px;overflow-x:auto}
-.strip button{flex:0 0 auto;width:44px;height:60px;padding:0;border-radius:6px;border:2px solid transparent;overflow:hidden;background:#000;opacity:.55}
-.strip button img{width:100%;height:100%;object-fit:cover;display:block}
-.strip button[aria-current="true"]{border-color:#fff;opacity:1}
 .pop{position:absolute;z-index:6;background:#17141f;border:1px solid var(--line);border-radius:10px;padding:5px;display:grid;gap:1px;min-width:240px;box-shadow:0 16px 40px #000c}
 .pop button{background:none;border:0;display:flex;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:7px;font-size:13.5px;text-align:left}
 .pop button:hover{background:#ffffff0d}
@@ -150,7 +146,7 @@ section{display:grid;gap:16px}
     <div class="rule"><i>2</i><b>Справа узкая панель</b><span>Сверху промпт с «Копировать», под ним параметры тегами.</span></div>
     <div class="rule"><i>3</i><b>Одна главная кнопка</b><span>Это «сделать ещё»: Recreate, Remix. Она внизу панели. Максимум одна-две вторые.</span></div>
     <div class="rule"><i>4</i><b>Скачать — иконкой</b><span>Скачать, поделиться и ⋯ стоят маленькими иконками на тулбаре над медиа, а не большими кнопками.</span></div>
-    <div class="rule"><i>5</i><b>Листать на месте</b><span>Стрелки по бокам и лента миниатюр, окно закрывать не нужно.</span></div>
+    <div class="rule"><i>5</i><b>Листать на месте</b><span>Стрелки по бокам и клавиши ← →, окно закрывать не нужно.</span></div>
   </div>
 </section>
 
@@ -182,7 +178,6 @@ section{display:grid;gap:16px}
         <button class="nav r" id="next" aria-label="Следующий">›</button>
         <div class="vctl"><span>▶</span><span>0:02 / 0:05</span><i></i><span>🔇</span></div>
       </div>
-      <div class="strip" id="strip" aria-label="Результаты этой генерации"></div>
     </div>
 
     <aside class="side">
@@ -210,7 +205,7 @@ section{display:grid;gap:16px}
     <div><b>Промпт с «Копировать», параметры тегами</b><span>как у Krea (карточка) и Midjourney (теги)</span></div>
     <div><b>Главная кнопка внизу панели — «Изменить и повторить»</b><span>как Recreate у Krea и Remix у OpenArt; это бывшая «Повторить настройки», через неё проходит больше всего выручки (2,3%)</span></div>
     <div><b>Вторые кнопки: Повторить и В инструмент</b><span>как вторая кнопка «Create Video» у Krea</span></div>
-    <div><b>Стрелки по бокам и лента внизу</b><span>как у Civitai (стрелки) и Krea (лента)</span></div>
+    <div><b>Стрелки по бокам и клавиши ← →</b><span>как у Civitai</span></div>
   </div>
 </section>
 </div>
@@ -218,9 +213,7 @@ section{display:grid;gap:16px}
 <script>
 const main = document.getElementById('main');
 const hues = [0, 30, 0, -25, 60, 150, -70, 15]; let cur = 2;
-const strip = document.getElementById('strip');
-hues.forEach((h, i) => { const b = document.createElement('button'); b.setAttribute('aria-label', 'Результат ' + (i + 1)); const im = document.createElement('img'); im.alt = ''; im.src = main.src; im.style.filter = `hue-rotate(${h}deg)`; b.append(im); b.onclick = () => go(i); strip.append(b); });
-function go(i) { cur = (i + hues.length) % hues.length; [...strip.children].forEach((b, k) => b.setAttribute('aria-current', k === cur)); document.getElementById('cnt').textContent = (cur + 1) + ' / ' + hues.length; main.style.filter = `hue-rotate(${hues[cur]}deg)`; }
+function go(i) { cur = (i + hues.length) % hues.length; document.getElementById('cnt').textContent = (cur + 1) + ' / ' + hues.length; main.style.filter = `hue-rotate(${hues[cur]}deg)`; }
 go(2);
 document.getElementById('prev').onclick = () => go(cur - 1);
 document.getElementById('next').onclick = () => go(cur + 1);
