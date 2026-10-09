@@ -234,10 +234,48 @@ section{display:grid;gap:16px}
 .ph-next .g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ph-next .g button{border-radius:12px;border:1px solid var(--line);background:var(--raise);min-height:46px;font-size:13px}
 </style>
+<style>
+.kindbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px;color:var(--mute)}
+.kseg{display:inline-flex;background:var(--raise);border:1px solid var(--line);border-radius:10px;padding:3px}
+.kseg button{background:none;border:0;padding:6px 14px;border-radius:7px;color:var(--mute);font-size:13.5px}
+.kseg button[aria-pressed="true"]{background:var(--violet);color:#fff}
+body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
+.nx{position:relative;display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:10px;border-radius:14px;background:linear-gradient(135deg,#9b6bff2e,#5b8cff1a);border:1px solid #9b6bff66}
+.nx .lbl2{position:absolute;top:-9px;left:12px;font:600 10.5px var(--f-m);letter-spacing:.08em;text-transform:uppercase;background:var(--violet);color:#fff;border-radius:6px;padding:2px 7px}
+.nx .th{position:relative;width:64px;height:80px;border-radius:10px;overflow:hidden;background:#000}
+.nx .th img{width:100%;height:100%;object-fit:cover;display:block}
+.nx .th b{position:absolute;inset:0;display:grid;place-items:center;font-size:20px;color:#fff;background:#0004;font-weight:400}
+.nx .tx{display:grid;gap:2px;min-width:0}
+.nx .tx strong{font-size:14.5px}
+.nx .tx span{font-size:12px;color:var(--mute)}
+.nx .go{border:0;border-radius:11px;background:#fff;color:#111;font-weight:600;padding:10px 14px;font-size:13.5px;white-space:nowrap}
+.nx .th img,.ph-nx .th img{position:static!important;inset:auto!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;filter:none!important}
+.side .nx{grid-template-columns:56px 1fr}
+.side .nx .th{width:56px;height:64px}
+.side .nx .go{grid-column:1/-1;padding:11px}
+.nx-alt{display:flex;gap:6px;flex-wrap:wrap}
+.nx-alt button{background:#ffffff0a;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:12.5px;color:var(--ink)}
+.nxwrap{display:grid;gap:8px}
+.sheet .nx{grid-template-columns:44px 1fr auto;padding:8px}
+.sheet .nx .th{width:44px;height:52px}
+.nx.pulse{animation:nxp 1.2s ease 2}
+@keyframes nxp{50%{box-shadow:0 0 0 6px #9b6bff55}}
+.ph-nx{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-radius:14px;background:linear-gradient(135deg,#9b6bff33,#5b8cff1f);border:1px solid #9b6bff66;margin:8px 12px 0}
+.ph-sheet .ph-nx{margin:0}
+.ph-nx .th{position:relative;width:44px;height:52px;border-radius:8px;overflow:hidden}
+.ph-nx .th img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-nx .th b{position:absolute;inset:0;display:grid;place-items:center;color:#fff;background:#0004;font-weight:400}
+.ph-nx.pulse{animation:nxp 1.2s ease 2}
+.ph-nx strong{display:block;font-size:13.5px}
+.ph-nx span{font-size:11.5px;color:var(--mute)}
+.ph-nx .go{border:0;border-radius:10px;background:#fff;color:#111;font-weight:600;height:40px;padding:0 12px;font-size:13px}
+@media (prefers-reduced-motion:reduce){.nx.pulse{animation:none}}
+</style>
 <div class="wrap" style="gap:18px">
 <header style="display:grid;gap:8px"><span class="eyebrow">ZenCreator · экран результата · итог</span><h1>Просмотрщик: рекомендованный дизайн</h1>
 <p class="lead">Варианты, которые прошли UX-разбор, плюс вариант C без боковой панели. В обоих крупное медиа, четыре кнопки без дублей (Скачать, Изменить промпт, Повторить, Отправить в инструмент), большая «Скачать», над медиа только ⋯ и ✕. На телефоне «Скачать» открывает системное меню «Сохранить в Фото», а «Отправить в инструмент» — шторку снизу; нажмите на эти кнопки в макете телефона.</p></header>
 <div class="tabs" role="tablist" aria-label="Варианты"><button class="tab" role="tab" aria-controls="v0" aria-selected="true"><small>Вариант A · основной</small>Кнопки внизу панели</button><button class="tab" role="tab" aria-controls="v1" aria-selected="false"><small>Вариант B</small>Кнопки под видео / без панели</button><button class="tab" role="tab" aria-controls="v2" aria-selected="false"><small>Вариант C</small>Без боковой панели</button></div>
+<div class="kindbar">Что получилось в результате: <div class="kseg" role="group" aria-label="Тип результата"><button id="k-img" aria-pressed="false">Картинка</button><button id="k-vid" aria-pressed="true">Видео</button></div><span>— блок «Следующий шаг» меняется под тип результата.</span></div>
 <section id="v0" role="tabpanel" style="display:grid;gap:12px"><div class="pair"><div class="viewer"><div class="stage"><div class="media"><img class="main" alt="Результат генерации: кадр видео"><div class="tb l"><span class="cnt">3 / 8</span></div><div class="tb r"><button class="ib more" aria-label="Ещё">⋯</button><button class="ib" aria-label="Закрыть">✕</button></div><div class="pop morepop" style="right:12px;top:52px;min-width:200px" hidden><button>Скопировать ссылку</button><button>Скопировать ID</button><button class="danger">Удалить</button></div><button class="nav l prev" aria-label="Предыдущий">‹</button><button class="nav r next" aria-label="Следующий">›</button><div class="vctl"><span>▶</span><span>0:02 / 0:05</span><i></i><span>🔇</span></div></div></div>
 <aside class="side"><div class="sh"><span class="av">W</span><span class="n"><b>Wan 3.0</b><span>Видео · 2 мин назад</span></span><span class="status">Готово</span></div><div class="sb"><div class="pc"><div class="h"><span>Промпт</span><button class="copy">Копировать</button></div><p>Young woman with long platinum hair and bangs, black velvet corset dress, choker, standing in front of a bakery food truck in Paris, soft daylight, slow head turn towards camera, cinematic 35mm</p></div><div class="tags"><span class="tag">длительность <b>5 с</b></span><span class="tag">формат <b>9:16</b></span><span class="tag"><b>720p</b></span><span class="tag">движение <b>среднее</b></span><span class="tag">seed <b>418552907</b></span></div><div class="rate">Как результат? <button aria-label="Плохо">😣</button><button aria-label="Так себе">🙁</button><button aria-label="Нормально">😐</button><button aria-label="Хорошо">🙂</button><button aria-label="Отлично">😄</button></div></div><div class="sf"><button class="cta dl">⤓ Скачать</button><div class="row"><button class="sec">✎ Изменить промпт</button><button class="sec">↻ Повторить <span class="c">12 кр</span></button></div><div class="pop sendpop" style="left:16px;right:16px;bottom:100%;margin-bottom:6px" hidden><button>Сделать видео <span>от 12 кр</span></button><button>Редактировать <span>от 2 кр</span></button><button>Фотошут с этим лицом <span>от 10 кр</span></button><button>Апскейл <span>1 кр</span></button><button>Вариации <span>от 3 кр</span></button><button>Все инструменты <span>→</span></button></div><button class="sec send" aria-expanded="false">↗ Отправить в инструмент ▾</button></div></aside><div class="toast" hidden></div></div><div><div class="phone"><div class="ph-status"><span>9:41</span><span>●●● ▮</span></div><div class="ph-media"><img class="ph-img" alt="Результат на телефоне"><div class="ph-ov"><span class="ph-i">✕</span><span class="ph-cnt">3 / 8</span><span class="sp"></span><span class="ph-i">⋯</span></div><div class="ph-swipe"><i></i><i></i><i class="on"></i><i></i><i></i></div><div class="ph-vctl"><span>▶</span><span>0:02</span><i></i><span>🔇</span></div></div><div class="ph-info"><div class="h"><span>Wan 3.0 · 5 с · 720p</span><button class="ph-copy">Копировать промпт</button></div><p class="pr">Young woman with long platinum hair and bangs, black velvet corset dress, choker, bakery food truck in Paris…</p></div><div class="ph-foot"><button class="cta ph-dl">⤓ Скачать</button><div class="ph-sec3"><button class="sec"><b>✎</b>Изменить промпт</button><button class="sec"><b>↻</b>Повторить <span class="c">12 кр</span></button><button class="sec ph-send"><b>↗</b>В инструмент</button></div></div><div class="ph-pop" hidden><span class="grab"></span><span class="ttl">Отправить в инструмент</span><button>Сделать видео <span>от 12 кр</span></button><button>Редактировать <span>от 2 кр</span></button><button>Фотошут с этим лицом <span>от 10 кр</span></button><button>Апскейл <span>1 кр</span></button><button>Вариации <span>от 3 кр</span></button><button>Все инструменты <span>→</span></button></div><div class="ph-toast" hidden></div><span class="ph-home"></span><div class="ph-save" hidden><span class="grab"></span><span class="ttl">blonde_foodtruck.mp4 · 5 с · 4,8 МБ</span><button class="hi">Сохранить в Фото</button><button>Сохранить в Файлы</button><button>Поделиться…</button><button class="cancel">Отмена</button></div></div><p class="ph-cap">Телефон</p></div></div>
 <div class="rec"><div><b>Компьютер</b>Медиа слева на всю высоту. Справа сверху промпт и параметры, внизу панели большая «Скачать», под ней в ряд «Изменить промпт» и «Повторить», ниже «Отправить в инструмент».</div><div><b>Телефон</b>Видео сверху, под ним промпт в две строки, внизу у большого пальца «Скачать» и строка из трёх кнопок с подписями.</div><div><b>Почему</b>Кнопки всегда в одном месте на обоих устройствах; главная кнопка — в зоне большого пальца. Ближе всего к Krea и OpenArt.</div></div></section>
@@ -251,7 +289,7 @@ section{display:grid;gap:16px}
 <div class="rec"><div><b>Компьютер</b>Медиа на всю ширину окна, без боковой панели. Снизу плавающая карточка: промпт в одну строку, большая «Скачать» и три кнопки. «Детали» раскрывают промпт целиком, параметры и оценку.</div><div><b>Телефон</b>То же самое: видео на весь экран, снизу карточка с промптом и кнопками. Одинаковый интерфейс на обоих устройствах.</div><div><b>Почему</b>Максимум места под результат и один дизайн для компьютера и телефона. Минус: промпт и параметры скрыты по умолчанию, их видно только по «Детали».</div></div></section>
 <section style="display:grid;gap:10px"><h2 style="margin-top:8px">Правила для разработки</h2>
 <ul style="margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px;max-width:85ch">
-<li><b>Подталкиваем к следующему шагу сразу после скачивания:</b> на компьютере появляется карточка «✓ Скачано. Что дальше?», на телефоне — после «Сохранить в Фото». Главная кнопка в ней — «Ещё вариант · 12 кр», рядом «Изменить промпт» и «Сделать видео». Нажмите «Скачать» в макете, чтобы увидеть.</li>
+<li><b>Блок «Следующий шаг» всегда на виду:</b> превью кадра и одна кнопка в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -296,16 +334,25 @@ document.querySelectorAll('.phone').forEach(ph=>{
 document.querySelectorAll('.phone').forEach(ph=>{const sv=ph.querySelector('.ph-save');if(!sv)return;ph.querySelectorAll('.ph-dl').forEach(d=>d.onclick=e=>{e.stopPropagation();sv.hidden=false;});sv.onclick=e=>{e.stopPropagation();if(e.target.tagName==='BUTTON'){sv.hidden=true;if(!e.target.classList.contains('cancel')){const t=ph.querySelector('.ph-toast');t.textContent='Сохранено в Фото';t.hidden=false;setTimeout(()=>t.hidden=true,1500);}}};});
 document.addEventListener('click',()=>document.querySelectorAll('.ph-pop,.ph-save').forEach(p=>p.hidden=true));
 
+
+const NX=`<div class="nxwrap"><div class="nx"><span class="lbl2">Следующий шаг</span><span class="th"><img class="nxi" alt=""><b>▶</b></span>
+<span class="tx"><strong class="k-img">Оживить этот кадр в видео</strong><strong class="k-vid">Видео из видео</strong>
+<span class="k-img">5 с · ≈ 47 кр · чаще всего делают дальше</span><span class="k-vid">перенести движение на другого персонажа · ≈ 47 кр</span></span>
+<button class="go"><span class="k-img">Сделать видео</span><span class="k-vid">Сделать</span></button></div>
+<div class="nx-alt"><span class="k-img"><button>✎ Редактировать</button> <button>⇄ Замена лица</button></span><span class="k-vid"><button>⤢ Апскейл видео</button> <button>▶ Видео по тексту</button></span></div></div>`, PNX=`<div class="ph-nx"><span class="th"><img class="nxi" alt=""><b>▶</b></span><span><strong class="k-img">Оживить в видео</strong><strong class="k-vid">Видео из видео</strong><span class="k-img">5 с · ≈ 47 кр</span><span class="k-vid">≈ 47 кр</span></span><button class="go">Сделать</button></div>`;
 document.querySelectorAll('.viewer').forEach(vw=>{
-  const nc=document.createElement('div'); nc.className='nextcard'; nc.hidden=true; nc.innerHTML=`<div class="t"><b>✓ Скачано</b><span>Что дальше?</span><button class="x" aria-label="Закрыть">✕</button></div><div class="g"><button class="pri">↻ Ещё вариант<i>12 кр</i></button><button>✎ Изменить промпт<i>те же настройки</i></button><button>▶ Сделать видео<i>от 12 кр</i></button></div>`; (vw.querySelector('.stage')||vw).append(nc);
-  nc.onclick=e=>e.stopPropagation(); nc.querySelector('.x').onclick=()=>nc.hidden=true;
-  nc.querySelectorAll('.g button').forEach(b=>b.onclick=()=>{nc.hidden=true;vw.toast&&vw.toast('Запущено');});
-  const dl=vw.querySelector('.dl'); if(dl) dl.onclick=e=>{e.stopPropagation();nc.hidden=false;};
+  const sb=vw.querySelector('.side .sb'), sheet=vw.querySelector('.sheet');
+  const host=document.createElement('div'); host.innerHTML=NX; const el=host.firstElementChild;
+  if(sb) sb.append(el); else if(sheet) sheet.insertBefore(el, sheet.querySelector('.acts'));
+  const dl=vw.querySelector('.dl'); if(dl) dl.onclick=e=>{e.stopPropagation();vw.toast&&vw.toast('Скачано');const n=vw.querySelector('.nx');n.classList.remove('pulse');void n.offsetWidth;n.classList.add('pulse');};
 });
 document.querySelectorAll('.phone').forEach(ph=>{
-  const nx=document.createElement('div'); nx.className='ph-next'; nx.hidden=true; nx.innerHTML=`<div class="t"><b>✓ Сохранено</b><span>Что дальше?</span><button class="x" aria-label="Закрыть">✕</button></div><button class="pri">↻ Ещё вариант<i>12 кр</i></button><div class="g"><button>✎ Изменить промпт</button><button>▶ Сделать видео</button></div>`; ph.append(nx);
-  nx.onclick=e=>e.stopPropagation(); nx.querySelector('.x').onclick=()=>nx.hidden=true;
-  const sv=ph.querySelector('.ph-save'); if(!sv) return;
-  sv.onclick=e=>{e.stopPropagation(); if(e.target.tagName!=='BUTTON')return; sv.hidden=true; if(!e.target.classList.contains('cancel')) nx.hidden=false;};
+  const host=document.createElement('div'); host.innerHTML=PNX; const el=host.firstElementChild;
+  const sh=ph.querySelector('.ph-sheet'), foot=ph.querySelector('.ph-foot');
+  if(sh) sh.insertBefore(el, sh.querySelector('.ph-dl')); else if(foot) foot.parentNode.insertBefore(el, foot);
+  const sv=ph.querySelector('.ph-save'); if(sv) sv.onclick=e=>{e.stopPropagation(); if(e.target.tagName!=='BUTTON')return; sv.hidden=true; if(!e.target.classList.contains('cancel')){const t=ph.querySelector('.ph-toast');t.textContent='Сохранено в Фото';t.hidden=false;setTimeout(()=>t.hidden=true,1500);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}};
 });
+document.querySelectorAll('img.nxi').forEach(i=>i.src=SRC);
+const setKind=k=>{document.body.classList.toggle('kind-img',k==='img');document.getElementById('k-img').setAttribute('aria-pressed',k==='img');document.getElementById('k-vid').setAttribute('aria-pressed',k!=='img');};
+document.getElementById('k-img').onclick=()=>setKind('img'); document.getElementById('k-vid').onclick=()=>setKind('vid');
 </script>
