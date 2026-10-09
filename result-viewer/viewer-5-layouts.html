@@ -173,6 +173,24 @@ button:active{transform:scale(.97)}
 .cta.dl.done{border-color:#4ade8066!important}
 .copy.ok,.ph-copy.ok{color:var(--ok)!important}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}.cta.dl .spin{animation:none}}
+
+/* ===== телефон: компактная панель действий — одна строка из 5 кнопок ===== */
+.ph-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.phone .ph-bar>button.cta,.phone .ph-bar>button{font-size:10.5px!important}
+.ph-bar>button{position:relative;min-height:48px;height:48px;padding:4px 2px!important;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px!important;line-height:1.1;font-weight:500;white-space:nowrap;border:1px solid transparent;background:transparent;color:var(--ink)}
+.ph-bar>button b{font-size:17px;font-weight:400;line-height:1}
+.ph-bar>button .c{position:absolute;top:3px;right:5px;font:9px var(--f-m);color:var(--mute)}
+.ph-bar>.cta.ph-dl{background:#2f2b3a!important;border:1px solid #514a63!important;font-weight:600}
+.ph-bar>.nxbtn{border:1px solid #9b6bff!important;background:#9b6bff26!important}
+.ph-bar>.sec{background:#ffffff08;border-color:#ffffff10}
+.ph-foot.compact{padding:6px 8px 22px;gap:0}
+.ph-info.compact{padding:7px 12px 6px;gap:3px}
+.ph-info.compact .pr{-webkit-line-clamp:1;font-size:12px;color:var(--mute)}
+.ph-info.compact .h{font-size:11.5px}
+.ph-info.compact .ph-copy{height:30px}
+.ph-sheet.compact{padding:6px;gap:6px;border-radius:16px}
+.ph-sheet.compact .top{padding:0 2px 0 4px}
+.ph-sheet.compact .ph-copy{height:30px!important}
 </style><style>
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tab{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;text-align:left;display:grid;gap:1px}
@@ -388,6 +406,7 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 <li><b>«Следующий шаг» — компактный и ничего не закрывает:</b> на компьютере это одна строка в панели (превью, название, «Сделать»), на телефоне и в варианте C — одна выделенная кнопка в ряду кнопок. Ведёт в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
 <li><b>Оценка — тихие 👍 / 👎 рядом с названием модели, не поверх результата и не в группе действий.</b> На компьютере — в шапке панели вместо лишнего «Готово» (в просмотрщике результат всегда готов); без панели — в строке с промптом. На телефоне — в строке «Wan 3.0 · 5 с · 720p», кнопки 36 px. Нажатие 👎 открывает «Что не так?» с причинами (лицо, руки, движение, не по промпту, качество) — это полезнее для команды моделей, чем 5 смайлов. Ничего не всплывает само: оценку ставят 14% пользователей, остальным она не должна мешать.</li>
 <li><b>Движение и состояния.</b> Наведение на кнопку: фон и рамка светлеют за 120 мс; нажатие — сжатие до 97%. Стрелки листания появляются при наведении на медиа (на сенсорных экранах их нет — там свайп). Смена результата — сдвиг на 14 px с проявлением, 200 мс. Меню «⋯» и «Отправить» — появление со сдвигом 4 px, 180 мс; шторки на телефоне выезжают снизу, 240 мс. «Скачать» показывает состояние прямо на кнопке: «Скачивается…» со спиннером → «✓ Скачано» → после этого подсвечивается «Следующий шаг». «Копировать» → «✓ Скопировано» на 1,3 с. 👍/👎 коротко «подпрыгивают» при нажатии. Одна кривая для всего: cubic-bezier(.2,.8,.2,1). При «уменьшить движение» в системе анимации отключаются.</li>
+<li><b>На телефоне действия — одна строка из 5 кнопок высотой 48 px:</b> «Скачать» (заливка), «Следующий шаг» (фиолетовая рамка), «Промпт», «Повтор» (цена бейджем в углу), «Отправить». Иконка + короткая подпись, как в нижних панелях «Фото» и Instagram. Промпт под видео — в одну строку. Вся нижняя зона — около 20% экрана вместо трети.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -520,4 +539,18 @@ document.querySelectorAll('.viewer').forEach(vw=>{
 });
 document.querySelectorAll('.copy, .ph-copy').forEach(c=>{ if(!/Копировать/.test(c.textContent)) return; const t=c.textContent;
   c.addEventListener('click',()=>{ c.textContent='✓ Скопировано'; c.classList.add('ok'); clearTimeout(c._t); c._t=setTimeout(()=>{c.textContent=t;c.classList.remove('ok');},1300); }); });
+
+/* телефон: «Скачать» + следующий шаг + 3 действия — в одну строку 48 px */
+document.querySelectorAll('.phone').forEach(ph=>{
+  const row=ph.querySelector('.ph-sec3, .ph-sheet .g3'), dl=ph.querySelector('.ph-foot .ph-dl, .ph-sheet .ph-dl'); if(!row||!dl) return;
+  const nx=row.querySelector('.nxbtn');
+  dl.innerHTML='<b>⤓</b>Скачать'; dl.style.padding='';
+  row.className='ph-bar'; row.style.gridTemplateColumns='';
+  row.insertBefore(dl,row.firstChild); if(nx) row.insertBefore(nx,dl.nextSibling);
+  [...row.children].forEach(b=>{const t=b.textContent; if(/Повтор/.test(t)) b.innerHTML='<b>↻</b>Повтор<span class="c">12</span>'; if(/Отправ|инструмент/.test(t)) b.innerHTML='<b>↗</b>Отправить';});
+  const foot=row.closest('.ph-foot'); if(foot) foot.classList.add('compact');
+  const sh=row.closest('.ph-sheet'); if(sh) sh.classList.add('compact');
+  const info=ph.querySelector('.ph-info'); if(info) info.classList.add('compact');
+  const vc=ph.querySelector('.ph-vctl'); if(sh&&vc){ const fit=()=>{vc.style.bottom=(sh.offsetHeight+parseFloat(getComputedStyle(sh).bottom)+6)+'px';}; fit(); new ResizeObserver(fit).observe(sh); }
+});
 </script>
