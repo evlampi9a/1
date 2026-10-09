@@ -5,9 +5,17 @@
  {"metric_type":"PROPSUM","event":{"event":"Lounge Credits Spent","where":[],"group_by":[]},"aggregation_property":"credits"},
  {"metric_type":"UNIQUES","event":{"event":"Lounge Credits Spent","where":[],"group_by":[]}},
  {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: написал персонажу","where":[],"group_by":[]}},
- {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: 5-е сообщение в разговоре","where":[],"group_by":[]}}
+ {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: 5-е сообщение в разговоре","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"ce:Lounge: фото в чате — генерация завершилась","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"ce:Lounge: фото в чате — ошибка генерации","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"ce:Lounge: видео в чате — генерация завершилась","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"ce:Lounge: видео в чате — ошибка генерации","where":[],"group_by":[]}}
 ]}
-Колонки: A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений.
+Колонки по порядку: A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
+PF = фото: генераций завершилось, PE = фото: ошибок, VF = видео: генераций завершилось, VE = видео: ошибок.
+Доля ошибок (как на дашборде): фото = PE / PF, видео = VE / VF, в процентах с одним знаком после запятой.
+Если PF (или VF) = 0 — вместо процента пиши «генераций не было».
+Порог нормы — до 5% включительно. Если доля > 5% — поставь в начале этой строки ⚠️.
 
 2. Slack: slack_send_message, channel_id C0C0ZEMEN1J, текст (дата вчерашняя ДД.ММ.ГГГГ):
 
@@ -15,6 +23,8 @@
 • Кредитов потрачено: <A> (потратили <B> чел.)
 • Писали сообщения персонажам: <C> чел.
 • Диалоги 5+ сообщений: <D> чел.
+• Ошибки генерации фото: <доля>% (<PE> из <PF>)
+• Ошибки генерации видео: <доля>% (<VE> из <VF>)
 <https://app.amplitude.com/analytics/zencreator/dashboard/z09za0qn|Дашборд Lounge>
 
 3. Если Amplitude вернул ошибку или пустые данные — не выдумывай цифры, отправь «Lounge · статистика за <дата>: не удалось получить данные из Amplitude (<причина>)». Ровно одно сообщение.
