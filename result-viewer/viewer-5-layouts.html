@@ -213,6 +213,27 @@ section{display:grid;gap:16px}
 .rec b{font-size:12px;color:var(--mute);font-weight:500}
 .dropped{font-size:13.5px;color:var(--mute);max-width:85ch}
 </style>
+<style>
+.nextcard{position:absolute;left:50%;top:64px;transform:translateX(-50%);z-index:12;width:min(460px,calc(100% - 32px));background:#1c1927f2;border:1px solid var(--violet);border-radius:16px;padding:14px;display:grid;gap:10px;box-shadow:0 20px 60px #000c;backdrop-filter:blur(10px)}
+.nextcard .t{display:flex;align-items:center;gap:8px;font-size:14px}
+.nextcard .t b{color:var(--ok);font-weight:600}
+.nextcard .t span{color:var(--mute)}
+.nextcard .t button{margin-left:auto;background:none;border:0;color:var(--mute);font-size:16px}
+.nextcard .g{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px}
+.nextcard .g button{border-radius:11px;border:1px solid var(--line);background:var(--raise);padding:10px 8px;font-size:13px;display:grid;gap:2px;justify-items:center;text-align:center}
+.nextcard .g button i{font-style:normal;font:11px var(--f-m);color:var(--mute)}
+.nextcard .g button.pri{background:var(--violet);border-color:var(--violet);color:#fff;font-weight:600}
+.nextcard .g button.pri i{color:#ffffffcc}
+.ph-next{position:absolute;left:8px;right:8px;bottom:14px;z-index:11;background:#1c1927;border:1px solid var(--violet);border-radius:18px;padding:12px;display:grid;gap:10px;box-shadow:0 -16px 50px #000d}
+.ph-next .t{display:flex;align-items:center;gap:6px;font-size:13.5px}
+.ph-next .t b{color:var(--ok)}
+.ph-next .t span{color:var(--mute)}
+.ph-next .t button{margin-left:auto;background:none;border:0;color:var(--mute);font-size:18px;width:44px;height:36px}
+.ph-next .pri{border:0;border-radius:12px;background:var(--violet);color:#fff;font-weight:600;font-size:15px;min-height:50px}
+.ph-next .pri i{font-style:normal;font:11px var(--f-m);color:#ffffffcc;margin-left:6px}
+.ph-next .g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ph-next .g button{border-radius:12px;border:1px solid var(--line);background:var(--raise);min-height:46px;font-size:13px}
+</style>
 <div class="wrap" style="gap:18px">
 <header style="display:grid;gap:8px"><span class="eyebrow">ZenCreator · экран результата · итог</span><h1>Просмотрщик: рекомендованный дизайн</h1>
 <p class="lead">Варианты, которые прошли UX-разбор, плюс вариант C без боковой панели. В обоих крупное медиа, четыре кнопки без дублей (Скачать, Изменить промпт, Повторить, Отправить в инструмент), большая «Скачать», над медиа только ⋯ и ✕. На телефоне «Скачать» открывает системное меню «Сохранить в Фото», а «Отправить в инструмент» — шторку снизу; нажмите на эти кнопки в макете телефона.</p></header>
@@ -230,6 +251,7 @@ section{display:grid;gap:16px}
 <div class="rec"><div><b>Компьютер</b>Медиа на всю ширину окна, без боковой панели. Снизу плавающая карточка: промпт в одну строку, большая «Скачать» и три кнопки. «Детали» раскрывают промпт целиком, параметры и оценку.</div><div><b>Телефон</b>То же самое: видео на весь экран, снизу карточка с промптом и кнопками. Одинаковый интерфейс на обоих устройствах.</div><div><b>Почему</b>Максимум места под результат и один дизайн для компьютера и телефона. Минус: промпт и параметры скрыты по умолчанию, их видно только по «Детали».</div></div></section>
 <section style="display:grid;gap:10px"><h2 style="margin-top:8px">Правила для разработки</h2>
 <ul style="margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px;max-width:85ch">
+<li><b>Подталкиваем к следующему шагу сразу после скачивания:</b> на компьютере появляется карточка «✓ Скачано. Что дальше?», на телефоне — после «Сохранить в Фото». Главная кнопка в ней — «Ещё вариант · 12 кр», рядом «Изменить промпт» и «Сделать видео». Нажмите «Скачать» в макете, чтобы увидеть.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -273,4 +295,17 @@ document.querySelectorAll('.phone').forEach(ph=>{
 });
 document.querySelectorAll('.phone').forEach(ph=>{const sv=ph.querySelector('.ph-save');if(!sv)return;ph.querySelectorAll('.ph-dl').forEach(d=>d.onclick=e=>{e.stopPropagation();sv.hidden=false;});sv.onclick=e=>{e.stopPropagation();if(e.target.tagName==='BUTTON'){sv.hidden=true;if(!e.target.classList.contains('cancel')){const t=ph.querySelector('.ph-toast');t.textContent='Сохранено в Фото';t.hidden=false;setTimeout(()=>t.hidden=true,1500);}}};});
 document.addEventListener('click',()=>document.querySelectorAll('.ph-pop,.ph-save').forEach(p=>p.hidden=true));
+
+document.querySelectorAll('.viewer').forEach(vw=>{
+  const nc=document.createElement('div'); nc.className='nextcard'; nc.hidden=true; nc.innerHTML=`<div class="t"><b>✓ Скачано</b><span>Что дальше?</span><button class="x" aria-label="Закрыть">✕</button></div><div class="g"><button class="pri">↻ Ещё вариант<i>12 кр</i></button><button>✎ Изменить промпт<i>те же настройки</i></button><button>▶ Сделать видео<i>от 12 кр</i></button></div>`; (vw.querySelector('.stage')||vw).append(nc);
+  nc.onclick=e=>e.stopPropagation(); nc.querySelector('.x').onclick=()=>nc.hidden=true;
+  nc.querySelectorAll('.g button').forEach(b=>b.onclick=()=>{nc.hidden=true;vw.toast&&vw.toast('Запущено');});
+  const dl=vw.querySelector('.dl'); if(dl) dl.onclick=e=>{e.stopPropagation();nc.hidden=false;};
+});
+document.querySelectorAll('.phone').forEach(ph=>{
+  const nx=document.createElement('div'); nx.className='ph-next'; nx.hidden=true; nx.innerHTML=`<div class="t"><b>✓ Сохранено</b><span>Что дальше?</span><button class="x" aria-label="Закрыть">✕</button></div><button class="pri">↻ Ещё вариант<i>12 кр</i></button><div class="g"><button>✎ Изменить промпт</button><button>▶ Сделать видео</button></div>`; ph.append(nx);
+  nx.onclick=e=>e.stopPropagation(); nx.querySelector('.x').onclick=()=>nx.hidden=true;
+  const sv=ph.querySelector('.ph-save'); if(!sv) return;
+  sv.onclick=e=>{e.stopPropagation(); if(e.target.tagName!=='BUTTON')return; sv.hidden=true; if(!e.target.classList.contains('cancel')) nx.hidden=false;};
+});
 </script>
