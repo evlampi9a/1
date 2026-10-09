@@ -14,13 +14,15 @@
  {"metric_type":"UNIQUES","event":{"event":"Lounge Onboarding Started","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"Lounge Character Created","where":[],"group_by":[]}},
  {"metric_type":"UNIQUES","event":{"event":"Lounge Character Created","where":[],"group_by":[]}},
- {"metric_type":"UNIQUES","event":{"event":"Lounge Episode Started","where":[],"group_by":[]}}
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Episode Started","where":[],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: открыл профиль персонажа","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"ce:Lounge: открыл профиль персонажа","where":[],"group_by":[]}}
 ]}
 Колонки по порядку:
  A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
  PF = фото: генераций завершилось, PE = фото: ошибок, VF = видео: генераций завершилось, VE = видео: ошибок,
  DAU = зашли в Lounge, NEW = начали онбординг (новые), CH = создано персонажей (штук), CHU = людей создали персонажей,
- EP = людей начали эпизод.
+ EP = людей начали эпизод, PRU = людей открыли профили персонажей, PRT = просмотров профилей.
 Доля ошибок (как на дашборде): фото = PE / PF, видео = VE / VF, в процентах с одним знаком после запятой.
 Если PF (или VF) = 0 — вместо процента пиши «генераций не было».
 Порог нормы — до 5% включительно. Если доля > 5% — поставь в начале этой строки ⚠️.
@@ -29,6 +31,7 @@
 
 **Lounge · статистика за <дата>**
 • Зашли в Lounge: <DAU> чел. (новых: <NEW>)
+• Открыли профили персонажей: <PRU> чел. (<PRT> просмотров)
 • Писали сообщения персонажам: <C> чел.
 • Диалоги 5+ сообщений: <D> чел.
 • Создано персонажей: <CH> (создали <CHU> чел.)
