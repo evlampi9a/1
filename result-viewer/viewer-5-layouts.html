@@ -276,6 +276,24 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 .cta.dl,.cta.ph-dl{background:#2a2734!important;border:1px solid #474158!important;color:#fff!important;font-weight:600}
 .cta.dl:hover,.cta.ph-dl:hover{background:#34303f!important;filter:none}
 </style>
+<style>
+.abar>button{white-space:nowrap!important;display:inline-flex!important;flex-direction:row!important;align-items:center;gap:6px;padding:12px 14px!important}
+.abar>button .c{margin-left:4px}
+.nx1{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;padding:7px 8px;border-radius:12px;border:1px solid #9b6bff80;background:#9b6bff1a}
+.nx1 .th{position:relative;width:40px;height:40px;border-radius:8px;overflow:hidden;background:#000}
+.nx1 .th img{position:static!important;width:100%!important;height:100%!important;object-fit:cover;max-width:none!important;max-height:none!important;filter:none!important}
+.nx1 .th b{position:absolute;inset:0;display:grid;place-items:center;color:#fff;background:#0004;font-weight:400;font-size:13px}
+.nx1 .tx{display:grid;min-width:0}
+.nx1 .tx strong{font-size:13.5px}
+.nx1 .tx>span{font-size:11.5px;color:var(--mute)}
+.nx1 .go{border:0;border-radius:9px;background:var(--violet);color:#fff;font-weight:600;padding:8px 12px;font-size:13px}
+.nx1.pulse,.nxbtn.pulse{animation:nxp 1.2s ease 2}
+.nxbtn{border-color:#9b6bff!important;background:#9b6bff26!important;color:#fff!important}
+.nxbtn b{font-weight:400}
+.sheet .nxbtn{gap:6px}
+.ph-sec3 .nxbtn,.g3 .nxbtn{flex-direction:column}
+@keyframes nxp{50%{box-shadow:0 0 0 6px #9b6bff55}}
+</style>
 <div class="wrap" style="gap:18px">
 <header style="display:grid;gap:8px"><span class="eyebrow">ZenCreator · экран результата · итог</span><h1>Просмотрщик: рекомендованный дизайн</h1>
 <p class="lead">Варианты, которые прошли UX-разбор, плюс вариант C без боковой панели. В обоих крупное медиа, четыре кнопки без дублей (Скачать, Изменить промпт, Повторить, Отправить в инструмент), большая «Скачать», над медиа только ⋯ и ✕. На телефоне «Скачать» открывает системное меню «Сохранить в Фото», а «Отправить в инструмент» — шторку снизу; нажмите на эти кнопки в макете телефона.</p></header>
@@ -294,7 +312,7 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 <div class="rec"><div><b>Компьютер</b>Медиа на всю ширину окна, без боковой панели. Снизу плавающая карточка: промпт в одну строку, большая «Скачать» и три кнопки. «Детали» раскрывают промпт целиком, параметры и оценку.</div><div><b>Телефон</b>То же самое: видео на весь экран, снизу карточка с промптом и кнопками. Одинаковый интерфейс на обоих устройствах.</div><div><b>Почему</b>Максимум места под результат и один дизайн для компьютера и телефона. Минус: промпт и параметры скрыты по умолчанию, их видно только по «Детали».</div></div></section>
 <section style="display:grid;gap:10px"><h2 style="margin-top:8px">Правила для разработки</h2>
 <ul style="margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px;max-width:85ch">
-<li><b>Блок «Следующий шаг» всегда на виду:</b> превью кадра и одна кнопка в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
+<li><b>«Следующий шаг» — компактный и ничего не закрывает:</b> на компьютере это одна строка в панели (превью, название, «Сделать»), на телефоне и в варианте C — одна выделенная кнопка в ряду кнопок. Ведёт в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -340,22 +358,22 @@ document.querySelectorAll('.phone').forEach(ph=>{const sv=ph.querySelector('.ph-
 document.addEventListener('click',()=>document.querySelectorAll('.ph-pop,.ph-save').forEach(p=>p.hidden=true));
 
 
-const NX=`<div class="nxwrap"><div class="nx"><span class="lbl2">Следующий шаг</span><span class="th"><img class="nxi" alt=""><b>▶</b></span>
-<span class="tx"><strong class="k-img">Оживить этот кадр в видео</strong><strong class="k-vid">Видео из видео</strong>
-<span class="k-img">5 с · ≈ 47 кр · чаще всего делают дальше</span><span class="k-vid">перенести движение на другого персонажа · ≈ 47 кр</span></span>
-<button class="go"><span class="k-img">Сделать видео</span><span class="k-vid">Сделать</span></button></div>
-<div class="nx-alt"><span class="k-img"><button>✎ Редактировать</button> <button>⇄ Замена лица</button></span><span class="k-vid"><button>⤢ Апскейл видео</button> <button>▶ Видео по тексту</button></span></div></div>`, PNX=`<div class="ph-nx"><span class="th"><img class="nxi" alt=""><b>▶</b></span><span><strong class="k-img">Оживить в видео</strong><strong class="k-vid">Видео из видео</strong><span class="k-img">5 с · ≈ 47 кр</span><span class="k-vid">≈ 47 кр</span></span><button class="go">Сделать</button></div>`;
+const NX=`<div class="nx1"><span class="th"><img class="nxi" alt=""><b>▶</b></span><span class="tx"><strong><span class="k-img">Оживить в видео</span><span class="k-vid">Видео из видео</span></strong><span>Следующий шаг · ≈ 47 кр</span></span><button class="go">Сделать</button></div>`;
+const NXB=(cls)=>`<button class="${cls} nxbtn"><b>▶</b><span class="k-img">Оживить в видео</span><span class="k-vid">Видео из видео</span></button>`;
+const pulse=el=>{el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');};
 document.querySelectorAll('.viewer').forEach(vw=>{
-  const sb=vw.querySelector('.side .sb'), sheet=vw.querySelector('.sheet');
-  const host=document.createElement('div'); host.innerHTML=NX; const el=host.firstElementChild;
-  if(sb) sb.append(el); else if(sheet) sheet.insertBefore(el, sheet.querySelector('.acts'));
-  const dl=vw.querySelector('.dl'); if(dl) dl.onclick=e=>{e.stopPropagation();vw.toast&&vw.toast('Скачано');const n=vw.querySelector('.nx');n.classList.remove('pulse');void n.offsetWidth;n.classList.add('pulse');};
+  const sb=vw.querySelector('.side .sb'), acts=vw.querySelector('.sheet .acts'), abar=vw.querySelector('.abar');
+  if(abar){ abar.style.flexWrap='nowrap'; abar.querySelectorAll('.send').forEach(s=>s.textContent='↗ В инструмент ▾'); }
+  let el;
+  if(acts){ const h=document.createElement('div'); h.innerHTML=NXB('sec'); el=h.firstElementChild; acts.insertBefore(el, acts.children[1]); acts.style.gridTemplateColumns='1.2fr 1.3fr 1fr 1fr 1fr'; }
+  else if(sb){ const h=document.createElement('div'); h.innerHTML=NX; el=h.firstElementChild; sb.append(el); }
+  const dl=vw.querySelector('.dl'); if(dl) dl.onclick=e=>{e.stopPropagation();vw.toast&&vw.toast('Скачано');el&&pulse(el);};
 });
 document.querySelectorAll('.phone').forEach(ph=>{
-  const host=document.createElement('div'); host.innerHTML=PNX; const el=host.firstElementChild;
-  const sh=ph.querySelector('.ph-sheet'), foot=ph.querySelector('.ph-foot');
-  if(sh) sh.insertBefore(el, sh.querySelector('.ph-dl')); else if(foot) foot.parentNode.insertBefore(el, foot);
-  const sv=ph.querySelector('.ph-save'); if(sv) sv.onclick=e=>{e.stopPropagation(); if(e.target.tagName!=='BUTTON')return; sv.hidden=true; if(!e.target.classList.contains('cancel')){const t=ph.querySelector('.ph-toast');t.textContent='Сохранено в Фото';t.hidden=false;setTimeout(()=>t.hidden=true,1500);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}};
+  const row=ph.querySelector('.ph-sec3, .ph-sheet .g3');
+  const h=document.createElement('div'); h.innerHTML='<button class="sec nxbtn"><b>▶</b><span class="k-img">Видео</span><span class="k-vid">Из видео</span></button>'; const el=h.firstElementChild;
+  if(row){ [...row.children].forEach(b=>{const s=b.textContent; if(s.includes('Изменить')) b.innerHTML='<b>✎</b>Промпт'; else if(s.includes('Повтор')) b.innerHTML='<b>↻</b>Повтор<span class="c">12 кр</span>'; else if(s.includes('инструмент')) b.innerHTML='<b>↗</b>Отправить';}); row.insertBefore(el,row.firstChild); row.style.gridTemplateColumns='repeat(4,1fr)'; }
+  const sv=ph.querySelector('.ph-save'); if(sv) sv.onclick=e=>{e.stopPropagation(); if(e.target.tagName!=='BUTTON')return; sv.hidden=true; if(!e.target.classList.contains('cancel')){const t=ph.querySelector('.ph-toast');t.textContent='Сохранено в Фото';t.hidden=false;setTimeout(()=>t.hidden=true,1500);pulse(el);}};
 });
 document.querySelectorAll('img.nxi').forEach(i=>i.src=SRC);
 const setKind=k=>{document.body.classList.toggle('kind-img',k==='img');document.getElementById('k-img').setAttribute('aria-pressed',k==='img');document.getElementById('k-vid').setAttribute('aria-pressed',k!=='img');};
