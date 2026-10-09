@@ -105,6 +105,15 @@ section{display:grid;gap:16px}
   .toast{left:50%}
 }
 @media (max-width:480px){.ib .lbl{display:none}.vctl i{width:70px}}
+.mrate{display:flex;align-items:center;gap:0;background:#000a;border:1px solid #ffffff1f;border-radius:999px;padding:2px 4px 2px 10px;font-size:12px;color:#cfcfd6;backdrop-filter:blur(6px)}
+.mrate .q{margin-right:2px;white-space:nowrap}
+.mrate button{background:none;border:0;width:30px;height:30px;border-radius:999px;font-size:16px;filter:grayscale(1);opacity:.7;cursor:pointer}
+.mrate button:hover,.mrate button[aria-pressed="true"]{filter:none;opacity:1;background:#ffffff1a}
+@media (max-width:700px){.mrate .q{display:none}}
+.ph-rcard{position:absolute;left:12px;right:12px;top:96px;background:#1d1a24;border:1px solid #3a3446;border-radius:14px;padding:10px 12px;z-index:9;box-shadow:0 10px 30px #0008}
+.ph-rcard .t{font-size:13px;color:#fff;display:flex;justify-content:space-between}.ph-rcard .t span{color:var(--mute);font-size:12px}
+.ph-rcard .e{display:flex;justify-content:space-between;margin-top:6px}
+.ph-rcard .e button{width:44px;height:44px;border-radius:12px;border:0;background:#2a2734;font-size:20px}
 </style><style>
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tab{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;text-align:left;display:grid;gap:1px}
@@ -318,6 +327,7 @@ body:not(.kind-img) .k-img, body.kind-img .k-vid{display:none!important}
 <section style="display:grid;gap:10px"><h2 style="margin-top:8px">Правила для разработки</h2>
 <ul style="margin:0;padding-left:20px;display:grid;gap:5px;font-size:14px;max-width:85ch">
 <li><b>«Следующий шаг» — компактный и ничего не закрывает:</b> на компьютере это одна строка в панели (превью, название, «Сделать»), на телефоне и в варианте C — одна выделенная кнопка в ряду кнопок. Ведёт в самый денежный следующий инструмент. Для картинки — «Сделать видео» (видео приносит 76% всех кредитов), для видео — «Видео из видео» (третий инструмент по деньгам). Блок не повторяет кнопки, которые уже есть на экране. После скачивания блок коротко подсвечивается. Переключите «Картинка / Видео» над макетами.</li>
+<li><b>Оценка — на самом результате, а не в панели:</b> на компьютере маленькая плашка «Как результат? 😣🙁😐🙂😄» в левом верхнем углу медиа, рядом со счётчиком (как реакции у Midjourney и лайки у Krea). На телефоне — карточка с крупными иконками сразу после «Сохранить в Фото»: человек уже посмотрел результат и решил его сохранить, это лучший момент спросить. Оценку ставят 14% пользователей, но 36 тыс. оценок в месяц — единственный сигнал о качестве моделей, поэтому она должна быть рядом с результатом, а не висеть посреди информации.</li>
 <li>На телефоне все кнопки не меньше 44 px; снизу отступ под системную полоску «домой».</li>
 <li>«Скачать» на телефоне открывает системное меню «Сохранить в Фото», а не сохраняет файл в «Загрузки».</li>
 <li>«Отправить в инструмент» на телефоне — шторка снизу; на компьютере — выпадающее меню. В нём видео, редактор, фотошут, апскейл и вариации с ценой.</li>
@@ -389,4 +399,23 @@ document.querySelectorAll('.phone').forEach(ph=>{
 document.querySelectorAll('img.nxi').forEach(i=>i.src=SRC);
 const setKind=k=>{document.body.classList.toggle('kind-img',k==='img');document.getElementById('k-img').setAttribute('aria-pressed',k==='img');document.getElementById('k-vid').setAttribute('aria-pressed',k!=='img');};
 document.getElementById('k-img').onclick=()=>setKind('img'); document.getElementById('k-vid').onclick=()=>setKind('vid');
+
+/* оценка: из панели на сам результат */
+const EMO=[['Плохо','😣'],['Так себе','🙁'],['Нормально','😐'],['Хорошо','🙂'],['Отлично','😄']];
+document.querySelectorAll('.viewer').forEach(vw=>{
+  vw.querySelectorAll('.side .rate, .det .rate, .sf-info .rate').forEach(r=>r.remove());
+  const tb=vw.querySelector('.tb.l'); if(!tb) return;
+  const r=document.createElement('div'); r.className='mrate';
+  r.innerHTML='<span class="q">Как результат?</span>'+EMO.map(([a,e])=>`<button aria-label="${a}">${e}</button>`).join('');
+  r.onclick=e=>{const b=e.target.closest('button'); if(!b) return; e.stopPropagation(); r.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); r.querySelector('.q').textContent='Спасибо!';};
+  tb.append(r);
+});
+document.querySelectorAll('.phone').forEach(ph=>{
+  const sv=ph.querySelector('.ph-save'); if(!sv) return;
+  const card=document.createElement('div'); card.className='ph-rcard'; card.hidden=true;
+  card.innerHTML='<div class="t">Сохранено в Фото. Как результат? <span>✕</span></div><div class="e">'+EMO.map(([a,e])=>`<button aria-label="${a}">${e}</button>`).join('')+'</div>';
+  card.onclick=e=>{e.stopPropagation(); if(e.target.tagName==='BUTTON'){card.querySelector('.t').firstChild.textContent='Спасибо за оценку! '; setTimeout(()=>card.hidden=true,900);} else if(e.target.tagName==='SPAN') card.hidden=true;};
+  ph.append(card);
+  sv.addEventListener('click',e=>{ if(e.target.tagName==='BUTTON' && !e.target.classList.contains('cancel')){ setTimeout(()=>{ const t=ph.querySelector('.ph-toast'); if(t) t.hidden=true; card.querySelector('.t').firstChild.textContent='Сохранено в Фото. Как результат? '; card.hidden=false; clearTimeout(card._t); card._t=setTimeout(()=>card.hidden=true,6000); },0);} });
+});
 </script>
