@@ -21,7 +21,9 @@
  {"metric_type":"TOTALS","event":{"event":"ce:Lounge: прослушал голосовое","where":[],"group_by":[]}},
  {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: прослушал голосовое","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"ce:Lounge: фото в чате — фото готово","where":[],"group_by":[]}},
- {"metric_type":"TOTALS","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["image"]}],"group_by":[]}}
+ {"metric_type":"TOTALS","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["image"]}],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Episode Ended","where":[{"property":"endReason","op":"is","values":["completed"]}],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"Lounge Episode Ended","where":[{"property":"endReason","op":"is","values":["completed"]}],"group_by":[]}}
 ]}
 Колонки по порядку:
  A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
@@ -29,7 +31,8 @@
  DAU = зашли в Lounge, NEW = начали онбординг (новые), CH = создано персонажей (штук), CHU = людей создали персонажей,
  EP = людей начали эпизод, PRU = людей открыли профили персонажей, PRT = просмотров профилей,
  ONC = людей закончили онбординг, VT = прослушано голосовых, VU = людей слушали голосовые,
- PR = фото в чате готово (сгенерировано), PP = фото в чате оплачено.
+ PR = фото в чате готово (сгенерировано), PP = фото в чате оплачено,
+ EPU = людей закончили эпизод (endReason = completed), EPT = эпизодов закончено.
 Неоплаченные фото в чате: UNP = max(PR − PP, 0).
 Доля ошибок (как на дашборде): фото = PE / PF, видео = VE / VF, в процентах с одним знаком после запятой.
 Если PF (или VF) = 0 — вместо процента пиши «генераций не было».
@@ -44,7 +47,7 @@
 • Писали сообщения персонажам: <C> чел.
 • Диалоги 5+ сообщений: <D> чел.
 • Создано персонажей: <CH> (создали <CHU> чел.)
-• Начали эпизод: <EP> чел.
+• Эпизоды: начали <EP> чел., закончили <EPU> чел. (<EPT> эпизодов)
 • Прослушано голосовых: <VT> (слушали <VU> чел.)
 • Фото в чате: сгенерировано <PR>, из них не оплачено <UNP>
 • Кредитов потрачено: <A> (потратили <B> чел.)
