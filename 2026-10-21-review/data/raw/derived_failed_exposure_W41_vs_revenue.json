@@ -1,0 +1,195 @@
+{
+"note": "W41 payers excl. whale #1; failed share = failed/finished TSC in W41 (finished list truncated at 1000 users on zencreator platformType => low-volume users fall into <20 tasks bucket)",
+"rows": [
+{
+"bucket": "a_<20 tasks / no data",
+"level": "1_<$300",
+"n": 166,
+"rev_W41": 18402,
+"rev_W42": 31246,
+"delta": 12844,
+"pct": 69.8,
+"left_share": 18.7
+},
+{
+"bucket": "a_<20 tasks / no data",
+"level": "2_$300-999",
+"n": 9,
+"rev_W41": 4762,
+"rev_W42": 1593,
+"delta": -3169,
+"pct": -66.5,
+"left_share": 55.6
+},
+{
+"bucket": "a_<20 tasks / no data",
+"level": "all",
+"n": 175,
+"rev_W41": 23164,
+"rev_W42": 32839,
+"delta": 9675,
+"pct": 41.8,
+"left_share": 20.6
+},
+{
+"bucket": "b_<5%",
+"level": "1_<$300",
+"n": 285,
+"rev_W41": 52891,
+"rev_W42": 53046,
+"delta": 154,
+"pct": 0.3,
+"left_share": 17.5
+},
+{
+"bucket": "b_<5%",
+"level": "2_$300-999",
+"n": 222,
+"rev_W41": 120308,
+"rev_W42": 82115,
+"delta": -38193,
+"pct": -31.7,
+"left_share": 15.3
+},
+{
+"bucket": "b_<5%",
+"level": "3_>=$1000",
+"n": 30,
+"rev_W41": 51919,
+"rev_W42": 27854,
+"delta": -24065,
+"pct": -46.4,
+"left_share": 6.7
+},
+{
+"bucket": "b_<5%",
+"level": "all",
+"n": 537,
+"rev_W41": 225118,
+"rev_W42": 163015,
+"delta": -62103,
+"pct": -27.6,
+"left_share": 16.0
+},
+{
+"bucket": "c_5-10%",
+"level": "1_<$300",
+"n": 70,
+"rev_W41": 12797,
+"rev_W42": 13320,
+"delta": 523,
+"pct": 4.1,
+"left_share": 7.1
+},
+{
+"bucket": "c_5-10%",
+"level": "2_$300-999",
+"n": 62,
+"rev_W41": 35108,
+"rev_W42": 28526,
+"delta": -6582,
+"pct": -18.7,
+"left_share": 29.0
+},
+{
+"bucket": "c_5-10%",
+"level": "3_>=$1000",
+"n": 11,
+"rev_W41": 20855,
+"rev_W42": 9473,
+"delta": -11382,
+"pct": -54.6,
+"left_share": 27.3
+},
+{
+"bucket": "c_5-10%",
+"level": "all",
+"n": 143,
+"rev_W41": 68759,
+"rev_W42": 51319,
+"delta": -17440,
+"pct": -25.4,
+"left_share": 18.2
+},
+{
+"bucket": "d_10-20%",
+"level": "1_<$300",
+"n": 70,
+"rev_W41": 12727,
+"rev_W42": 15373,
+"delta": 2645,
+"pct": 20.8,
+"left_share": 7.1
+},
+{
+"bucket": "d_10-20%",
+"level": "2_$300-999",
+"n": 55,
+"rev_W41": 28837,
+"rev_W42": 14395,
+"delta": -14442,
+"pct": -50.1,
+"left_share": 27.3
+},
+{
+"bucket": "d_10-20%",
+"level": "3_>=$1000",
+"n": 7,
+"rev_W41": 14108,
+"rev_W42": 4487,
+"delta": -9622,
+"pct": -68.2,
+"left_share": 28.6
+},
+{
+"bucket": "d_10-20%",
+"level": "all",
+"n": 132,
+"rev_W41": 55672,
+"rev_W42": 34254,
+"delta": -21418,
+"pct": -38.5,
+"left_share": 16.7
+},
+{
+"bucket": "e_>=20%",
+"level": "1_<$300",
+"n": 80,
+"rev_W41": 13798,
+"rev_W42": 13771,
+"delta": -27,
+"pct": -0.2,
+"left_share": 12.5
+},
+{
+"bucket": "e_>=20%",
+"level": "2_$300-999",
+"n": 31,
+"rev_W41": 15251,
+"rev_W42": 11808,
+"delta": -3443,
+"pct": -22.6,
+"left_share": 19.4
+},
+{
+"bucket": "e_>=20%",
+"level": "3_>=$1000",
+"n": 8,
+"rev_W41": 15589,
+"rev_W42": 9301,
+"delta": -6288,
+"pct": -40.3,
+"left_share": 12.5
+},
+{
+"bucket": "e_>=20%",
+"level": "all",
+"n": 119,
+"rev_W41": 44638,
+"rev_W42": 34881,
+"delta": -9758,
+"pct": -21.9,
+"left_share": 14.3
+}
+]
+}

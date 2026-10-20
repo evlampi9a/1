@@ -1,0 +1,4 @@
+{"query":"Funnel Payment Started -> Payment Succeeded, ordered, conversion window 1800 s, uniques, segment whales cohort, per week",
+"W40":{"started":989,"succeeded":966,"conv":0.97674,"median_s":72},
+"W41":{"started":989,"succeeded":970,"conv":0.98079,"median_s":66},
+"W42":{"started":955,"succeeded":940,"conv":0.98429,"median_s":55}}

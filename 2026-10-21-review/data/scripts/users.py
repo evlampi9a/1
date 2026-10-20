@@ -1,6 +1,6 @@
 import json
 R='/home/user/1/2026-10-21-review/data/raw/'
-W1='7f3ad82a-4262-49a6-b592-9287e8ae69bf'
+W1='7f3ad82a'
 def load(p,w): return {k:v['overall'] for k,v in json.load(open(f'{R}q02_{p}_users_{w}.json'))['series'].items() if v['overall']}
 U={}
 for w in ['W40','W41','W42']:

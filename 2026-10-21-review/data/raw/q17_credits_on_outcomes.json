@@ -1,0 +1,4 @@
+{"q17a":{"query":"Task Status Changed PROPSUM(credits), whales, status in completed/failed/partial, group_by status+errorCategory, daily 16-18.10 (overall)",
+"completed":1888041,"partial":8567,"moderation_blocked":122590,"provider_content_policy":65125,"provider_policy_output":20187,"invalid_input":7899,"nsfw_detected":5298,"unknown":4893,"provider_policy_input":835,"infrastructure":723,"provider_rate_limit":67,"provider_timeout":50},
+"q17b":{"query":"Task Status Changed PROPSUM(credits), whales_ex1, status in completed/failed/partial, group_by status, interval week (Mon-aligned = W40,W41,W42)",
+"completed":[5013648,4745433,4464158],"failed":[597750,537004,538252],"partial":[19118,29597,22075]}}

@@ -1,0 +1,4 @@
+{"query":"Whale revenue daily 05.10-18.10 by segment, performed Payment Succeeded absolute with UTC-midnight epochs [1791158400,1791763199] / [1791763200,1792367999]","note":"WRONG windows: performed absolute snaps to local (Asia/Tel_Aviv) days and includes the day containing the end epoch (12.10 / 19.10); kept as evidence of the trap",
+"left_daily":[11825.58,9468.32,12598.2,6538.63,7853.04,8738.8,10287.6,0,0,0,0,0,0,0],"left_overall":67310.17,
+"came_daily":[0,0,0,0,0,0,0,0,4502.25,4543.38,5969.42,9896.13,11171.08,8543.11],"came_overall":44625.37,
+"both_daily":[52802.82,53684.96,49649.37,49029.57,52921.73,49222.73,47222.05,60972.13,52906.77,48886.52,51729.96,41936.16,46298.86,42957.68],"both_overall":700221.31}

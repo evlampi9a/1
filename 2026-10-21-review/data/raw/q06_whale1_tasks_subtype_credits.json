@@ -1,0 +1,4 @@
+{"query":"Task Created event totals, segment user_id=7f3ad82a…, group_by subType+credits, interval day, per week (UTC-midnight epochs)",
+"W40":{"seedance_2_5;595":376,"wan@3.0-prime-nsfw;79":277,"seedance_2_5;174":35,"seedance_2_5;78":31,"wan@3.0-prime-nsfw;270":21,"seedance_2_5;199":12,"wan@3.0-prime-nsfw;159":3,"wan@3.0-prime-nsfw;90":1},
+"W41":{"seedance_2_5;78":375,"wan@3.0-prime-nsfw;79":348,"daily_seedance":[10,97,9,49,73,81,56],"daily_wan":[184,42,0,19,2,34,67]},
+"W42":{"seedance_2_5;78":481,"wan@3.0-prime-nsfw;79":243,"daily_seedance":[0,154,130,97,62,0,38],"daily_wan":[20,51,50,59,31,0,32]}}

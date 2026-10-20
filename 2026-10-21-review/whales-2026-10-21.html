@@ -1,0 +1,277 @@
+<title>Разбор китов W42</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: одна колонка ~800px, разбор одной метрики сверху вниз: ответ → мост → детали → действия */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#5b6675; --line:#dde2e8;
+  --accent:#1f5f8b; --accent-soft:#e6eff6;
+  --bad:#b4372f; --bad-soft:#fbeceb; --warn:#9a6400; --warn-soft:#fbf2df; --good:#2d7a46; --good-soft:#e7f4eb;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161b; --surface:#1a2027; --fg:#e4e9ef; --muted:#9aa5b2; --line:#2c343e;
+  --accent:#7db4dc; --accent-soft:#1d2e3c;
+  --bad:#ef8a80; --bad-soft:#3a1f1d; --warn:#e5b45a; --warn-soft:#352a14; --good:#7fcf96; --good-soft:#18301f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161b; --surface:#1a2027; --fg:#e4e9ef; --muted:#9aa5b2; --line:#2c343e;
+  --accent:#7db4dc; --accent-soft:#1d2e3c;
+  --bad:#ef8a80; --bad-soft:#3a1f1d; --warn:#e5b45a; --warn-soft:#352a14; --good:#7fcf96; --good-soft:#18301f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:26px;line-height:1.2;margin:0;text-wrap:balance}
+h2{font-size:19px;margin:28px 0 8px;text-wrap:balance}
+h3{font-size:16px;margin:18px 0 6px}
+p{margin:6px 0}
+.meta{color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:2;padding-top:6px}
+.tab{appearance:none;border:0;background:none;font:inherit;font-weight:600;color:var(--muted);padding:8px 12px;border-bottom:2px solid transparent;cursor:pointer}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lede{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.alert{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 14px;border-radius:0 8px 8px 0}
+.alert h2{margin-top:0}
+.lede ol{margin:8px 0}
+.note{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 14px;border-radius:0 8px 8px 0}
+.budget{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-weight:400;margin-left:6px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.03em;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.neg{color:var(--bad)} .pos{color:var(--good)} .flat{color:var(--muted)}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;white-space:nowrap}
+.p-bad{background:var(--bad-soft);color:var(--bad)} .p-warn{background:var(--warn-soft);color:var(--warn)} .p-good{background:var(--good-soft);color:var(--good)} .p-mute{background:var(--accent-soft);color:var(--accent)}
+ul,ol{margin:6px 0;padding-left:22px} li{margin:3px 0}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--accent-soft);padding:0 4px;border-radius:3px;overflow-wrap:anywhere}
+.blank{min-width:70px}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:10px}
+a{color:var(--accent)}
+@media (max-width:480px){h1{font-size:22px} table{font-size:13px} th,td{padding:6px 8px}}
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">ZenCreator · отдельный разбор к Statistics Meeting 21.10.2026</div>
+  <h1>Почему киты принесли на $31,5&nbsp;тыс. меньше и при чём тут модерация</h1>
+  <div class="meta">Киты — когорта Amplitude «Whales» (больше $500 за последние 30 дней). Событие Payment Succeeded, поле $revenue. Проект 717020, Asia/Tel_Aviv: <b>W40 = 28.09–04.10</b>, <b>W41 = 05–11.10</b>, <b>W42 = 12–18.10</b>. Причины упавших задач (<code>errorCategory</code>) есть только с 16.10. Документ внутренний: ID пользователей сокращены до 8 символов. Продолжение <a href="https://claude.ai/artifact/BBSuvpcce7RktAG1gxp2XK">разбора W41</a>.</div>
+</header>
+
+<div class="lede"><b>Ответ.</b> Выручка китов $421&nbsp;843 → $390&nbsp;313 (<b class="neg">−$31&nbsp;530</b>, −7,5%). В среднем за день $60,3&nbsp;тыс. → $55,8&nbsp;тыс. В отличие от W41, падение сидит в одном месте:
+<ol>
+<li><b>Киты zencreator —&nbsp;−$31,8&nbsp;тыс. (весь спад).</b> Покупают меньше крупных пакетов: $490+ и $599 дают −$21,1&nbsp;тыс., $119 и $59,99 ещё −$13,1&nbsp;тыс. Мелкие пакеты растут. Это уже не откат после всплеска: W42 примерно на 9% ниже обычной W39.</li>
+<li><b>Кит №1 —&nbsp;−$0,5&nbsp;тыс.</b> На дорогую ступень seedance не вернулся, но и дальше не упал.</li>
+<li><b>Остальные киты openmov —&nbsp;+$0,8&nbsp;тыс.</b> Стабильны: пакеты $499 93 → 95.</li>
+</ol>
+<b>Модерация деньги китов почти не объясняет: от $0 до ≈$2,6&nbsp;тыс. (0–8% спада), это оценка сверху.</b> Нашу модерацию киты проходят лучше остальных (5,6% задач против 8,6%). Кредиты за отклонённые задачи, судя по балансу, возвращаются. Те, кого модерация режет чаще, платить меньше не стали. Генераций почти столько же (−1,1% задач), но задачи дешевле: меньше всего тратят в <code>wan@3.0-nsfw</code>, где доля отказов не изменилась.</div>
+
+<h2>Мост: как складываются −$31&nbsp;530</h2>
+<div class="tbl"><table>
+<tr><th>Часть</th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th><th class="n">W42 − W41</th><th class="n">Доля</th></tr>
+<tr><td>Кит №1 (openmov)</td><td class="n">$20&nbsp;958</td><td class="n">$4&nbsp;491</td><td class="n">$3&nbsp;992</td><td class="n neg">−$499</td><td class="n">2%</td></tr>
+<tr><td>Остальные киты openmov</td><td class="n">$160&nbsp;698</td><td class="n">$148&nbsp;859</td><td class="n">$149&nbsp;657</td><td class="n pos">+$798</td><td class="n">−3%</td></tr>
+<tr><td>Киты zencreator</td><td class="n">$289&nbsp;270</td><td class="n">$268&nbsp;494</td><td class="n">$236&nbsp;664</td><td class="n neg"><b>−$31&nbsp;829</b></td><td class="n">101%</td></tr>
+<tr><td><b>Все киты</b></td><td class="n"><b>$470&nbsp;925</b></td><td class="n"><b>$421&nbsp;843</b></td><td class="n"><b>$390&nbsp;313</b></td><td class="n neg"><b>−$31&nbsp;530</b></td><td class="n">100%</td></tr>
+<tr><td>В среднем за день</td><td class="n">$67&nbsp;275</td><td class="n">$60&nbsp;263</td><td class="n">$55&nbsp;759</td><td class="n neg">−$4&nbsp;504</td><td class="n"></td></tr>
+</table></div>
+<p class="meta">Разрез по полю platformType у события оплаты. Части в сумме равны тоталу до цента, проверено вторым запросом без группировки. Когорта динамическая: в отчёте к встрече стоит −$33,0&nbsp;тыс. ($420&nbsp;434 → $387&nbsp;448), при пересчёте сегодня −$31,5&nbsp;тыс. W40 и W41 тоже пересчитаны сегодня, поэтому немного отличаются от разбора W41.</p>
+<div class="note"><b>Третья неделя спада подряд.</b> $67,3&nbsp;тыс. → $60,3&nbsp;тыс. → $55,8&nbsp;тыс. в день. Порог «держится ниже $58&nbsp;тыс. в день до 18.10» из разбора W41 сработал: это уже тренд, а не откат.</div>
+
+<h2>1. Кит №1: на дорогую ступень не вернулся —&nbsp;−$0,5&nbsp;тыс.</h2>
+<div class="tbl"><table>
+<tr><th></th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th></tr>
+<tr><td>Выручка</td><td class="n">$20&nbsp;958</td><td class="n">$4&nbsp;491</td><td class="n">$3&nbsp;992 (8 × $499)</td></tr>
+<tr><td>Задач за неделю</td><td class="n">756</td><td class="n">723</td><td class="n">724</td></tr>
+<tr><td>Потрачено кредитов</td><td class="n">262&nbsp;736</td><td class="n">56&nbsp;742</td><td class="n">56&nbsp;715</td></tr>
+<tr><td>seedance_2_5, ступень × число задач</td><td class="n">595×376, 174×35, 78×31, 199×12</td><td class="n">78×375</td><td class="n">78×481</td></tr>
+<tr><td>wan@3.0-prime-nsfw, ступень × число задач</td><td class="n">79×277, 270×21, …</td><td class="n">79×348</td><td class="n">79×243</td></tr>
+</table></div>
+<p><code>7f3ad82a</code> генерирует столько же и всё в дешёвом режиме: ступеней 595/174/199 в W42 нет совсем. Его уровень трат стабилизировался на ≈$4&nbsp;тыс. в неделю.</p>
+
+<h2>2. Остальные киты openmov: стабильны —&nbsp;+$0,8&nbsp;тыс.</h2>
+<div class="tbl"><table>
+<tr><th>Пакет</th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th><th class="n">Δ выручки W42 − W41</th></tr>
+<tr><td>$499</td><td class="n">120</td><td class="n">93</td><td class="n">95</td><td class="n pos">+$998</td></tr>
+<tr><td>$99</td><td class="n">641</td><td class="n">647</td><td class="n">667</td><td class="n pos">+$1&nbsp;980</td></tr>
+<tr><td>$49,99</td><td class="n">495</td><td class="n">535</td><td class="n">491</td><td class="n neg">−$2&nbsp;200</td></tr>
+<tr><td>$19,99</td><td class="n">631</td><td class="n">583</td><td class="n">584</td><td class="n flat">+$20</td></tr>
+<tr><td><b>Выручка</b></td><td class="n">$160&nbsp;698</td><td class="n">$148&nbsp;859</td><td class="n">$149&nbsp;657</td><td class="n pos"><b>+$798</b></td></tr>
+</table></div>
+<p class="meta">Число оплат без кита №1. Число × цена равно выручке до цента. В разборе W41 пакетов $499 было 122 → 94, сегодня 120 → 93: это дрейф когорты.</p>
+<p>Пакеты $499 до уровня W40 не вернулись, но дальше не падают.</p>
+
+<h2>3. Киты zencreator: здесь весь спад —&nbsp;−$31,8&nbsp;тыс.</h2>
+<div class="tbl"><table>
+<tr><th></th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th><th class="n">W42 к W41</th></tr>
+<tr><td>Выручка</td><td class="n">$289&nbsp;270</td><td class="n">$268&nbsp;494</td><td class="n">$236&nbsp;664</td><td class="n neg">−11,9%</td></tr>
+<tr><td>Платящих китов</td><td class="n">766</td><td class="n">757</td><td class="n">735</td><td class="n neg">−2,9%</td></tr>
+<tr><td>Выручка на платящего</td><td class="n">$378</td><td class="n">$355</td><td class="n">$322</td><td class="n neg">−9,2%</td></tr>
+<tr><td>Оплат</td><td class="n">3&nbsp;851</td><td class="n">3&nbsp;445</td><td class="n">3&nbsp;258</td><td class="n neg">−5,4%</td></tr>
+<tr><td>Средний чек</td><td class="n">$75,1</td><td class="n">$77,9</td><td class="n">$72,6</td><td class="n neg">−6,8%</td></tr>
+</table></div>
+
+<h3>По пакетам: уходят крупные, растут мелкие</h3>
+<div class="tbl"><table>
+<tr><th>Ступень</th><th class="n">Оплат W41 → W42</th><th class="n">Δ выручки</th></tr>
+<tr><td>≈$490–501</td><td class="n">104 → 71</td><td class="n neg">−$16&nbsp;261</td></tr>
+<tr><td>$119</td><td class="n">395 → 329</td><td class="n neg">−$7&nbsp;854</td></tr>
+<tr><td>$59,99</td><td class="n">359 → 272</td><td class="n neg">−$5&nbsp;219</td></tr>
+<tr><td>$599</td><td class="n">21 → 13</td><td class="n neg">−$4&nbsp;792</td></tr>
+<tr><td>$23,99</td><td class="n">290 → 229</td><td class="n neg">−$1&nbsp;463</td></tr>
+<tr><td>$149</td><td class="n">29 → 24</td><td class="n neg">−$745</td></tr>
+<tr><td>≈$49–52</td><td class="n">741 → 732</td><td class="n neg">−$480</td></tr>
+<tr><td>≈$19–20</td><td class="n">751 → 789</td><td class="n pos">+$719</td></tr>
+<tr><td>≈$96–100</td><td class="n">755 → 799</td><td class="n pos">+$4&nbsp;266</td></tr>
+<tr><td><b>Итого</b></td><td class="n">3&nbsp;445 → 3&nbsp;258</td><td class="n neg"><b>−$31&nbsp;829</b></td></tr>
+</table></div>
+<p class="meta">Цены в локальных валютах сгруппированы в ступени. Сумма по ступеням равна выручке zencreator до цента. Все оплаты — пакеты кредитов, подписок и продлений нет.</p>
+<ul>
+<li><b>Киты перешли на пакеты дешевле, а не перестали платить.</b> Платящих −2,9%, а выручка на платящего −9,2%.</li>
+<li><b>Это уже не откат.</b> В разборе W41 спад zencreator объяснялся возвратом с всплеска W40 на уровень W39 ($261,0&nbsp;тыс.). W42 ниже этого уровня примерно на 9%. По дням выручка снижается плавно: 37,9 → 34,1 → 31,8 → 35,4 → 32,4 → 32,4 → 32,6&nbsp;тыс.</li>
+<li>По людям на zencreator: ушли 163 (−$62,1&nbsp;тыс.), пришли 141 (+$58,2&nbsp;тыс.), платили обе недели 594 ($206,4&nbsp;тыс. → $178,5&nbsp;тыс., <b>−$27,9&nbsp;тыс.</b>). Спад дают те, кто остался и стал тратить меньше.</li>
+</ul>
+
+<h2>4. Кто платил: ушли, пришли, остались</h2>
+<div class="tbl"><table>
+<tr><th>Группа, W41 → W42</th><th class="n">Людей</th><th class="n">W41</th><th class="n">W42</th><th class="n">Вклад в Δ</th></tr>
+<tr><td>Ушли (платили в W41, не в W42)</td><td class="n">187</td><td class="n">$74&nbsp;285</td><td class="n">—</td><td class="n neg">−$74&nbsp;285</td></tr>
+<tr><td>Пришли (платили в W42, не в W41)</td><td class="n">156</td><td class="n">—</td><td class="n">$70&nbsp;014</td><td class="n pos">+$70&nbsp;014</td></tr>
+<tr><td>Платили обе недели</td><td class="n">920</td><td class="n">$347&nbsp;559</td><td class="n">$320&nbsp;300</td><td class="n neg">−$27&nbsp;259</td></tr>
+<tr><td><b>Итого</b></td><td class="n"></td><td class="n">$421&nbsp;843</td><td class="n">$390&nbsp;313</td><td class="n neg"><b>−$31&nbsp;530</b></td></tr>
+</table></div>
+<p class="meta">Посчитано двумя способами (по каждому пользователю и через поведенческий фильтр Amplitude), совпало до цента. Среди платящих обе недели 325 человек заплатили меньше (−$121,4&nbsp;тыс.), 233 — больше (+$94,2&nbsp;тыс.).</p>
+<p>Нетто ушедших и пришедших −$4,3&nbsp;тыс. Почти весь спад (−$27,3&nbsp;тыс.) — снижение трат у оставшихся.</p>
+<h3>Десять крупнейших падений среди платящих обе недели</h3>
+<div class="tbl"><table>
+<tr><th>ID</th><th>Платформа</th><th class="n">W41</th><th class="n">W42</th><th class="n">Δ</th></tr>
+<tr><td><code>48358334</code></td><td>zencreator</td><td class="n">$4&nbsp;319</td><td class="n">$886</td><td class="n neg">−$3&nbsp;433</td></tr>
+<tr><td><code>e5e49537</code></td><td>openmov</td><td class="n">$3&nbsp;679</td><td class="n">$396</td><td class="n neg">−$3&nbsp;283</td></tr>
+<tr><td><code>f4e83d65</code></td><td>zencreator</td><td class="n">$3&nbsp;445</td><td class="n">$497</td><td class="n neg">−$2&nbsp;948</td></tr>
+<tr><td><code>3706bc0a</code></td><td>zencreator</td><td class="n">$3&nbsp;055</td><td class="n">$119</td><td class="n neg">−$2&nbsp;936</td></tr>
+<tr><td><code>554279dc</code></td><td>zencreator</td><td class="n">$2&nbsp;642</td><td class="n">$1&nbsp;036</td><td class="n neg">−$1&nbsp;606</td></tr>
+<tr><td><code>a4e6e348</code></td><td>zencreator</td><td class="n">$3&nbsp;868</td><td class="n">$2&nbsp;271</td><td class="n neg">−$1&nbsp;597</td></tr>
+<tr><td><code>0250ac89</code></td><td>openmov</td><td class="n">$1&nbsp;683</td><td class="n">$297</td><td class="n neg">−$1&nbsp;386</td></tr>
+<tr><td><code>e7776df2</code></td><td>zencreator</td><td class="n">$1&nbsp;968</td><td class="n">$685</td><td class="n neg">−$1&nbsp;283</td></tr>
+<tr><td><code>c6ac650c</code></td><td>zencreator</td><td class="n">$1&nbsp;737</td><td class="n">$482</td><td class="n neg">−$1&nbsp;255</td></tr>
+<tr><td><code>2a172d30</code></td><td>openmov</td><td class="n">$2&nbsp;194</td><td class="n">$998</td><td class="n neg">−$1&nbsp;196</td></tr>
+<tr><td><b>Вместе</b></td><td></td><td class="n"></td><td class="n"></td><td class="n neg"><b>−$20&nbsp;924</b></td></tr>
+</table></div>
+<p>Шесть из десяти в W41 платили заметно больше обычного. Например, <code>48358334</code>: $457 (W40) → $4&nbsp;319 (W41) → $886 (W42), <code>3706bc0a</code>: $1&nbsp;198 → $3&nbsp;055 → $119, <code>f4e83d65</code> в W41 был новым. Крупнейшие приросты: <code>e2f3f570</code> $499 → $4&nbsp;491, <code>0f9a1beb</code> $1&nbsp;147 → $3&nbsp;984. <b>Гипотеза:</b> часть падения — возврат нескольких крупных китов к своему обычному уровню.</p>
+
+<h2>5. Кредиты и генерации: запаса нет, задачи дешевле</h2>
+<div class="tbl"><table>
+<tr><th>Киты без кита №1</th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th><th class="n">W42 к W41</th></tr>
+<tr><td>Куплено кредитов</td><td class="n">5&nbsp;135&nbsp;050</td><td class="n">4&nbsp;793&nbsp;100</td><td class="n">4&nbsp;456&nbsp;600</td><td class="n neg">−7,0%</td></tr>
+<tr><td>Потрачено кредитов</td><td class="n">5&nbsp;631&nbsp;554</td><td class="n">5&nbsp;311&nbsp;271</td><td class="n">5&nbsp;023&nbsp;697</td><td class="n neg">−5,4%</td></tr>
+<tr><td>Куплено / потрачено</td><td class="n">0,912</td><td class="n">0,902</td><td class="n">0,887</td><td class="n"></td></tr>
+<tr><td>Выручка за купленный кредит</td><td class="n">$0,0876</td><td class="n">$0,0871</td><td class="n">$0,0867</td><td class="n"></td></tr>
+<tr><td>Задач за неделю</td><td class="n">182&nbsp;226</td><td class="n">182&nbsp;895</td><td class="n">180&nbsp;961</td><td class="n flat">−1,1%</td></tr>
+<tr><td>Кредитов на задачу</td><td class="n">30,9</td><td class="n">29,0</td><td class="n">27,8</td><td class="n neg">−4,4%</td></tr>
+<tr><td>Генерирующих китов в день, среднее</td><td class="n">793</td><td class="n">807</td><td class="n">789</td><td class="n flat">−2%</td></tr>
+</table></div>
+<p class="meta">Куплено — PROPSUM(creditsCount) в Payment Succeeded, потрачено — PROPSUM(credits) в Task Created. Текущий остаток в Amplitude не хранится. Число генерирующих в день посчитано одним запросом, без перепроверки, в выводах не используется.</p>
+<p>Киты по-прежнему покупают ровно под расход, запаса нет. Генерируют столько же, но выбирают задачи дешевле, и докупают меньше.</p>
+<h3>В каких инструментах</h3>
+<div class="tbl"><table>
+<tr><th>Инструмент (subType)</th><th class="n">W41</th><th class="n">W42</th><th class="n">Δ кредитов</th><th class="n">≈ $</th></tr>
+<tr><td><code>wan@3.0-nsfw</code></td><td class="n">2&nbsp;215&nbsp;472</td><td class="n">1&nbsp;969&nbsp;200</td><td class="n neg">−246&nbsp;272</td><td class="n neg">−$21,5&nbsp;тыс.</td></tr>
+<tr><td><code>seedance_2_5</code></td><td class="n">784&nbsp;171</td><td class="n">713&nbsp;854</td><td class="n neg">−70&nbsp;317</td><td class="n neg">−$6,1&nbsp;тыс.</td></tr>
+<tr><td><code>SEEDREAM_5_PRO</code> (картинки)</td><td class="n">362&nbsp;663</td><td class="n">324&nbsp;190</td><td class="n neg">−38&nbsp;473</td><td class="n neg">−$3,4&nbsp;тыс.</td></tr>
+<tr><td><code>wan@3.0</code></td><td class="n">130&nbsp;814</td><td class="n">102&nbsp;160</td><td class="n neg">−28&nbsp;654</td><td class="n neg">−$2,5&nbsp;тыс.</td></tr>
+<tr><td><code>wan@2.2-lora</code>, <code>wan@2.7-lora</code>, <code>wan@2.7-nsfw</code>, <code>GENERAL_NSFW</code></td><td class="n">189&nbsp;761</td><td class="n">155&nbsp;566</td><td class="n neg">−34&nbsp;195</td><td class="n neg">−$3,0&nbsp;тыс.</td></tr>
+<tr><td><code>seedance_2_0</code></td><td class="n">206&nbsp;249</td><td class="n">243&nbsp;995</td><td class="n pos">+37&nbsp;746</td><td class="n pos">+$3,3&nbsp;тыс.</td></tr>
+<tr><td><code>wan@3.0-prime-nsfw</code></td><td class="n">1&nbsp;146&nbsp;673</td><td class="n">1&nbsp;246&nbsp;474</td><td class="n pos">+99&nbsp;801</td><td class="n pos">+$8,7&nbsp;тыс.</td></tr>
+<tr><td>Прочие (без subType, wan@3.0-prime и ещё 31)</td><td class="n">275&nbsp;468</td><td class="n">268&nbsp;258</td><td class="n neg">−7&nbsp;210</td><td class="n neg">−$0,6&nbsp;тыс.</td></tr>
+<tr><td><b>Итого</b></td><td class="n"><b>5&nbsp;311&nbsp;271</b></td><td class="n"><b>5&nbsp;023&nbsp;697</b></td><td class="n neg"><b>−287&nbsp;574</b></td><td class="n neg"><b>−$25,0&nbsp;тыс.</b></td></tr>
+</table></div>
+<p class="meta">Перевод в доллары — оценка: кредиты × $0,0871. Остаток до −$31,0&nbsp;тыс. выручки без кита №1 даёт более низкая доля «куплено к потрачено». Суммы по инструментам равны тоталу.</p>
+<p><b>Главное в W42 — <code>wan@3.0-nsfw</code>:</b> −246&nbsp;тыс. кредитов, 86% снижения. Доля упавших задач у него не выросла (8,7% → 8,9%), так что модерацией это не объясняется. <code>wan@3.0-prime-nsfw</code>, который падал в W41, в W42 вырос.</p>
+
+<h2>6. Оплаты работают</h2>
+<div class="tbl"><table>
+<tr><th></th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th></tr>
+<tr><td>Начали оплату (уникальные)</td><td class="n">989</td><td class="n">989</td><td class="n">955</td></tr>
+<tr><td>Конверсия Payment Started → Succeeded</td><td class="n">97,7%</td><td class="n">98,1%</td><td class="n">98,4%</td></tr>
+<tr><td>Payment Failed, событий</td><td class="n">2&nbsp;328</td><td class="n">2&nbsp;160</td><td class="n">1&nbsp;901</td></tr>
+</table></div>
+<p class="meta">Воронка, окно 1800 с, уникальные пользователи.</p>
+<p>Конверсия выросла, отказов меньше. Киты реже пытаются купить, а не чаще получают отказ.</p>
+
+<h2>7. Насколько модерация повлияла на деньги китов</h2>
+<div class="lede"><b>Коротко: почти никак.</b> Оценка сверху — ≈$2,6&nbsp;тыс. из −$31,5&nbsp;тыс. (до 8%), и это <b>гипотеза</b>. Подтверждено другое: киты, которых модерация режет чаще, не стали платить меньше.</div>
+
+<h3>Доля упавших задач у китов выросла, по кредитам почти нет</h3>
+<div class="tbl"><table>
+<tr><th></th><th class="n">W40</th><th class="n">W41</th><th class="n">W42</th></tr>
+<tr><td>Доля failed, все киты (по задачам)</td><td class="n">7,06%</td><td class="n">7,82%</td><td class="n">9,06%</td></tr>
+<tr><td>Доля кредитов упавших задач, без кита №1</td><td class="n">10,62%</td><td class="n">10,11%</td><td class="n">10,71%</td></tr>
+</table></div>
+<p class="meta">failed / (completed + failed + partial) по Task Status Changed.</p>
+<ul>
+<li>По дням: 05–07.10 — 4–5%, с 08.10 скачок до 9–11%, весь W42 держится на 8,8–9,3%. Разложить этот скачок на модерацию и технику нельзя: <code>errorCategory</code> до 16.10 нет.</li>
+<li>Больше всего отказов прибавилось в дешёвых картинках <code>SEEDREAM_5_PRO</code> (5,6% → 7,3%), поэтому по кредитам рост почти не виден.</li>
+<li>В <code>wan@3.0-nsfw</code>, где упал расход, доля упавших не изменилась (8,7% → 8,9%). Там, где отказов стало больше (<code>SEEDREAM_5_PRO</code>, <code>wan@3.0-prime-nsfw</code>), расход почти не изменился или вырос.</li>
+</ul>
+
+<h3>Причины с 16.10: киты проходят нашу модерацию лучше остальных</h3>
+<div class="tbl"><table>
+<tr><th>Группа причин, % от всех задач</th><th class="n">Киты 16–18.10</th><th class="n">Не киты 16–18.10</th></tr>
+<tr><td>Наша модерация (moderation_blocked, nsfw_detected)</td><td class="n">5,59%</td><td class="n">8,64%</td></tr>
+<tr><td>Модерация провайдера</td><td class="n">3,00%</td><td class="n">2,70%</td></tr>
+<tr><td>Ошибка входа (invalid_input)</td><td class="n">0,17%</td><td class="n">0,32%</td></tr>
+<tr><td>Технические падения</td><td class="n">0,19%</td><td class="n">0,30%</td></tr>
+<tr><td><b>Failed, всего</b></td><td class="n"><b>8,94%</b></td><td class="n"><b>11,96%</b></td></tr>
+</table></div>
+<p class="meta">75&nbsp;502 задачи китов, 130&nbsp;770 — остальных. У каждого failed есть errorCategory, сумма групп равна общему failed. Сверка: по всем пользователям за 16–19.10 failed 10,88%, как в основном отчёте.</p>
+
+<h3>Деньги на модерации прямо не теряются</h3>
+<ul>
+<li><b>Кредиты за отклонённые задачи, судя по всему, возвращаются.</b> Отдельного события возврата в Amplitude нет. Но если из потраченного вычесть кредиты упавших задач, киты покупают ровно под остаток: 1,02 / 1,00 / 0,99 в W40 / W41 / W42. Это <b>гипотеза, сильная</b>. Подтвердить напрямую можно только по базе.</li>
+<li>Под нашей модерацией у китов за 16–18.10 было 127,9&nbsp;тыс. кредитов (≈$11&nbsp;тыс.), под модерацией провайдера 86,1&nbsp;тыс. (≈$7,5&nbsp;тыс.). Это объём под риском, а не потеря: кит повторяет запрос или тратит кредиты на другое.</li>
+<li>Кредиты упавших задач W41 → W42: 537,0&nbsp;тыс. → 538,3&nbsp;тыс. (+1,2&nbsp;тыс. ≈ $0,1&nbsp;тыс.). Если считать по росту доли (+0,6 п.п.), получается ≈$2,6&nbsp;тыс. Это и есть оценка сверху, и не вся она — модерация.</li>
+</ul>
+
+<h3>Те, кого модерация режет чаще, не стали платить меньше</h3>
+<div class="tbl"><table>
+<tr><th>Киты по числу задач с нашей модерацией 16–18.10</th><th class="n">Людей</th><th class="n">Доля модерации у них</th><th class="n">W41</th><th class="n">W42</th><th class="n">W42 к W41</th></tr>
+<tr><td>10 и больше</td><td class="n">121</td><td class="n">15,9%</td><td class="n">$48&nbsp;897</td><td class="n">$61&nbsp;836</td><td class="n pos">+26,5%</td></tr>
+<tr><td>1–9</td><td class="n">316</td><td class="n">4,0%</td><td class="n">$112&nbsp;479</td><td class="n">$118&nbsp;792</td><td class="n pos">+5,6%</td></tr>
+<tr><td>0 (генерировали)</td><td class="n">623</td><td class="n">0%</td><td class="n">$179&nbsp;822</td><td class="n">$188&nbsp;369</td><td class="n pos">+4,8%</td></tr>
+<tr><td>Не генерировали 16–18.10</td><td class="n"></td><td class="n">—</td><td class="n">≈$80&nbsp;645</td><td class="n">≈$21&nbsp;316</td><td class="n neg">−74%</td></tr>
+</table></div>
+<p class="meta">Число модерированных и завершённых задач по группам сходится с общим итогом за 16–18.10.</p>
+<ul>
+<li>Самые модерируемые киты заплатили <b>больше</b>. Оговорка: в эти группы попадают только те, кто генерировал 16–18.10, а активные и модерируются чаще, и платят чаще. Поэтому это не доказательство пользы модерации, а отсутствие вреда.</li>
+<li>Весь спад сидит в китах, которые 16–18.10 вообще не генерировали (−$59&nbsp;тыс.). Это уход, а не модерация.</li>
+<li>Для W41 причин нет, можно смотреть только общий failed. Связи «больше упавших — сильнее падение» нет и там. У китов, у которых в W41 падало ≥20% задач, траты в W42 снизились на 21,9%, у тех, у кого <5%, — на 27,6%.</li>
+<li>Чистая проверка будет на следующей неделе: модерация 16–18.10 против выручки 19–25.10, без пересечения окон.</li>
+</ul>
+
+<h2>Поправка к разбору W41</h2>
+<div class="note">При пересчёте нашлась ошибка в методе. Поведенческий фильтр Amplitude «платил в окне» (performed) с границами по UTC-полуночи сдвигает окно на локальные сутки Tel Aviv: W41 превращается в 05–12.10. Отсюда в разборе W41 «−$1&nbsp;996 у <code>52be4de4</code>, купил 12.10, вне окна». Раздел «Кто платил: ушли, пришли, остались» в разборе W41 посчитан с этим сдвигом. С правильными границами W40 → W41: ушли <b>−$72&nbsp;765</b> (было −$67&nbsp;245), пришли <b>+$74&nbsp;670</b> (было +$57&nbsp;165), нетто <b>+$1,9&nbsp;тыс.</b> (было −$10,1&nbsp;тыс.), платили обе недели <b>−$50&nbsp;987</b> (было −$47&nbsp;575). Суммы сходятся с итогами W40 и W41 до доллара. <b>Вывод W41 не меняется, а усиливается:</b> приток и отток в норме, вся разница у тех, кто платил обе недели. Строки W39 → W40 тоже посчитаны со сдвигом и не пересчитывались. В этом разборе все поведенческие фильтры заданы по локальной полуночи и сверены с попользовательским расчётом.</div>
+
+<h2>Что сделать</h2>
+<ol>
+<li><b>Крупные пакеты zencreator — на этой неделе.</b> Выгрузить китов, которые брали пакеты $490+ / $599 / $119 в W40–W41 и в W42 перешли на мелкие или не купили. Написать им (CRM / growth). Список могу выгрузить из Amplitude.</li>
+<li><b><code>wan@3.0-nsfw</code> — продукт.</b> −246&nbsp;тыс. кредитов у китов за неделю при неизменной доле отказов. Понять, что изменилось: качество, скорость, конкурент, переход на <code>wan@3.0-prime-nsfw</code>.</li>
+<li><b>Десять крупнейших падений — CS.</b> Особенно <code>3706bc0a</code> ($3&nbsp;055 → $119) и <code>e5e49537</code> ($3&nbsp;679 → $396).</li>
+<li><b>Модерацию не связывать с деньгами китов</b> в коммуникациях: данных за это нет. Повторить проверку на W43, когда окна не пересекаются (аналитика).</li>
+<li><b>Возврат кредитов за failed подтвердить по базе</b> (бэкенд). Сейчас это вывод по балансу.</li>
+</ol>
+
+<h2>Чего не проверяла</h2>
+<ul>
+<li>Причины упавших до 16.10, в том числе скачка с 08.10: <code>errorCategory</code> ещё не приходило.</li>
+<li>Прямой возврат кредитов: события нет, вывод косвенный.</li>
+<li>Причину отказа от крупных пакетов zencreator: акции, цены и рассылки 12–18.10 не сверяла.</li>
+<li>Строки W39 → W40 в разборе W41 с правильными границами окна.</li>
+</ul>
+
+<footer>Источник: Amplitude 717020, когорта Whales <code>67geqtj9</code>. Каждая цифра, на которой стоит вывод, проверена вторым независимым запросом, суммы частей сверены с тоталом. Окна графиков по UTC-полуночи: W40 1790553600–1791158399, W41 1791158400–1791763199, W42 1791763200–1792367999, 16–18.10 1792108800–1792367999. Поведенческие фильтры — по локальной полуночи (на 10&nbsp;800 с раньше). Сырьё и расчёт — <code>2026-10-21-review/data/</code>.</footer>
+</div>

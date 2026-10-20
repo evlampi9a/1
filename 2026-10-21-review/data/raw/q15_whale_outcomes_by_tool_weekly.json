@@ -1,0 +1,7 @@
+{"query":"Task Status Changed totals, whales, subType in 6 main tools, status in completed/failed/partial, group_by subType+status, interval week (weeks Mon-aligned: 28.09, 05.10, 12.10 — equal to W40-W42)",
+"SEEDREAM_5_PRO":{"completed":[56290,56893,58883],"failed":[2463,3393,4668],"partial":[272,337,519]},
+"wan@3.0-nsfw":{"completed":[32526,32813,29974],"failed":[2911,3140,2945]},
+"wan@3.0-prime-nsfw":{"completed":[14116,13062,14190],"failed":[2127,1577,2032]},
+"seedance_2_5":{"completed":[10135,9357,9218],"failed":[1638,1584,1430]},
+"seedance_2_0":{"completed":[8326,7854,8524],"failed":[989,722,1020]},
+"wan@3.0":{"completed":[1707,1413,1218],"failed":[463,274,161]}}

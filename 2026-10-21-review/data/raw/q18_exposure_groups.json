@@ -1,0 +1,6 @@
+{"q18a":{"query":"Whale revenue PROPSUM($revenue) daily 05.10-19.10 by moderation exposure on 16-18.10 (performed Task Status Changed where errorCategory in [moderation_blocked,nsfw_detected], absolute local-day window 1792098000-1792357199)",
+"mod>=10":[5237.92,6115.81,5707.27,6392.41,8383.43,6174.45,10885.84,8456.19,9030.4,7264.16,9445.79,10293.13,9808.27,7538.35,6498.55],
+"mod1-9":[14779.58,15934.93,17404.56,13443.37,18246.37,16275.58,16394.24,13959.06,14753.72,16919.31,16060.33,19304.14,19678.36,18116.93,16827.75],
+"mod0_active":[29851.55,29088.58,26061.75,24435.62,23101.43,25622.51,21660.53,28781.64,28122.95,25919.37,29579.75,22235.02,27983.31,25746.51,23401.33]},
+"q18b":{"query":"Same segments, 16-18.10: UNIQUES(Task Created), TOTALS(moderated TSC), TOTALS(finished TSC)",
+"mod>=10":{"people":121,"moderated":3137,"finished":19679},"mod1-9":{"people":316,"moderated":1080,"finished":27067},"mod0_active":{"people":623,"moderated":0,"finished":28756}}}

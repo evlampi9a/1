@@ -1,0 +1,7 @@
+{"source":"search_amp_data_taxonomy + get_amp_taxonomy, 2026-10-20","findings":{
+"Task Status Changed.description":"Отправляется когда статус задачи изменился. Если failed, то меняем поле credits",
+"Task Status Changed.errorCategory":"type any, no description (not in plan as typed)",
+"App Credit Operation":{"status":"unexpected","volume_30d":679,"property operation values":["credits.spend","credits.refund"],"property":"amount"},
+"Payment Refunded":{"status":"unexpected","volume_30d":19,"note":"money refund of payment, not credits"},
+"Lounge Credits Refunded":{"volume":1,"note":"Lounge chat media only (DEV-4145)"},
+"Payment Succeeded properties":["$revenue","price","creditsCount","platformType","productType","productUid","isRenewal","subscriptionId","isOfferPurchase","offerBonusCredits","billing","coupon","isFirstPayment"]}}
