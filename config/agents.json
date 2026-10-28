@@ -1,0 +1,23 @@
+{
+  "unleash": {
+    "production_environment": "production",
+    "projects": [],
+    "ignore_flags": []
+  },
+  "asana": {
+    "workspace_gid": "",
+    "project_gids": []
+  },
+  "slack": {
+    "search_channels": [],
+    "report_channel": ""
+  },
+  "amplitude": {
+    "project_id": "",
+    "variant_property": "[Experiment] {flag}",
+    "exposure_event": "",
+    "key_metrics": [],
+    "guardrail_metrics": [],
+    "lookback_days": 14
+  }
+}
