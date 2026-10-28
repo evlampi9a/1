@@ -1,0 +1,639 @@
+<meta charset="utf-8">
+<title>Слайды Statistics Meeting 28.10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#ECEAF1; --slide:#FBFAFD; --ink:#14171A; --ink2:#363D44; --muted:#687077; --rule:#D6DACF;
+  --accent:#5B2FD6; --accent-ink:#FFFFFF; --accent-soft:#ECE6FB; --hot:#D9531E; --warn:#8A5A00; --warn-soft:#F6EBD3;
+  --bad:#A42D1E; --bad-soft:#F4E1DC; --good:#1A6641; --good-soft:#DBEDE2; --code:#F0EEF4;
+  --shade:rgba(20,23,26,.10);
+  --f-disp:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-text:"Golos Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08090B; --slide:#121519; --ink:#EEF0F2; --ink2:#C3C8CE; --muted:#8B929A; --rule:#262B32;
+    --accent:#B39CFF; --accent-ink:#0A0C10; --accent-soft:#251B40; --hot:#FF8A57; --warn:#F2C36B; --warn-soft:#33270F;
+    --bad:#FF917F; --bad-soft:#351C18; --good:#7FD8A6; --good-soft:#142D1E; --code:#1A1E24;
+    --shade:rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08090B; --slide:#121519; --ink:#EEF0F2; --ink2:#C3C8CE; --muted:#8B929A; --rule:#262B32;
+  --accent:#B39CFF; --accent-ink:#0A0C10; --accent-soft:#251B40; --hot:#FF8A57; --warn:#F2C36B; --warn-soft:#33270F;
+  --bad:#FF917F; --bad-soft:#351C18; --good:#7FD8A6; --good-soft:#142D1E; --code:#1A1E24;
+  --shade:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-text);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{height:100%;box-sizing:border-box;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px;padding-inline:24px;padding-block:18px 10px}
+.stage{min-height:0;display:grid;place-items:center}
+
+/* ---------- slide ---------- */
+.slide{
+  --w:min(calc(100vw - 48px), calc((100vh - 84px) * 16 / 9));
+  width:var(--w);aspect-ratio:16/9;max-width:100%;
+  container-type:inline-size;box-sizing:border-box;
+  background:var(--slide);color:var(--ink);
+  border-radius:6px;box-shadow:0 1px 2px var(--shade),0 12px 40px var(--shade);
+  overflow:hidden;position:relative;
+  display:none;flex-direction:column;
+  padding:3.4cqi 5.2cqi 2.4cqi;
+  --f-title:3.05cqi; --f-big:3.7cqi; --f-lead:2cqi; --f-body:1.72cqi; --f-small:1.32cqi;
+  --f-mono:1.42cqi; --f-meta:1.02cqi; --f-table:1.36cqi; --gap:2.1cqi;
+}
+.slide.dense{--f-body:1.5cqi; --f-table:1.22cqi; --f-small:1.2cqi; --f-mono:1.3cqi}
+.slide.is-current{display:flex;animation:enter .22s ease-out}
+@keyframes enter{from{opacity:.35;transform:translateY(.4cqi)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.slide.is-current{animation:none}}
+
+.s-head{display:flex;justify-content:space-between;align-items:baseline;gap:2cqi;font-family:var(--f-mono);font-size:var(--f-meta);color:var(--muted);letter-spacing:.02em;flex:none}
+.s-head .sec b{color:var(--accent);font-weight:500;margin-right:.8em}
+.s-body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:var(--gap);padding-block:1.6cqi}
+.s-foot{flex:none;display:flex;gap:.35cqi;height:.32cqi;margin-top:.6cqi}
+.s-foot i{display:block;height:100%;border-radius:1px;background:var(--rule);position:relative;overflow:hidden}
+.s-foot i.past{background:var(--muted);opacity:.55}
+.s-foot i.now::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--p);background:var(--accent)}
+
+h2.t{font-family:var(--f-text);font-weight:700;font-size:var(--f-title);line-height:1.12;letter-spacing:-.012em;margin:0;text-wrap:balance;max-width:62ch}
+.lead{font-size:var(--f-lead);line-height:1.35;color:var(--ink2);margin:0;max-width:52ch;text-wrap:pretty}
+b{font-weight:600;color:var(--ink)}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--code);padding:.05em .3em;border-radius:3px}
+
+.pts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.25cqi;max-width:60ch}
+.pts li{position:relative;padding-left:2.4cqi;font-size:var(--f-body);line-height:1.38;color:var(--ink2);text-wrap:pretty}
+.pts li::before{content:"";position:absolute;left:0;top:.68em;width:1.2cqi;height:.2cqi;background:var(--accent)}
+
+.box{background:var(--code);border-radius:4px;padding:1.5cqi 1.9cqi;display:flex;flex-direction:column;gap:.7cqi;max-width:66ch}
+.box .lbl{font-family:var(--f-mono);font-size:var(--f-meta);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.box p{margin:0;font-size:var(--f-small);line-height:1.45;color:var(--ink2)}
+.box.mono p{font-family:var(--f-mono);font-size:var(--f-mono);line-height:1.55;color:var(--ink)}
+.note{margin:0;font-size:var(--f-small);line-height:1.45;color:var(--muted);max-width:70ch;padding-top:1.1cqi;border-top:1px solid var(--rule)}
+
+/* cover */
+.k-cover .s-body{justify-content:space-between;padding-block:2cqi 0}
+.k-cover .eyebrow{font-family:var(--f-mono);font-size:var(--f-mono);color:var(--muted)}
+.k-cover .eyebrow span{color:var(--accent)}
+.k-cover h1{font-family:var(--f-disp);font-weight:700;font-size:6.1cqi;line-height:1.02;letter-spacing:-.02em;margin:0;max-width:14ch;text-wrap:balance}
+.k-cover .sub{font-size:2.15cqi;color:var(--ink2);margin:1.6cqi 0 0;max-width:36ch;line-height:1.3}
+.k-cover .meta{display:flex;flex-wrap:wrap;gap:1cqi 3cqi;font-family:var(--f-mono);font-size:var(--f-mono);color:var(--muted)}
+.k-cover .grid{display:grid;grid-template-columns:1.25fr 1fr;gap:4cqi;align-items:end}
+.k-cover pre{margin:0;font-family:var(--f-mono);font-size:1.18cqi;line-height:1.7;color:var(--muted);background:var(--code);border-radius:4px;padding:1.8cqi 2cqi;white-space:pre-wrap}
+.k-cover pre em{font-style:normal;color:var(--accent)}
+
+/* section */
+.k-section .s-body{justify-content:flex-end;gap:1.6cqi;padding-bottom:3cqi}
+.k-section .num{font-family:var(--f-disp);font-weight:700;font-size:13cqi;line-height:.9;color:var(--accent);letter-spacing:-.04em}
+.k-section h2{font-family:var(--f-disp);font-weight:500;font-size:4.6cqi;line-height:1.08;letter-spacing:-.015em;margin:0;max-width:20ch;text-wrap:balance}
+.k-section .lead{font-size:2.2cqi}
+.k-section .range{font-family:var(--f-mono);font-size:var(--f-mono);color:var(--muted)}
+
+/* agenda */
+.agenda-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1.1cqi 4cqi}
+.agenda-list li{display:grid;grid-template-columns:4.2cqi 1fr auto;align-items:baseline;gap:1cqi;padding-bottom:1cqi;border-bottom:1px solid var(--rule);font-size:var(--f-body)}
+.agenda-list .n{font-family:var(--f-disp);font-weight:500;color:var(--accent);font-size:1.5cqi}
+.agenda-list .pg{font-family:var(--f-mono);font-size:var(--f-meta);color:var(--muted)}
+.agenda-list small{display:block;font-size:var(--f-small);color:var(--muted);margin-top:.2cqi}
+
+/* big statement */
+.k-big .s-body{gap:2.4cqi}
+.k-big .stmt{font-weight:600;font-size:var(--f-big);line-height:1.18;letter-spacing:-.015em;margin:0;max-width:30ch;text-wrap:balance}
+.k-big .stmt em{font-style:normal;color:var(--accent)}
+
+/* two columns */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:3cqi;align-items:start}
+.col{display:flex;flex-direction:column;gap:1.2cqi}
+.chip{align-self:flex-start;font-family:var(--f-mono);font-size:var(--f-meta);letter-spacing:.08em;text-transform:uppercase;padding:.35cqi .9cqi;border-radius:3px;background:var(--code);color:var(--muted)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.good{background:var(--good-soft);color:var(--good)}
+.chip.acc{background:var(--accent-soft);color:var(--accent)}
+.col .pts{gap:1cqi}
+.col .box{max-width:none}
+
+/* habit */
+.k-habit .cols{grid-template-columns:1.15fr 1fr}
+.fix{background:var(--good-soft);border-radius:4px;padding:2cqi 2.2cqi;display:flex;flex-direction:column;gap:1cqi}
+.fix p{margin:0;font-size:2cqi;line-height:1.32;font-weight:600;color:var(--ink);text-wrap:balance}
+
+/* table */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:var(--f-table);line-height:1.38}
+th{font-family:var(--f-mono);font-weight:500;font-size:var(--f-meta);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 1.4cqi .9cqi 0;border-bottom:1px solid var(--ink)}
+td{padding:1cqi 1.4cqi 1cqi 0;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink2);text-wrap:pretty}
+td:first-child{font-weight:600;color:var(--ink)}
+table.lead-col td:first-child{width:22%}
+
+/* flow */
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:1.4cqi 0;counter-reset:st}
+.flow li{counter-increment:st;flex:1 1 0;min-width:13cqi;display:flex;align-items:stretch}
+.flow li .st{flex:1;background:var(--code);border-radius:4px;padding:1.3cqi 1.4cqi;display:flex;flex-direction:column;gap:.7cqi;font-size:var(--f-small);line-height:1.35;color:var(--ink)}
+.flow li .st::before{content:counter(st, decimal-leading-zero);font-family:var(--f-mono);font-size:var(--f-meta);color:var(--accent)}
+.flow li:not(:last-child)::after{content:"→";align-self:center;padding-inline:.8cqi;color:var(--muted);font-size:1.8cqi}
+
+/* code */
+pre.code{margin:0;font-family:var(--f-mono);font-size:var(--f-mono);line-height:1.6;background:var(--code);border-radius:4px;padding:1.8cqi 2.2cqi;color:var(--ink);white-space:pre;overflow-x:auto}
+pre.code .c{color:var(--muted)}
+pre.code.wrap{white-space:pre-wrap}
+
+/* checklist */
+.check{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:1.2cqi 3.5cqi}
+.check li{display:grid;grid-template-columns:2.4cqi 1fr;gap:1cqi;font-size:var(--f-body);line-height:1.35;color:var(--ink2);align-items:start}
+.check li::before{content:"";width:1.5cqi;height:1.5cqi;border:.18cqi solid var(--accent);border-radius:2px;margin-top:.3cqi}
+.check.one{grid-template-columns:1fr;max-width:60ch}
+
+/* cards grid */
+.cards{display:grid;grid-template-columns:repeat(var(--n,2),1fr);gap:1.6cqi}
+.card{background:var(--code);border-radius:4px;padding:1.6cqi 1.8cqi;display:flex;flex-direction:column;gap:.8cqi}
+.card h3{margin:0;font-size:1.62cqi;line-height:1.25;font-weight:600;color:var(--ink);text-wrap:balance}
+.card p{margin:0;font-size:var(--f-small);line-height:1.42;color:var(--ink2)}
+.card .k{font-family:var(--f-mono);font-size:var(--f-meta);color:var(--accent);letter-spacing:.04em}
+
+/* links */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4cqi 3cqi}
+.links h3{margin:0 0 .9cqi;font-family:var(--f-mono);font-weight:500;font-size:var(--f-meta);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.links ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9cqi}
+.links li{font-size:var(--f-small);line-height:1.3;color:var(--ink2)}
+.links a{display:block;font-family:var(--f-mono);font-size:1.18cqi;color:var(--accent);text-decoration:none;overflow-wrap:anywhere}
+.links a:hover{text-decoration:underline}
+.links .desc{display:block;font-family:var(--f-mono);font-size:1.18cqi;color:var(--muted)}
+
+/* controls */
+.controls{display:flex;justify-content:center;align-items:center;gap:6px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.controls button{background:transparent;border:1px solid var(--rule);border-radius:4px;padding:5px 10px;cursor:pointer;color:var(--ink2)}
+.controls button:hover{border-color:var(--muted);color:var(--ink)}
+.controls .count{min-width:72px;text-align:center;font-variant-numeric:tabular-nums}
+.controls .hint{margin-left:10px}
+.is-fs .app{padding:0;gap:0;grid-template-rows:minmax(0,1fr)}
+.is-fs .controls{display:none}
+.is-fs .slide{--w:min(100vw, calc(100vh * 16 / 9));border-radius:0;box-shadow:none}
+
+/* index */
+.index{position:fixed;inset:0;z-index:10;background:var(--bg);overflow:auto;padding-inline:24px;padding-block:24px}
+.index-in{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.index-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.index-top h2{margin:0;font-family:var(--f-disp);font-weight:500;font-size:22px}
+.index-top button{background:transparent;border:1px solid var(--rule);border-radius:4px;padding:6px 12px;cursor:pointer;font-family:var(--f-mono);font-size:12px}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px 28px}
+.index-sec h3{margin:0 0 6px;font-size:14px;font-weight:600}
+.index-sec h3 span{font-family:var(--f-mono);color:var(--accent);font-weight:500;margin-right:6px}
+.index-sec ol{list-style:none;margin:0;padding:0}
+.index-sec button{display:grid;grid-template-columns:30px 1fr;gap:6px;width:100%;text-align:left;background:none;border:0;padding:4px 0;cursor:pointer;font-size:13px;line-height:1.3;color:var(--ink2)}
+.index-sec button span{font-family:var(--f-mono);font-size:11px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.index-sec button:hover{color:var(--accent)}
+.index-sec button.cur{color:var(--accent);font-weight:600}
+
+/* phone: stacked reading mode */
+@media (max-width: 720px){
+  body{overflow:auto}
+  .app{display:block;height:auto;padding-inline:16px;padding-block:16px}
+  .stage{display:flex;flex-direction:column;gap:14px}
+  .controls{display:none}
+  .slide{display:flex;width:100%;aspect-ratio:auto;container-type:normal;padding:18px 18px 12px;
+    --f-title:1.35rem; --f-big:1.45rem; --f-lead:1.05rem; --f-body:.98rem; --f-small:.9rem; --f-mono:.84rem; --f-meta:.7rem; --f-table:.86rem; --gap:14px}
+  .slide.dense{--f-body:.94rem; --f-table:.82rem}
+  .slide.is-current{animation:none}
+  .s-body{padding-block:14px}
+  .s-foot{height:3px;gap:2px}
+  .cols,.k-habit .cols,.k-cover .grid,.agenda-list,.check,.links{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr}
+  .k-cover h1{font-size:2rem}.k-cover .sub{font-size:1.05rem}.k-cover pre{font-size:.72rem}
+  .k-section .num{font-size:3.4rem}.k-section h2{font-size:1.6rem}.k-section .lead{font-size:1.05rem}
+  .agenda-list .n{font-size:.9rem}.agenda-list li{grid-template-columns:28px 1fr auto}
+  .flow li{flex:1 1 100%}.flow li:not(:last-child)::after{content:"↓";padding:4px 8px}
+  .flow li{flex-direction:column}
+  .fix p{font-size:1.05rem}.card h3{font-size:1rem}
+  .pts li{padding-left:18px}.pts li::before{width:9px;height:2px}
+  .check li{grid-template-columns:18px 1fr}.check li::before{width:12px;height:12px;border-width:2px}
+  .s-foot i.now::after{width:100%}
+}
+
+
+/* ---------- all hands additions ---------- */
+.stats{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:2.4cqi}
+.stat{display:flex;flex-direction:column;gap:.6cqi;padding-top:1.4cqi;border-top:.25cqi solid var(--accent)}
+.stat .v{font-family:var(--f-disp);font-weight:700;font-size:3.5cqi;white-space:nowrap;line-height:1;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.stats.few .stat .v{font-size:5.2cqi}
+.stat .l{font-size:var(--f-body);color:var(--ink2);line-height:1.3}
+.stat .s{font-family:var(--f-mono);font-size:var(--f-meta);color:var(--hot);letter-spacing:.02em}
+.k-image .s-body,.k-slot .s-body{gap:1.4cqi;justify-content:flex-start;padding-block:1.2cqi .6cqi}
+.fig{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#FCFCFB;border-radius:4px;overflow:hidden}
+.fig img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.fig.ph{background:var(--code);border:1px dashed var(--rule);color:var(--muted);font-family:var(--f-mono);font-size:var(--f-small)}
+.cap{margin:0;font-size:var(--f-small);color:var(--muted)}
+.k-quote .stmt{font-family:var(--f-disp);font-weight:500;font-size:3.6cqi;line-height:1.2;letter-spacing:-.015em;margin:0;max-width:26ch;text-wrap:balance}
+.k-quote .stmt::before{content:"«";color:var(--accent)}
+.k-quote .stmt::after{content:"»";color:var(--accent)}
+.k-quote .who{font-family:var(--f-mono);font-size:var(--f-mono);color:var(--muted)}
+.goal-top{display:grid;grid-template-columns:auto 1fr 1fr;gap:3cqi;align-items:start;padding-bottom:1.4cqi;border-bottom:1px solid var(--rule)}
+.goal-top .kv{display:flex;flex-direction:column;gap:.5cqi}
+.goal-top .kv span{font-family:var(--f-mono);font-size:var(--f-meta);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.goal-top .kv b{font-size:var(--f-lead);line-height:1.25;font-weight:600}
+.goal-top .kv.fact b{color:var(--accent)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.status{font-size:1.5cqi;padding:.6cqi 1.2cqi}
+.goal-cols{display:grid;grid-template-columns:1.3fr 1fr;gap:3cqi;align-items:start}
+.lesson{background:var(--accent-soft);border-radius:4px;padding:1.6cqi 1.9cqi;display:flex;flex-direction:column;gap:.8cqi}
+.lesson .lbl{font-family:var(--f-mono);font-size:var(--f-meta);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lesson p{margin:0;font-size:var(--f-body);line-height:1.38;color:var(--ink);font-weight:500;text-wrap:pretty}
+.k-section-mini .s-body{justify-content:flex-end;gap:1.4cqi;padding-bottom:3cqi}
+.k-section-mini h2{font-family:var(--f-disp);font-weight:500;font-size:3.8cqi;line-height:1.1;margin:0;max-width:24ch;text-wrap:balance}
+.k-section-mini h2::before{content:"";display:block;width:6cqi;height:.4cqi;background:var(--hot);margin-bottom:2cqi}
+table.score td:last-child{white-space:nowrap}
+.k-cover .hero{font-family:var(--f-disp);font-weight:700;font-size:13cqi;line-height:.85;letter-spacing:-.05em;color:var(--accent);margin:0;white-space:nowrap}
+.k-cover .hero + h1{font-size:4.2cqi;max-width:22ch}
+.k-cover .hero small{font-size:.32em;letter-spacing:-.01em;color:var(--ink);margin-left:.15em}
+@media (max-width: 720px){
+  .stats,.goal-top,.goal-cols{grid-template-columns:1fr}
+  .stat .v,.stats.few .stat .v{font-size:2rem}
+  .k-quote .stmt{font-size:1.4rem}.k-section-mini h2{font-size:1.5rem}
+  .k-cover .hero{font-size:4.5rem}
+  .fig{min-height:200px}
+}
+
+/* ---------- v2: logo, faces, phones, wall ---------- */
+.k-cover .eyebrow{display:flex;align-items:center;gap:2cqi}
+.k-cover .logo{height:3.6cqi;width:auto;display:block}
+.k-cover .logo.dark{display:none}
+:root[data-theme="dark"] .k-cover .logo{display:none}
+:root[data-theme="dark"] .k-cover .logo.dark{display:block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .k-cover .logo{display:none}:root:not([data-theme="light"]) .k-cover .logo.dark{display:block}}
+.k-cover .ah{font-family:var(--f-mono);color:var(--muted);padding-left:2cqi;border-left:1px solid var(--rule)}
+.s-head .sec{display:inline-flex;align-items:center}
+.s-head .mark{width:1.7cqi;height:1.7cqi;margin-right:.9em}
+.flow li .st > span{display:block}
+.faces{display:flex;gap:1.2cqi}
+.faces img{width:6cqi;height:6cqi;border-radius:50%;object-fit:cover;box-shadow:0 0 0 .3cqi var(--slide),0 0 0 .5cqi var(--accent-soft)}
+.k-thanks .s-body{gap:2cqi}
+.k-thanks .stmt{font-weight:600;font-size:var(--f-big);line-height:1.18;letter-spacing:-.015em;margin:0}
+.k-thanks .stmt em{font-style:normal;color:var(--accent)}
+.wall{display:grid;grid-template-columns:repeat(20,1fr);gap:.8cqi;max-width:none}
+.wall img,.wall .ini{width:100%;aspect-ratio:1;border-radius:50%;object-fit:cover;display:block}
+.wall .ini{display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:1.3cqi}
+.phones{flex:1;min-height:0;display:flex;justify-content:center;gap:3cqi}
+.phones figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:1cqi;min-height:0}
+.phones img{flex:1;min-height:0;max-height:100%;width:auto;border-radius:1.6cqi;box-shadow:0 1px 2px var(--shade),0 12px 40px var(--shade)}
+.phones figcaption{font-size:var(--f-small);color:var(--muted)}
+.k-phones .s-body{justify-content:flex-start;gap:1.4cqi;padding-block:1.2cqi .6cqi}
+.end-mark{width:9cqi;height:9cqi}
+.k-cards .card h3{font-size:1.62cqi}
+@media (max-width: 720px){
+  .k-cover .logo{height:28px}
+  .s-head .mark{width:12px;height:12px}
+  .faces img{width:48px;height:48px}
+  .wall{grid-template-columns:repeat(8,1fr);gap:6px}
+  .wall .ini{font-size:.7rem}
+  .phones{flex-direction:column;align-items:center}
+  .phones img{max-width:260px;width:100%;height:auto}
+  .end-mark{width:64px;height:64px}
+}
+
+@media print{
+  @page{size:1600px 900px;margin:0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{height:auto;overflow:visible;background:var(--slide)}
+  .app{display:block;padding:0;height:auto}
+  .controls,.index{display:none!important}
+  .slide{display:flex!important;width:1600px;height:900px;aspect-ratio:auto;border-radius:0;box-shadow:none;break-after:page;animation:none!important}
+}
+
+/* ---------- bars: график столбиками из цифр ---------- */
+.bars{flex:1;min-height:0;max-height:30cqi;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:2cqi;align-items:end;border-bottom:1px solid var(--rule);padding-top:3cqi}
+.bars .b{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:.8cqi}
+.bars .b i{display:block;width:100%;height:var(--h);background:var(--rule);border-radius:3px 3px 0 0}
+.bars .b.hi i{background:var(--accent)}
+.bars .b.est i{opacity:.7;background-image:repeating-linear-gradient(45deg,transparent 0 .6cqi,rgba(255,255,255,.35) .6cqi 1.2cqi)}
+.bars .b span{font-size:var(--f-small);font-weight:600;color:var(--ink)}
+.bars-x{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:2cqi;font-size:var(--f-small);color:var(--muted);text-align:center;margin-top:-1cqi}
+.bars-u{font-family:var(--f-mono);font-size:var(--f-meta);color:var(--muted);margin:0}
+</style>
+
+<div class="app" id="app">
+  <main class="stage" id="deck" aria-live="polite"></main>
+  <nav class="controls" aria-label="Навигация по слайдам">
+    <button id="prev" type="button" aria-label="Предыдущий слайд">←</button>
+    <span class="count" id="count"></span>
+    <button id="next" type="button" aria-label="Следующий слайд">→</button>
+    <button id="toc" type="button">Оглавление</button>
+    <button id="theme" type="button">Тема</button>
+    <button id="fs" type="button">Во весь экран</button>
+    <span class="hint">← → пробел · F экран · O оглавление</span>
+  </nav>
+</div>
+<div class="index" id="index" hidden>
+  <div class="index-in">
+    <div class="index-top"><h2>Оглавление</h2><button id="closeIndex" type="button">Закрыть · Esc</button></div>
+    <div class="index-grid" id="indexGrid"></div>
+  </div>
+</div>
+
+<script>
+
+/* =====================================================================
+   ЗДЕСЬ ПРАВИТСЯ СОДЕРЖАНИЕ. Всё, что ниже блока «helpers», — движок, его не трогать.
+   META   — обложка и заголовок вкладки.
+   TEAM   — стена аватарок для слайда thanks: [имя, имя файла в img/team/ без .jpg или null].
+            null — вместо фото кружок с инициалами.
+   SHOTS  — скриншоты для слайдов slot: {id: "img/файл.png"}. Нет записи — видна заглушка.
+   S      — слайды по порядку, по одному объекту на слайд.
+   ===================================================================== */
+window.META = {
+  tab: "Слайды Statistics Meeting 28.10",
+  eyebrow: "Statistics Meeting · 28.10.2026",
+  hero: "−0,5%", heroSmall: "выручка",
+  title: "Выручка стоит, а под ней два больших сдвига",
+  summary: "<em># W43 против W42</em>\nвыручка/день     $97,8 тыс.\nконверсия        66,56%\nfailed генер.    7,93%\nнаша модерация   4,77%\nрегистрации/день 5 827\n\n<em># Октябрь</em>\nцель             $3,36 млн\nпрогноз          ≈ $3,09 млн",
+  meta: ["Statistics Meeting", "W43 = 19–25.10 против W42 = 12–18.10", "Amplitude 717020"]
+};
+window.TEAM = [];
+window.SHOTS = {};
+
+const S = [
+/* ============ Открытие ============ */
+{t:"cover"},
+{t:"agenda", title:"О чём 30 минут"},
+{t:"big", text:"Выручка стоит: <em>−0,5%</em>. Под ней два сдвига — конверсия +3,55 п.п. и падений генераций почти вдвое меньше.", sub:"Конверсию подняла миграция США на Apple Pay через cardflo. Падения упали, потому что 22–23.10 смягчили нашу модерацию — без объявления. Прирост съели средний чек (−5,0%) и openmov (−8,3%)."},
+{t:"stats", title:"Неделя в четырёх цифрах", items:[
+  {v:"$97 760", l:"выручка в день", s:"−0,5% к W42"},
+  {v:"66,56%", l:"конверсия платежей", s:"+3,55 п.п., весь прирост — США"},
+  {v:"7,93%", l:"failed генераций", s:"было 10,80%; за 23–25.10 — 5,06%"},
+  {v:"≈ $3,09 млн", l:"прогноз октября", s:"цель $3,36 млн, 92%"}
+], note:"Amplitude Production 717020, средние за день, окна по UTC-полуночи. Выручка совокупно ZenCreator + OpenMov."},
+{t:"big", text:"Срочно: <em>payok</em> не провёл ни одного платежа с запуска 19.10.", sub:"За 19–25.10: 93 попытки, 82 явных отказа, 0 успешных оплат. Рельс запущен под Южную Корею и KRW. Ноль подтверждён двумя событиями, это не ошибка замера. Выключить или починить сегодня."},
+
+/* ============ 01 Деньги ============ */
+{t:"section", n:"01", title:"Деньги", lead:"Конверсия выросла, выручка стоит"},
+{t:"table", title:"Выручка стоит: конверсия выше, чек и openmov ниже", dense:true, head:["Метрика","W42","W43","Δ"], rows:[
+  ["**Выручка в день**","$98 294","**$97 760**","**−0,5%**"],
+  ["Рельс zencreator, за неделю","$483 329","$496 627","+2,8%"],
+  ["Рельс openmov, за неделю","$204 731","$187 691","**−8,3%**"],
+  ["Платежей в день","1 776","1 860","+4,7%"],
+  ["Первых платежей в день","197","215","+9,1%"],
+  ["**Средний чек**","$55,32","**$52,56**","**−5,0%**"],
+  ["**Конверсия платежей**","63,01%","**66,56%**","**+3,55 п.п.**"],
+  ["Стартов оплаты за неделю","7 266","7 276","+0,1%"]
+], note:"Конверсия — воронка Payment Started → Payment Succeeded, окно 1800 с, уникальные пользователи. Стартов столько же, оплат на 84 в день больше."},
+{t:"bars", title:"Октябрь: цель уже не закрыть", unit:"$ тыс. в день", items:[
+  {l:"Август", v:73.6, label:"73,6"}, {l:"Сентябрь", v:95.5, label:"95,5"}, {l:"W42", v:98.3, label:"98,3"}, {l:"W43", v:97.8, hi:true, label:"97,8"},
+  {l:"Октябрь 01–25", v:100.3, label:"100,3"}, {l:"Нужно 26–31.10", v:142.0, est:true, label:"≈ 142,0"}
+], note:"Факт 01–25.10 — $2 508 139. Чтобы закрыть $3,36 млн, нужно $141 977 в день за 6 дней (+45% к темпу). Прогноз ≈ $3,09 млн. Октябрь считан суммой дневных значений: месячный интервал Amplitude захватывает дни после окна."},
+{t:"table", title:"США: Apple Pay через cardflo дал +192 оплаты за неделю", dense:true, head:["Рельс","Стартов W42","Стартов W43","Конв. по своему рельсу W43","Выручка W42","Выручка W43"], rows:[
+  ["**cardflo_apple_pay** (новый)","—","587","**71,6%**","$0","$31 086"],
+  ["cardflo","6","559","**39,5%**","$71","$20 606"],
+  ["voltpay","2 755","2 124","42,3%","$135 369","$97 754"],
+  ["voltpay_stripe_us","185","419","**30,8%**","$3 863","$16 865"]
+], note:"Карточный трафик перевели с voltpay на cardflo (Nora, #management-sync и #fire-team 26.10). Конверсия США 57,92 → 66,10% при том же трафике. Apple Pay и обычный cardflo — один провайдер, разница 32 п.п."},
+{t:"table", title:"Гео: США, Япония и Гонконг выросли, Корея откатилась", dense:true, head:["Страна","Стартов W42","Стартов W43","Конв. W42","Конв. W43"], rows:[
+  ["**США**","2 234","2 248","57,92%","**66,10%**"],
+  ["**Южная Корея**","263","376","49,05%","**38,56%**"],
+  ["Япония","182","142","33,52%","**53,52%**"],
+  ["Гонконг","98","117","30,61%","**41,88%**"],
+  ["Аргентина","68","44","29,41%","34,09%"],
+  ["**Индонезия**","80","90","30,00%","**23,33%**"]
+], note:"Корея: трафик налили в voltpay_card (138 → 247 стартов, 40,9%), а palwallet с 76,9% остался на 13 стартах. Оценка потери ≈ 105 оплат в неделю. Результат действия от 14.10 откатился."},
+{t:"points", title:"Что ещё в деньгах", items:[
+  "**Киты почти перестали падать:** −2,3% против −7,9% неделей раньше, платящих китов больше (1 070 → 1 092). Прирост дал нижний сегмент: low +20,2%",
+  "**Средний чек −5,0% вторую неделю** и падает внутри каждого сегмента, кроме low; у китов −6,2%. Причина не установлена: нет номинала пакета в событии",
+  "**openmov −8,3% выручки** при конверсии рельса 96,3%: падает объём, а не проходимость",
+  "**Поправка к методу:** конверсии по рельсам в отчётах 14.10 и 21.10 завышены из-за каскадного роутинга. Тоталы и гео верны"
+], note:"21.10 — провал до $90 453 из-за сбоев cardflo и rounders (Ksenia, #management-sync 22.10)."},
+
+/* ============ 02 Генерации ============ */
+{t:"section", n:"02", title:"Генерации", lead:"Падений почти вдвое меньше — и никто не сказал почему"},
+{t:"big", text:"Failed <em>10,8% → 7,9%</em>: 22–23.10 смягчили нашу модерацию, и никто об этом не объявил.", sub:"Упала ровно одна компонента — наша модерация, с 7,2% задач до ≈2%. Модерация провайдера и технические падения не изменились. Это ответ на вопрос 21.10 «какую долю блокировок считаем нормой» — но изменением, а не решением."},
+{t:"table", title:"По дням: перелом 22–23.10, упала только наша модерация", dense:true, head:["Дата","Доля failed","Наша модерация","Провайдер","Технические"], rows:[
+  ["19.10","10,97%","7,56%","2,98%","0,23%"],
+  ["20.10","10,90%","7,62%","2,70%","0,35%"],
+  ["21.10","10,46%","7,17%","2,64%","0,47%"],
+  ["**22.10**","**7,79%**","**4,71%**","2,61%","0,30%"],
+  ["**23.10**","**4,75%**","**1,80%**","2,39%","0,35%"],
+  ["24.10","5,39%","2,17%","2,66%","0,32%"],
+  ["25.10","5,06%","2,17%","2,47%","0,22%"]
+], note:"Доли — от всех завершённых задач (completed + failed + partial), Task Status Changed, errorCategory. Сумма категорий равна общему failed."},
+{t:"points", title:"Что известно и что нет", items:[
+  "**Кто сменил порог — не установлено.** В #dev, #dev-sync, #releases, #management-sync, #product за 21–26.10 нет ни одного сообщения о смене порога",
+  "**Гипотеза:** порог снизили вместе с ручной очередью возрастной модерации (DEV-5105, прод 23.10). Не подтверждено",
+  "**В #support 25–26.10 — два кейса ложных блокировок** по признаку «несовершеннолетняя», один с блоком аккаунта",
+  "**Побочный эффект:** разрыв «тратят / покупают» кредиты впервые за месяц сузился, 16,3 → 13,0%. Похоже, меньше переделывают заблокированное (гипотеза)",
+  "**Денежного эффекта за неделю не видно:** задач −3,7%, выручка стоит"
+]},
+
+/* ============ 03 Вход в продукт ============ */
+{t:"section", n:"03", title:"Вход в продукт", lead:"Регистрации, новички, редизайн"},
+{t:"cards", title:"Вход: органика перестала падать, форма стабилизировалась", n:3, items:[
+  {k:"Органика", h:"Organic Search +1,1%", p:"26 197 → 26 492 регистраций после трёх недель падения. Общее снижение регистраций (−4,8%) дал Direct (−13,4%), он завязан на сокращение закупного анонима."},
+  {k:"Форма регистрации ZC", h:"42,62%", p:"Неделю назад было падение до 42,39%. Отскока нет, но и падение не продолжилось."},
+  {k:"Новички", h:"Активация 1,95%", p:"До кассы доходят лучше (4,55 → 4,88%), внутри кассы платят хуже (41,7 → 40,1%). Когорта Пн–Чт, окно 3 дня."}
+], note:"Регистрации — Registration Completed по производному свойству Traffic Sources, сумма каналов равна тоталу. Форма — SignUp Form Viewed → Registration Completed, только platformType = zencreator."},
+{t:"cards", title:"Редизайн и Lounge", n:2, items:[
+  {k:"Редизайн, 26.10", h:"15,6% вернулись на старый UI", p:"Первые сутки: интро увидели 4 329 человек, 675 переключились обратно. Конверсию судить рано (дашборд Danil «Redesign: new vs old», ждать 7 дней), но доля возвратов видна сразу."},
+  {k:"Lounge", h:"Пользователей −31,7%", p:"605 → 413 за неделю, кредитов −10,9%. Третья неделя сжатия, владельца метрики нет."}
+], note:"Редизайн выкатили 26.10 — на день позже окна отчёта. Полный разбор — в отчёте 04.11."},
+
+/* ============ 04 Статус и действия ============ */
+{t:"section", n:"04", title:"Статус и действия", lead:"Что сделали с 21.10 и что берём сейчас"},
+{t:"table", title:"Действия 21.10: сделано 0 из 16, результат или частично — 7", dense:true, cls:"score", head:["Действие","Статус"], rows:[
+  ["Решение по цели октября","не сделано; теперь нужно $142 тыс. в день"],
+  ["Япония, Гонконг, Аргентина","есть результат, подтверждения работ в Slack нет"],
+  ["voltpay_stripe_us: почему теряет половину","сделано наоборот: трафик удвоили при 30,8%"],
+  ["Модерация: какая доля — норма","не отвечено, а изменилось само"],
+  ["Задокументировать errorCategory","не сделано"],
+  ["Топ-50 китов поимённо","не видно; киты почти перестали падать"],
+  ["Разрыв кредитов","есть результат сам: 16,3 → 13,0%"],
+  ["Welcome Window, email в «активных», гигиена дашбордов","не сделано, третья неделя"]
+], note:"Полная таблица из 16 строк — в коротком отчёте 28.10 в Notion. Ни одно действие не имеет владельца."},
+{t:"table", title:"Что делаем: кто и когда — заполняем на встрече", dense:true, head:["Когда","Действие","Кто","Срок"], rows:[
+  ["Сегодня","Выключить или починить payok: 0 оплат из 93 попыток","",""],
+  ["Сегодня","Кто и зачем смягчил нашу модерацию 22–23.10; если намеренно — фиксируем норму","",""],
+  ["Сегодня","Цель октября: рычаг или пересмотр","",""],
+  ["На неделе","Корея: перевести трафик как в США, palwallet вместо voltpay_card","",""],
+  ["На неделе","cardflo 39,5% против cardflo_apple_pay 71,6%: почему; пока лить в Apple Pay","",""],
+  ["На неделе","voltpay_stripe_us: трафик удвоили при 30,8%","",""],
+  ["На неделе","Редизайн: владелец и дата чтения метрик (не раньше 02.11)","",""],
+  ["До 04.11","Средний чек: номинал пакета в событие; openmov −8,3%; Lounge — владелец","",""]
+], note:"Полный список из 18 действий — в отчётах 28.10 в Notion."},
+{t:"end", title:"Вопросы", items:[
+  "Модерация: смягчение 22–23.10 — решение или случайность? Какая доля блокировок — норма?",
+  "Октябрь: признаём ≈ $3,09 млн или ищем рычаг на последние дни?",
+  "Полный отчёт и короткая версия: Statistics Document Hub в Notion, 28.10.26"
+]}
+];
+
+
+
+/* ---------- helpers ---------- */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/`(.+?)`/g,"<code>$1</code>");
+const raw = s => s; // trusted inline markup authored above (em/span)
+const ul = items => `<ul class="pts">${items.map(i=>`<li>${fmt(i)}</li>`).join("")}</ul>`;
+const box = (ex, mono) => ex ? `<div class="box${mono?" mono":""}"><span class="lbl">${esc(ex.label)}</span><p>${fmt(ex.text)}</p></div>` : "";
+const note = n => n ? `<p class="note">${fmt(n)}</p>` : "";
+const title = t => `<h2 class="t">${fmt(t)}</h2>`;
+
+/* ---------- sections ---------- */
+const sections = [];
+let cur = {n:"", title:"Открытие", start:0, count:0};
+sections.push(cur);
+S.forEach((s,i)=>{
+  if (s.t==="section"){ cur = {n:s.n, title:s.title, start:i, count:0}; sections.push(cur); }
+  s._sec = cur; s._i = i; cur.count++;
+});
+const TOTAL = S.length;
+
+function slideTitle(s){
+  if (s.t==="cover") return (window.META.title||"").replace(/<[^>]+>/g," ");
+  if (s.t==="quote") return s.text;
+  if (s.t==="section" || s.t==="section-mini") return s.title;
+  if (s.t==="big" || s.t==="thanks") return s.text.replace(/<[^>]+>/g,"");
+  return (s.title||"").replace(/\*\*/g,"");
+}
+
+/* ---------- renderers ---------- */
+const R = {
+  cover: () => { const M = window.META; return `
+    <div class="eyebrow"><img class="logo" src="img/logo.png" alt="ZenCreator"><img class="logo dark" src="img/logo-dark.png" alt=""><span class="ah">${esc(M.eyebrow)}</span></div>
+    <div class="grid">
+      <div>
+        ${M.hero?`<p class="hero">${esc(M.hero)}<small>${esc(M.heroSmall||"")}</small></p>`:""}
+        <h1${M.hero?' style="margin-top:2.4cqi"':""}>${raw(M.title)}</h1>
+      </div>
+      ${M.summary?`<pre aria-hidden="true">${raw(M.summary)}</pre>`:""}
+    </div>
+    <div class="meta">${(M.meta||[]).map(x=>`<span>${esc(x)}</span>`).join("")}</div>`; },
+  agenda: s => `${title(s.title)}
+    <ol class="agenda-list">${sections.filter(x=>x.n).map(x=>`<li><span class="n">${x.n}</span><span>${esc(x.title)}</span><span class="pg">с. ${x.start+1}</span></li>`).join("")}</ol>`,
+  section: s => {
+    const sec = s._sec, end = sec.start + sec.count;
+    return `<div class="num">${s.n}</div><h2>${esc(s.title)}</h2><p class="lead">${esc(s.lead)}</p><div class="range">слайды ${sec.start+1}–${end}</div>`;
+  },
+  points: s => `${title(s.title)}${ul(s.items)}${box(s.ex)}${note(s.note)}`,
+  big: s => `<p class="stmt">${raw(s.text)}</p>${s.sub?`<p class="lead">${fmt(s.sub)}</p>`:""}`,
+  thanks: s => `<div class="wall" aria-label="Команда ZenCreator">${(window.TEAM||[]).map(([n,f])=>f?`<img src="img/team/${f}.jpg" alt="${esc(n)}" title="${esc(n)}" loading="lazy">`:`<span class="ini" title="${esc(n)}">${esc(n.split(" ").map(w=>w[0]).join(""))}</span>`).join("")}</div><p class="stmt">${raw(s.text)}</p><p class="lead">${fmt(s.sub)}</p>`,
+  phones: s => `${title(s.title)}<div class="phones">${s.items.map(x=>`<figure><img src="${esc(x.src)}" alt="${esc(x.cap)}" loading="lazy"><figcaption>${esc(x.cap)}</figcaption></figure>`).join("")}</div>${note(s.note)}`,
+  compare: s => {
+    const col = c => `<div class="col"><span class="chip ${c.tone||""}">${esc(c.label)}</span>${c.items?ul(c.items):""}${c.box?`<div class="box"><p>${fmt(c.box)}</p></div>`:""}${c.mono?`<div class="box mono"><p>${fmt(c.mono)}</p></div>`:""}</div>`;
+    return `${title(s.title)}<div class="cols">${col(s.a)}${col(s.b)}</div>${box(s.ex)}${note(s.note)}`;
+  },
+  habit: s => `${title(s.title)}<div class="cols">
+      <div class="col"><span class="chip bad">${esc(s.symLabel||"Что происходит")}</span>${ul(s.sym)}</div>
+      <div class="fix"><span class="chip good">${esc(s.fixLabel||"Как лечить")}</span><p>${fmt(s.fix)}</p></div>
+    </div>`,
+  table: s => `${title(s.title)}<div class="tbl-wrap"><table class="${s.cls||""}"><thead><tr>${s.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${fmt(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${note(s.note)}`,
+  flow: s => `${title(s.title)}<ol class="flow">${s.steps.map(x=>`<li><div class="st"><span>${fmt(x)}</span></div></li>`).join("")}</ol>${note(s.note)}`,
+  code: s => `${title(s.title)}<pre class="code${s.wrap?" wrap":""}">${raw(s.code)}</pre>${note(s.note)}`,
+  check: s => `${title(s.title)}<ul class="check${s.one?" one":""}">${s.items.map(i=>`<li>${fmt(i)}</li>`).join("")}</ul>${note(s.note)}`,
+  cards: s => `${title(s.title)}<div class="cards" style="--n:${s.n||2}">${s.items.map(c=>`<div class="card"><span class="k">${esc(c.k)}</span><h3>${esc(c.h)}</h3><p>${fmt(c.p)}</p></div>`).join("")}</div>${note(s.note)}`,
+  links: s => `${title(s.title)}<div class="links">${s.groups.map(g=>`<div><h3>${esc(g.h)}</h3><ul>${g.items.map(([name,url,desc])=>`<li>${esc(name)}${url?`<a href="https://${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>`:""}${desc?`<span class="desc">${esc(desc)}</span>`:""}</li>`).join("")}</ul></div>`).join("")}</div>`,
+  stats: s => `${title(s.title)}<div class="stats${s.items.length<3?" few":""}" style="--n:${s.items.length}">${s.items.map(x=>`<div class="stat"><span class="v">${esc(x.v)}</span><span class="l">${fmt(x.l)}</span>${x.s?`<span class="s">${esc(x.s)}</span>`:""}</div>`).join("")}</div>${note(s.note)}`,
+  image: s => `${title(s.title)}<div class="fig"><img src="${esc(s.src)}" alt="${esc(s.alt||s.title)}" loading="lazy"></div>${s.cap?`<p class="cap">${fmt(s.cap)}</p>`:""}`,
+  slot: s => { const src = (window.SHOTS||{})[s.id]; return `${title(s.title)}${src?`<div class="fig"><img src="${esc(src)}" alt="${esc(s.title)}" loading="lazy"></div>`:`<div class="fig ph">скриншот: ${esc(s.id)}</div>`}${s.cap?`<p class="cap">${fmt(s.cap)}</p>`:""}`; },
+  quote: s => `<p class="stmt">${esc(s.text)}</p><span class="who">— ${esc(s.who)}</span>${s.sub?`<p class="lead">${fmt(s.sub)}</p>`:""}${s.faces?`<div class="faces">${s.faces.map(f=>`<img src="img/team/${f}.jpg" alt="">`).join("")}</div>`:""}`,
+  "section-mini": s => `<h2>${esc(s.title)}</h2><p class="lead">${fmt(s.lead)}</p>`,
+  goal: s => { const st = {done:["good","Выполнено"],part:["warn","Частично"],miss:["bad","Не выполнено"],next:["acc","Цель"]}[s.status]; return `${title(s.title)}
+    <div class="goal-top"><span class="chip ${st[0]} status">${st[1]}</span><div class="kv"><span>${esc(s.planLabel||"План")}</span><b>${esc(s.plan)}</b></div><div class="kv fact"><span>${esc(s.factLabel||"Факт")}</span><b>${esc(s.fact)}</b></div></div>
+    <div class="goal-cols">${ul(s.did)}<div class="lesson"><span class="lbl">${s.lessonLabel||(s.status==="next"?"Важно":"Вывод")}</span><p>${fmt(s.lesson)}</p></div></div>`; },
+  bars: s => { const mx = Math.max(...s.items.map(x=>x.v)); const n = s.items.length; return `${title(s.title)}${s.unit?`<p class="bars-u">${esc(s.unit)}</p>`:""}
+    <div class="bars" style="--n:${n}">${s.items.map(x=>`<div class="b${x.hi?" hi":""}${x.est?" est":""}"><span>${esc(x.label||String(x.v).replace(".",","))}</span><i style="--h:${Math.max(2,x.v/mx*100)}%"></i></div>`).join("")}</div>
+    <div class="bars-x" style="--n:${n}">${s.items.map(x=>`<span>${esc(x.l)}</span>`).join("")}</div>${note(s.note)}`; },
+  end: s => `<img class="end-mark" src="img/logo-mark.png" alt="">${title(s.title)}${ul(s.items)}`
+};
+
+function foot(s){
+  return `<div class="s-foot" aria-hidden="true">${sections.map(sec=>{
+    const i = s._i, inSec = i>=sec.start && i<sec.start+sec.count;
+    const cls = inSec ? "now" : (i >= sec.start+sec.count ? "past" : "");
+    const p = inSec ? Math.round((i-sec.start+1)/sec.count*100) : 0;
+    return `<i class="${cls}" style="flex-grow:${sec.count};--p:${p}%"></i>`;
+  }).join("")}</div>`;
+}
+
+const deck = document.getElementById("deck");
+deck.innerHTML = S.map(s=>{
+  const cls = ["slide", "k-"+s.t, s.dense?"dense":""].join(" ");
+  const sec = s._sec;
+  const head = s.t==="cover" ? "" : `<div class="s-head"><span class="sec"><img class="mark" src="img/logo-mark.png" alt="">${sec.n?`<b>${sec.n}</b>`:""}${esc(sec.title)}</span><span>${s._i+1} / ${TOTAL}</span></div>`;
+  return `<section class="${cls}" id="s${s._i+1}" aria-label="Слайд ${s._i+1}: ${esc(slideTitle(s))}">${head}<div class="s-body">${R[s.t](s)}</div>${foot(s)}</section>`;
+}).join("");
+
+/* ---------- index ---------- */
+const indexGrid = document.getElementById("indexGrid");
+indexGrid.innerHTML = sections.map(sec=>`<div class="index-sec"><h3>${sec.n?`<span>${sec.n}</span>`:""}${esc(sec.title)}</h3><ol>${S.slice(sec.start, sec.start+sec.count).map(s=>`<li><button type="button" data-go="${s._i}"><span>${s._i+1}</span>${esc(slideTitle(s))}</button></li>`).join("")}</ol></div>`).join("");
+
+/* ---------- navigation ---------- */
+const slides = [...deck.querySelectorAll(".slide")];
+const count = document.getElementById("count");
+const index = document.getElementById("index");
+let at = 0;
+function go(i){
+  at = Math.max(0, Math.min(TOTAL-1, i));
+  slides.forEach((el,k)=>el.classList.toggle("is-current", k===at));
+  count.textContent = `${at+1} / ${TOTAL}`;
+  try { history.replaceState(null, "", "#" + (at+1)); } catch(e) {}
+  indexGrid.querySelectorAll("button").forEach(b=>b.classList.toggle("cur", +b.dataset.go===at));
+}
+function openIndex(open){
+  index.hidden = !open;
+  if (open){ const c = indexGrid.querySelector("button.cur"); (c||indexGrid.querySelector("button"))?.focus(); }
+}
+document.getElementById("prev").onclick = ()=>go(at-1);
+document.getElementById("next").onclick = ()=>go(at+1);
+document.getElementById("toc").onclick = ()=>openIndex(true);
+document.getElementById("closeIndex").onclick = ()=>openIndex(false);
+indexGrid.addEventListener("click", e=>{ const b = e.target.closest("button[data-go]"); if(b){ go(+b.dataset.go); openIndex(false); } });
+
+const fsBtn = document.getElementById("fs");
+if (!document.fullscreenEnabled) fsBtn.hidden = true;
+function toggleFs(){
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen();
+  } catch(e) {}
+}
+fsBtn.onclick = toggleFs;
+document.addEventListener("fullscreenchange", ()=>document.documentElement.classList.toggle("is-fs", !!document.fullscreenElement));
+
+const themeBtn = document.getElementById("theme");
+function currentTheme(){
+  const d = document.documentElement.dataset.theme;
+  if (d) return d;
+  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+try { const saved = localStorage.getItem("deck-theme"); if (saved) document.documentElement.dataset.theme = saved; } catch(e) {}
+themeBtn.onclick = ()=>{
+  const next = currentTheme()==="dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("deck-theme", next); } catch(e) {}
+};
+
+document.addEventListener("keydown", e=>{
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if (!index.hidden){ if (e.key==="Escape" || e.key==="o" || e.key==="щ"){ openIndex(false); e.preventDefault(); } return; }
+  const k = e.key;
+  if (["ArrowRight","PageDown"," ","Enter"].includes(k)){ if (k===" " || k==="Enter"){ if (e.target.closest("button,a")) return; } go(at+1); e.preventDefault(); }
+  else if (["ArrowLeft","PageUp","Backspace"].includes(k)){ go(at-1); e.preventDefault(); }
+  else if (k==="Home"){ go(0); e.preventDefault(); }
+  else if (k==="End"){ go(TOTAL-1); e.preventDefault(); }
+  else if (k==="f" || k==="а"){ toggleFs(); e.preventDefault(); }
+  else if (k==="o" || k==="щ"){ openIndex(true); e.preventDefault(); }
+});
+
+let tx = null;
+deck.addEventListener("touchstart", e=>{ tx = e.touches[0].clientX; }, {passive:true});
+deck.addEventListener("touchend", e=>{
+  if (tx===null || matchMedia("(max-width: 720px)").matches) return;
+  const dx = e.changedTouches[0].clientX - tx; tx = null;
+  if (Math.abs(dx) > 50) go(at + (dx < 0 ? 1 : -1));
+}, {passive:true});
+
+const fromHash = parseInt((location.hash||"").slice(1), 10);
+go(Number.isFinite(fromHash) ? fromHash-1 : 0);
+</script>
