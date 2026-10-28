@@ -17,7 +17,7 @@
 
 ## Настройка
 
-1. Добавьте в секреты окружения `UNLEASH_URL` (без `/api`) и `UNLEASH_TOKEN` (Admin API token) и разрешите хост Unleash в сетевой политике.
+1. Добавьте в секреты окружения `UNLEASH_URL` (без `/api`) и `UNLEASH_TOKEN` (Admin API token) и разрешите хост Unleash в сетевой политике. Облачный прокси пропускает только HTTPS, поэтому Unleash должен быть доступен по `https://` (сейчас он на `http://unleash.htz.zncr.pro:4242`). Запускайте в окружении **EU**: там открыта сеть.
 2. Заполните `config/agents.json`:
    - `unleash.production_environment` — имя прод-окружения; в `projects` можно перечислить проекты (если пусто, берутся все), в `ignore_flags` — флаги, которые не нужно проверять;
    - `asana.workspace_gid` / `project_gids` — где искать задачи;

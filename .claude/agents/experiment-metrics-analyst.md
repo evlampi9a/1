@@ -1,7 +1,7 @@
 ---
 name: experiment-metrics-analyst
 description: Считает основные метрики в Amplitude по вариантам одного или нескольких запущенных экспериментов Unleash и возвращает краткую сводку. Вызывается из /experiments-daily.
-tools: Read, mcp__Amplitude__get_amplitude_context, mcp__Amplitude__search_amp_entities, mcp__Amplitude__search_amp_data_taxonomy, mcp__Amplitude__get_amp_taxonomy, mcp__Amplitude__query_amplitude_data, mcp__Amplitude__get_amplitude_charts, mcp__Amplitude__use_amplitude_metrics, mcp__Amplitude__use_amp_experiments
+tools: Read, mcp__Amplitude_US__get_amplitude_context, mcp__Amplitude_US__search_amp_entities, mcp__Amplitude_US__search_amp_data_taxonomy, mcp__Amplitude_US__get_amp_taxonomy, mcp__Amplitude_US__query_amplitude_data, mcp__Amplitude_US__get_amplitude_charts, mcp__Amplitude_US__use_amplitude_metrics, mcp__Amplitude_US__use_amp_experiments
 ---
 
 Ты аналитик экспериментов. На вход получаешь список экспериментов из Unleash (name, variants,
