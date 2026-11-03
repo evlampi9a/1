@@ -315,6 +315,29 @@ table.score td:last-child{white-space:nowrap}
 .bars .b span{font-size:var(--f-small);font-weight:600;color:var(--ink)}
 .bars-x{display:grid;grid-template-columns:repeat(var(--n),1fr);gap:2cqi;font-size:var(--f-small);color:var(--muted);text-align:center;margin-top:-1cqi}
 .bars-u{font-family:var(--f-mono);font-size:var(--f-meta);color:var(--muted);margin:0}
+
+/* paid-traffic format (как в образце раздела маркетинга): кикер, дельты-чипы, подстроки, вердикты ↑↓= */
+.kick{display:flex;justify-content:space-between;gap:2cqi;flex-wrap:wrap;font-family:var(--f-mono);font-size:var(--f-meta);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.kick span:last-child{color:var(--muted)}
+.d{display:inline-block;min-width:5.2cqi;padding:.15cqi .6cqi;border-radius:3px;font-weight:600;text-align:center;white-space:nowrap}
+.d.g{color:var(--good);background:var(--good-soft)}
+.d.b{color:var(--bad);background:var(--bad-soft)}
+.d.n{color:var(--muted);background:var(--code)}
+table.num td:not(:first-child),table.num th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+th small{display:block;text-transform:none;letter-spacing:0;font-weight:400}
+table.num td{padding-top:.62cqi;padding-bottom:.62cqi}
+td small{display:block;font-weight:400;color:var(--muted);font-size:var(--f-meta)}
+tr.sep td{border-top:2px solid var(--rule)}
+tr.sub td{color:var(--muted)}
+tr.sub td:first-child{padding-left:2cqi;font-weight:500;color:var(--ink2)}
+tr.tot td{font-weight:600;color:var(--ink);border-top:1px solid var(--ink)}
+.verdict{list-style:none;margin:0;padding:0;display:grid;gap:1.3cqi}
+.verdict li{display:grid;grid-template-columns:3.4cqi 1fr;gap:1.4cqi;align-items:start;font-size:var(--f-body);line-height:1.35}
+.verdict .tag{display:grid;place-items:center;height:3.4cqi;border-radius:3px;font-weight:700}
+.verdict .tag.g{color:var(--good);background:var(--good-soft)}
+.verdict .tag.b{color:var(--bad);background:var(--bad-soft)}
+.verdict .tag.n{color:var(--muted);background:var(--code)}
+@media (max-width:899px){.d{min-width:0}.verdict li{grid-template-columns:28px 1fr}.verdict .tag{height:28px}}
 </style>
 
 <div class="app" id="app">
@@ -433,25 +456,39 @@ const S = [
 
 /* ============ 04 Маркетинг ============ */
 {t:"section", n:"04", title:"Маркетинг", lead:"Платный трафик: расход +25%, покупок столько же"},
-{t:"table", title:"Регистрации +39%, первые покупки 0%, CAC +25%", dense:true, head:["Метрика","W43","W44","Δ"], rows:[
-  ["Расход","$23 132","$29 026","+25%"],
-  ["Регистрации","10 752","14 902","+39%"],
-  ["CPL","$2,15","$1,95","−9%"],
-  ["**Первые покупки**","376","**378**","**0%**"],
-  ["**CAC**","$61,5","**$76,8**","**+25%**"],
-  ["Выручка когорты day-0 (закрытая)","$11 379","$11 077","−3%"]
-], note:"Источник — разбор Anna 03.11, Superset (ClickHouse DWH), channel_group = Paid. В Amplitude расходов нет, вторым запросом не пересчитывалось."},
-{t:"table", title:"По сетям: Clickadu и Google подорожали", dense:true, head:["Сеть","Расход W43","Расход W44","Покупки W43","Покупки W44","CAC W43","CAC W44"], rows:[
-  ["Clickadu","$13,5 тыс.","$17,2 тыс.","252","262","$53","**$66**"],
-  ["Google Ads","$8,6 тыс.","$10,6 тыс.","105","96","$82","**$111**"],
-  ["Adsterra","$882","$602","15","12","—","—"]
-], note:"Расход Clickadu и Google округлён до $0,1 тыс., как в источнике. Прочие сети в разборе не даны, поэтому сети в сумме не сходятся с итогом."},
-{t:"points", title:"Куда ушли деньги", items:[
-  "**LatAm на Clickadu:** $2 424, 3 288 регистраций, 6 покупок, CAC $404. Вывод Anna: трафик не плохой, не работает чекаут",
-  "**Урезали лучшее:** MULTIGEO (ROAS 7d 113%) −36% бюджета, покупок 157 → 100. Adsterra (ROAS 7d 225%) −32%",
-  "**Google brand-кампании масштабировали в убыток:** brand_search_us ×3 при CAC $68 → $123",
-  "**Сверка с Amplitude не сходится:** регистраций из BR/MX/AR в Amplitude +194, у Clickadu в Superset +3 288; платные +4 150 при общих −1 518. Пока определения не сведены с Anna, на CAC $404 опираться осторожно. Первых платежей по продукту +234, с платного +2"
-]},
+{t:"table", kick:["Платный трафик · итого","W44 26.10–01.11 vs W43 19–25.10"], title:"Расход +25%, первые покупки на месте: CAC $61,5 → $76,8", dense:true, cls:"num", head:["Метрика","W43__19–25.10__","W44__26.10–01.11__","Δ"], rows:[
+  ["Потрачено","$23 132","$29 026","[[n:+25%]]"],
+  ["Регистрации","10 752","14 902","[[g:+39%]]"],
+  ["CPL","$2,15","$1,95","[[g:−9%]]"],
+  ["Первые покупки","376","378","[[n:0%]]"],
+  ["CAC новичка","$61,5","$76,8","[[b:+25%]]"],
+  {k:"sep", c:["Выручка Paid за неделю · по дате платежа","$69 509","$74 743","[[g:+8%]]"]},
+  {k:"sub", c:["первые покупки","$14 900","$15 300","[[g:+3%]]"]},
+  {k:"sep", c:["CR рег → первая покупка · когорта недели","3,29%","2,29%","[[b:−30%]]"]},
+  {k:"sub", c:["выручка когорты day-0 · закрытая","$11 379","$11 077","[[b:−3%]]"]}
+], note:"Superset, channel_group = Paid; разбор Anna 03.11. Когорты — по дате первого клика; W44 прожила 0–6 дней, поэтому «выручка когорты на сегодня» −34% — не падение. Зелёным — лучше, красным — хуже, расход нейтрален."},
+{t:"table", kick:["Платный трафик · по сетям","W44 26.10–01.11, Δ к W43"], title:"Clickadu дал весь прирост регистраций (+4 344), но покупок только +10", dense:true, cls:"num", head:["Сеть","Потрачено","Δ","Рег.","Δ","Перв. пок.","Δ","CAC","Δ"], rows:[
+  ["Clickadu","$17,2 тыс.","[[n:+27%]]","13 271","[[g:+49%]]","262","[[g:+4%]]","$66","[[b:+25%]]"],
+  ["Google Ads","$10,6 тыс.","[[n:+23%]]","—","—","96","[[b:−9%]]","$111","[[b:+35%]]"],
+  ["Adsterra__CPA, платится за первую покупку__","$602","[[n:−32%]]","—","—","12","[[b:−20%]]","—","—"],
+  ["Прочие__разница до итога__","≈ $0,6 тыс.","—","1 631","—","8","—","—","—"],
+  {k:"tot", c:["Итого Paid","$29 026","[[n:+25%]]","14 902","[[g:+39%]]","378","[[n:0%]]","$76,8","[[b:+25%]]"]}
+], note:"Расход Clickadu и Google — округлён до $0,1 тыс., как в разборе, поэтому «прочие» по расходу приблизительны. Регистрации Google и Adsterra в разборе не даны — 1 631 в «прочих» включает и их. ROAS по сетям за W44 ещё не закрыт: закрытый ROAS 7d есть только за W43 и только по группам кампаний Clickadu (следующий слайд)."},
+{t:"table", kick:["Платный трафик · Clickadu по гео","W43 19–25.10 → W44 26.10–01.11"], title:"Новые гео дали +60 покупок — ровно столько потеряли урезанные MULTIGEO и KR/JP", dense:true, cls:"num", head:["Группа","Расход W43","Расход W44","Рег. W43","Рег. W44","Пок. W43","Пок. W44","CAC W44","ROAS 7d W43"], rows:[
+  ["MULTIGEO","$8 690","$5 524","5 715","3 709","157","100","$55","[[g:113%]]"],
+  ["KR/JP","$4 574","$4 336","2 846","2 813","88","85","$51","87%"],
+  ["**LatAm**__BR, AR, MX__","$0","$2 424","0","3 288","0","6","[[b:$404]]","—"],
+  ["US","$0","$2 602","0","1 737","0","24","[[b:$108]]","—"],
+  ["DE","$219","$1 732","135","1 171","1","20","$87","93%"],
+  ["MG","$0","$232","0","129","0","11","[[g:$21]]","—"]
+], note:"ROAS 7d — последняя неделя с закрытыми когортами (W43); pROAS 90d у MULTIGEO 418%, у KR/JP 300%. Сумма групп не равна итогу Clickadu: в разборе даны только основные группы кампаний. LatAm в Amplitude: регистраций BR/MX/AR +194 против +3 288 здесь — определения не сведены, на CAC $404 опираться осторожно."},
+{t:"verdict", kick:["Платный трафик · что это значит","по разбору Anna 03.11"], title:"Деньги ушли в гео, где не проходит оплата, и из кампаний, которые окупались", items:[
+  ["b","**LatAm: трафик хотят оплатить, но оплата не проходит.** 354 новичка из BR/MX/AR дошли до оплаты, прошли 42: BR 9%, MX 16%, AR 14% против 59–76% в US/KR/DE. В Amplitude то же по Бразилии: `rounders_google_pay` — 3,7% по своему рельсу"],
+  ["b","**Урезали лучшую экономику в paid.** MULTIGEO (ROAS 7d 113%) −36% бюджета, покупок 157 → 100; Adsterra (ROAS 7d 225%) −32% расхода"],
+  ["b","**Google brand масштабировали в убыток по CAC:** `brand_search_us` ×3 расхода, CAC $68 → $123; `brand_search_ww` — $1 083 и 2 покупки"],
+  ["g","**DE и MG — дешёвые покупки, но объём маленький:** DE — 20 покупок при CAC $87, MG — 11 при CAC $21. US на Clickadu — 24 покупки при CAC $108, проблема в трафике, не в оплате"],
+  ["n","**«Ревеню новичков −34%» — эффект незакрытой когорты.** По закрытому day-0 разница −3%"]
+], note:"Итог Anna: +$5,9 тыс. расхода, из них ≈ $5 тыс. ушли в LatAm, US Clickadu и brand WW/US — 61 покупка; в MULTIGEO и Adsterra те же деньги по текущим ставкам дали бы ≈ 90–100 (оценка). Действия 12а–12ж — в последнем разделе."},
 
 /* ============ 05 Lounge ============ */
 {t:"section", n:"05", title:"Lounge", lead:"Мест нет с 24.10, аудитория сжимается"},
@@ -504,7 +541,7 @@ const S = [
 
 /* ---------- helpers ---------- */
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/`(.+?)`/g,"<code>$1</code>");
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/`(.+?)`/g,"<code>$1</code>").replace(/\[\[(g|b|n):(.+?)\]\]/g,'<span class="d $1">$2</span>').replace(/__(.+?)__/g,"<small>$1</small>");
 const raw = s => s; // trusted inline markup authored above (em/span)
 const ul = items => `<ul class="pts">${items.map(i=>`<li>${fmt(i)}</li>`).join("")}</ul>`;
 const box = (ex, mono) => ex ? `<div class="box${mono?" mono":""}"><span class="lbl">${esc(ex.label)}</span><p>${fmt(ex.text)}</p></div>` : "";
@@ -559,7 +596,8 @@ const R = {
       <div class="col"><span class="chip bad">${esc(s.symLabel||"Что происходит")}</span>${ul(s.sym)}</div>
       <div class="fix"><span class="chip good">${esc(s.fixLabel||"Как лечить")}</span><p>${fmt(s.fix)}</p></div>
     </div>`,
-  table: s => `${title(s.title)}<div class="tbl-wrap"><table class="${s.cls||""}"><thead><tr>${s.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${fmt(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>${note(s.note)}`,
+  table: s => `${title(s.title)}<div class="tbl-wrap"><table class="${s.cls||""}"><thead><tr>${s.head.map(h=>`<th>${fmt(h)}</th>`).join("")}</tr></thead><tbody>${s.rows.map(r=>{const c=Array.isArray(r)?r:r.c, k=Array.isArray(r)?"":r.k; return `<tr class="${k}">${c.map(x=>`<td>${fmt(x)}</td>`).join("")}</tr>`;}).join("")}</tbody></table></div>${note(s.note)}`,
+  verdict: s => `${title(s.title)}<ul class="verdict">${s.items.map(x=>`<li><span class="tag ${x[0]}">${{g:"↑",b:"↓",n:"="}[x[0]]}</span><div>${fmt(x[1])}</div></li>`).join("")}</ul>${note(s.note)}`,
   flow: s => `${title(s.title)}<ol class="flow">${s.steps.map(x=>`<li><div class="st"><span>${fmt(x)}</span></div></li>`).join("")}</ol>${note(s.note)}`,
   code: s => `${title(s.title)}<pre class="code${s.wrap?" wrap":""}">${raw(s.code)}</pre>${note(s.note)}`,
   check: s => `${title(s.title)}<ul class="check${s.one?" one":""}">${s.items.map(i=>`<li>${fmt(i)}</li>`).join("")}</ul>${note(s.note)}`,
@@ -593,7 +631,7 @@ deck.innerHTML = S.map(s=>{
   const cls = ["slide", "k-"+s.t, s.dense?"dense":""].join(" ");
   const sec = s._sec;
   const head = s.t==="cover" ? "" : `<div class="s-head"><span class="sec"><img class="mark" src="img/logo-mark.png" alt="">${sec.n?`<b>${sec.n}</b>`:""}${esc(sec.title)}</span><span>${s._i+1} / ${TOTAL}</span></div>`;
-  return `<section class="${cls}" id="s${s._i+1}" aria-label="Слайд ${s._i+1}: ${esc(slideTitle(s))}">${head}<div class="s-body">${R[s.t](s)}</div>${foot(s)}</section>`;
+  return `<section class="${cls}" id="s${s._i+1}" aria-label="Слайд ${s._i+1}: ${esc(slideTitle(s))}">${head}<div class="s-body">${s.kick?`<div class="kick"><span>${esc(s.kick[0])}</span><span>${esc(s.kick[1])}</span></div>`:""}${R[s.t](s)}</div>${foot(s)}</section>`;
 }).join("");
 
 /* ---------- index ---------- */
