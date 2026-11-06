@@ -21,7 +21,10 @@
  {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: прослушал голосовое","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"ce:Lounge: фото в чате — фото готово","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["image"]}],"group_by":[]}},
- {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: разговор дольше 5 минут","where":[],"group_by":[]}}
+ {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: разговор дольше 5 минут","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["watch_episode"]}],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["watch_episode"]}],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Tab Selected","where":[{"property":"tab","op":"is","values":["watch"]}],"group_by":[]}}
 ]}
 Колонки по порядку:
  A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
@@ -30,7 +33,12 @@
  PRU = людей открыли профили персонажей, PRT = просмотров профилей,
  ONC = людей закончили онбординг, VT = прослушано голосовых, VU = людей слушали голосовые,
  PR = фото в чате готово (сгенерировано), PP = фото в чате оплачено,
- D5M = людей с разговором дольше 5 минут.
+ D5M = людей с разговором дольше 5 минут,
+ WE = просмотрено эпизодов сериалов (оплаченные просмотры), WU = людей смотрели сериалы, WT = людей открыли вкладку «Смотреть».
+
+1б. Второй вызов query_amplitude_data — сколько разных сериалов посмотрели (groupByLimit 1000, timeSeriesLimit 0):
+{"kind":"segmentation","name":"Lounge · сериалы за день","date_range":{"relative":"Last 0 Days Offset 1"},"interval":"day","events":[{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["watch_episode"]}],"group_by":[{"property":"seriesId"}]}],"measured_as":{"as":"unique_users"}}
+SER = число строк (разных seriesId) в ответе, у которых значение > 0; если строк нет — 0.
 Неоплаченные фото в чате: UNP = max(PR − PP, 0).
 Доля ошибок (как на дашборде): фото = PE / PF, видео = VE / VF, в процентах с одним знаком после запятой.
 Если PF (или VF) = 0 — вместо процента пиши «генераций не было».
@@ -47,10 +55,11 @@
 • Диалоги дольше 5 минут: <D5M> чел.
 • Создано персонажей: <CH> (создали <CHU> чел.)
 • Прослушано голосовых: <VT> (слушали <VU> чел.)
+• Сериалы: посмотрели <SER> сериалов (<WE> эпизодов), смотрели <WU> чел.; вкладку «Смотреть» открыли <WT> чел.
 • Фото в чате: сгенерировано <PR>, из них не оплачено <UNP>
 • Кредитов потрачено: <A> (потратили <B> чел.)
 • Ошибки генерации фото: <доля>% (<PE> из <PF>)
 • Ошибки генерации видео: <доля>% (<VE> из <VF>)
 <https://app.amplitude.com/analytics/zencreator/dashboard/z09za0qn|Дашборд Lounge>
 
-3. Если Amplitude вернул ошибку или пустые данные — не выдумывай цифры, отправь «Lounge · статистика за <дата>: не удалось получить данные из Amplitude (<причина>)». Ровно одно сообщение.
+3. Если Amplitude вернул ошибку или пустые данные — не выдумывай цифры, отправь «Lounge · статистика за <дата>: не удалось получить данные из Amplitude (<причина>)». Если упал только второй вызов (сериалы) — в строке «Сериалы» вместо <SER> напиши «н/д», остальное отправь как обычно. Ровно одно сообщение.
