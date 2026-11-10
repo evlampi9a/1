@@ -44,3 +44,22 @@
 Из $130 269 когорты openmov в W45 в zencreator — $15 070. Объяснение (Ksenia): стало больше понятных провайдеров, новых не приходится отправлять на openmov.
 
 provider_content_policy после окна: 09.11 — 2 687, 10.11 — 3 195. byteplus: 7 874 событий Task Status Changed за 02–10.11 (≈ 0,6%).
+
+## Кредиты на неудачных задачах (10.11) — вынесено в срочное
+
+| | W44 | W45 |
+|---|---|---|
+| Потрачено (Task Created, credits) | 8 914 047 | 9 964 394 |
+| На failed (Task Status Changed, status=failed, credits) | 804 710 | 1 437 010 |
+| Куплено (Payment Succeeded, creditsCount) | 8 269 650 | 8 579 471 |
+| Разрыв без failed | −1,9% | −0,6% |
+
+provider_content_policy × videogen: 350 714 → 1 007 776 (задач 4 514 → 12 896). Остальное: 453 996 → 429 234.
+W45 provider_content_policy по gp:maxPaymentCategory: whale 979 359 (254 чел.), high 16 280, medium 12 475, not_paying 4 550, low 4 403, (none) 943 = 1 018 010.
+Цена кредита W45: $755 279 / 8 579 471 = $0,0880 → 1 437 010 ≈ $126 тыс. (16,7%).
+
+## Конверсия рельсов по уникам и по стартам (10.11)
+
+По уникам — воронка Payment Started → Payment Succeeded, 1800 с, billing постоянен. По стартам — TOTALS Succeeded / TOTALS Started по billing. Все рельсы: 7 410/7 490 уник., 70,27%/72,35%; 21 696/22 328 стартов, 13 833/14 620 успешных = 63,8%/65,5%. Полная таблица — в Notion.
+
+Порог «чек упал»: снижение больше 3–5%. W45: −2,3% — стабилен.
