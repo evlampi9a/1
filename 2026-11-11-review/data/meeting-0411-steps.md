@@ -73,4 +73,4 @@ W45 provider_content_policy по gp:maxPaymentCategory: whale 979 359 (254 че�
 | wan@3.0 · alibaba | 66 497 | 65 194 | 127 | 81 | 105 | 76 |
 | seedance_2_5 · bytedance | 146 055 | 144 625 | 0 | 0 | 13 004 | 13 104 |
 
-Доля отказов prime-nsfw: 15,9% → 42,7%. seedance_v1_5_pro (bytedance): 483 видеозадачи W45.
+Доля отказов prime-nsfw (videogen): 15,8% → 42,6% (поправка 11.11, было 15,9% → 42,7%). Перепроверка: completed+failed+partial = processing (9 968 821 ≈ 9 972 047), дублей нет; credits.refund в App Credit Operation — 15 операций за W45. seedance_v1_5_pro (bytedance): 483 видеозадачи W45.
