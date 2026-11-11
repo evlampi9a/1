@@ -1,0 +1,125 @@
+<!doctype html>
+<!--
+  PROMO SHELL — архитектура для ежедневного release-promo (bang-motion без WebGL).
+
+  Это НЕ стиль. Как и starter-opener.html из bang-motion, всё серое — плейсхолдер:
+  палитра, шрифты, фон, «подпись движения» и концепт берутся из style brief
+  (Закон №3 bang-motion). Здесь только:
+    - сцена W×H по ?ratio=9x16 (1080×1920) или ?ratio=16x9 (1920×1080) — ОДНА страница, два формата;
+    - риг камеры #world, слой футажа, слой текста над карманом контраста;
+    - контракт window.OPENER {W,H,DURATION,ready,seek,seekFrame,clipsReady} для tools/render.mjs;
+    - хелпер clip() — видеослой, привязанный к таймлайну (из bang-motion, MIT);
+    - автоплей + луп, без плеера; ?debug=1 — скраббер; ?clean=1 — без автоплея (экспорт).
+
+  НЕЛЬЗЯ: Three.js / WebGL / <canvas> c тяжёлым шейдером — в облаке нет GPU, рендер встаёт.
+  Фон — CSS-градиенты, SVG, blur-блобы, grain (techniques.md §7c/§7d), всё — функции tl.time().
+  НЕЛЬЗЯ: Date.now(), Math.random(), autoplay/loop на <video>.
+-->
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Release promo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- ЗАМЕНИТЬ: display-шрифт из style brief (не Inter/Roboto/Poppins/Montserrat/Arial) + шрифт-пара -->
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{
+  /* ПЛЕЙСХОЛДЕР — заменить из style brief (цвет бренда ZenCreator + фон + акцент, с источником каждого) */
+  --base:#15161A; --accent:#8A8F98; --accent-lit:#C4C8CF; --ink:#F4F4F6;
+  --W:1920px; --H:1080px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"Sora",system-ui,sans-serif;color:var(--ink)}
+#stage{position:fixed;left:50%;top:50%;width:var(--W);height:var(--H);transform:translate(-50%,-50%);overflow:hidden;background:var(--base)}
+#world{position:absolute;inset:0;will-change:transform;transform-origin:50% 50%}   /* риг камеры: двигаем мир, не элементы по отдельности */
+.bg{position:absolute;inset:-10%;pointer-events:none}                              /* фон шире кадра — камере есть куда ехать */
+.clipbox{position:absolute;overflow:hidden;opacity:0;visibility:hidden}             /* обёртка футажа: анимируем ЕЁ */
+.clipbox video{width:100%;height:100%;object-fit:cover;display:block}
+.pocket{position:absolute;pointer-events:none;opacity:0}                            /* карман контраста под текстом (≤25% или ≥80% яркости) */
+.line{position:absolute;white-space:nowrap}
+.ch{display:inline-block;opacity:0;will-change:transform,opacity,filter}            /* старт 0 в CSS — без «вспышки» до твина */
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.08;mix-blend-mode:overlay}
+#ui{display:none}#ui.on{display:flex;position:fixed;left:50%;bottom:16px;transform:translateX(-50%);gap:12px;align-items:center;
+  padding:10px 16px;border-radius:14px;background:rgba(14,16,22,.9);font:13px system-ui;color:#aaa;z-index:99}
+#scrub{width:320px}#clock{font-variant-numeric:tabular-nums;min-width:5.2ch}
+/* Раскладка по формату: body[data-ratio="9x16"] / body[data-ratio="16x9"] — один и тот же сценарий, свои позиции и кегли.
+   Минимум текста на 1080-стороне: заголовок ≥ 96px в 9:16 и ≥ 110px в 16:9, любые подписи ≥ 34px. */
+</style></head>
+<body>
+<div id="stage"><div id="world">
+  <div class="bg" id="bg"></div>
+  <!-- футаж ZenCreator: assets/clip1.mp4 и т.д., БЕЗ autoplay/loop -->
+  <!-- <div class="clipbox" id="box1"><video id="v1" src="assets/clip1-9x16.mp4" muted playsinline preload="auto"></video></div> -->
+  <div class="pocket" id="pocket"></div>
+  <div class="line" id="l1"></div>
+</div>
+<svg class="grain" id="grain"><filter id="gn"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="1"/></filter><rect width="100%" height="100%" filter="url(#gn)"/></svg>
+</div>
+<div id="ui"><button id="btn">Pause</button><input id="scrub" type="range" min="0" max="1000" value="0"><span id="clock">0.00s</span></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const Q=new URLSearchParams(location.search);
+const RATIO=Q.get('ratio')==='9x16'?'9x16':'16x9';
+const W=RATIO==='9x16'?1080:1920, H=RATIO==='9x16'?1920:1080;
+const V=RATIO==='9x16';                                  // удобный флаг для раскладки в коде
+document.body.dataset.ratio=RATIO;
+document.documentElement.style.setProperty('--W',W+'px');document.documentElement.style.setProperty('--H',H+'px');
+// Футаж под формат: <video data-src="assets/clip1-{ratio}.mp4"> → подставляем нужный файл
+$$('video[data-src]').forEach(v=>{v.src=v.dataset.src.replace('{ratio}',RATIO);});
+
+const DURATION=20;                                       // цель ~20 с, жёсткий максимум 30 (render.mjs --max 30)
+const tl=gsap.timeline({paused:true,defaults:{ease:'power3.out'}});
+
+/* ---------- утилиты текста (bang-motion techniques.md §1): split по буквам + направленный blur ---------- */
+function split(el,text){el.innerHTML='';text.split(' ').forEach((w,i,a)=>{const wd=document.createElement('span');wd.style.display='inline-block';wd.style.whiteSpace='nowrap';
+  [...w].forEach(c=>{const s=document.createElement('span');s.className='ch';s.textContent=c;wd.appendChild(s);});el.appendChild(wd);if(i<a.length-1)el.appendChild(document.createTextNode(' '));});
+  return el.querySelectorAll('.ch');}
+
+/* ============ СЦЕНАРИЙ — пишется из рандауна (не hook→фича→фича→логотип→CTA по шаблону) ============ */
+function build(){
+  // пример API, удалить:
+  // const chars=split($('#l1'),'New model');
+  // tl.fromTo(chars,{x:-80,opacity:0,filter:'blur(18px)'},{x:0,opacity:1,filter:'blur(0px)',stagger:.03,duration:.6,immediateRender:false},0.4);
+  // clip($('#v1'),{at:2,in:0,out:5}); tl.set('#box1',{autoAlpha:1},2);
+  tl.to({},{duration:.01},DURATION-.01);
+}
+
+/* ---------- фон как функция времени (детерминизм, Закон №2) ---------- */
+function render(t){ /* напр.: $('#bg').style.backgroundPosition=`${50+8*Math.sin(t*.4)}% ${50+6*Math.cos(t*.3)}%`; */ }
+
+/* ---------- склейка ---------- */
+const stage=$('#stage');
+const fit=()=>{const s=Math.min(innerWidth/W,innerHeight/H);stage.style.transform=`translate(-50%,-50%) scale(${s})`;};
+addEventListener('resize',fit);fit();
+const seek=t=>{tl.pause();tl.time(t,false);if(gsap.ticker.tick)gsap.ticker.tick();render(t);};
+window.OPENER={tl,W,H,DURATION,seek,ready:false};
+
+/* ===== FOOTAGE — clip() из bang-motion (MIT, github.com/bangtutorial/bang-motion) ===== */
+var CLIPS=[];
+function clip(el,o){o=o||{};el.muted=true;el.playsInline=true;el.preload='auto';el.loop=false;try{el.pause();}catch(e){}
+  var c={el:el,at:o.at||0,inT:o.in||0,out:(o.out==null?null:o.out),rate:o.rate||1,hold:!!o.hold};CLIPS.push(c);return c;}
+function clipTime(c,t){var end=c.out!=null?c.out:(isFinite(c.el.duration)?c.el.duration:1e9);var lt=(t-c.at)*c.rate;if(lt<0)return null;var vt=c.inT+lt;
+  if(vt>end-1/120){if(!c.hold)return null;vt=end-1/60;}return vt;}
+function syncClips(t,playing){for(var i=0;i<CLIPS.length;i++){var c=CLIPS[i],v=c.el,vt=clipTime(c,t);if(vt===null){if(!v.paused)v.pause();continue;}
+  if(playing){if(v.playbackRate!==c.rate)v.playbackRate=c.rate;if(v.paused)v.play().catch(function(){});if(Math.abs(v.currentTime-vt)>.2)v.currentTime=vt;}
+  else{if(!v.paused)v.pause();if(Math.abs(v.currentTime-vt)>1/90)v.currentTime=vt;}}}
+function seekClips(t){return Promise.all(CLIPS.map(function(c){return new Promise(function(res){var v=c.el,vt=clipTime(c,t);try{v.pause();}catch(e){}
+  if(vt===null)return res();var fin=function(){requestAnimationFrame(function(){requestAnimationFrame(res);});};
+  if(Math.abs(v.currentTime-vt)<1/240&&v.readyState>=2)return fin();var to=setTimeout(res,4000);
+  v.addEventListener('seeked',function h(){v.removeEventListener('seeked',h);clearTimeout(to);fin();});v.currentTime=vt;});}));}
+gsap.ticker.add(function(){if(CLIPS.length)syncClips(tl.time(),!tl.paused());});
+window.OPENER.clipsReady=function(){return CLIPS.every(function(c){return c.el.readyState>=2;});};
+window.OPENER.seekFrame=function(t){window.OPENER.seek(t);return seekClips(t);};
+
+/* ---------- плеер: нет; ?debug=1 — скраббер; луп ---------- */
+(function frame(){render(tl.time());$('#clock').textContent=tl.time().toFixed(2)+'s';$('#scrub').value=String(tl.time()/DURATION*1000);requestAnimationFrame(frame);})();
+$('#scrub').addEventListener('input',e=>{tl.pause();tl.time(e.target.value/1000*DURATION);});
+$('#btn').onclick=()=>tl.paused()?tl.play():tl.pause();
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();tl.paused()?tl.play():tl.pause();}if(/^[rR]$/.test(e.key))tl.play(0);});
+if(Q.has('debug'))$('#ui').classList.add('on');
+tl.eventCallback('onComplete',()=>tl.play(0));
+
+document.fonts.ready.then(()=>{build();window.OPENER.ready=true;if(!Q.has('clean'))tl.play(0);});   // split — только после загрузки шрифтов
+</script>
+</body></html>

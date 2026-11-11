@@ -1,0 +1,68 @@
+# Конфиг ежедневного агента промо-роликов по релизам.
+# Агент читает этот файл в начале каждого запуска (см. CLAUDE.md).
+# Меняйте значения здесь, а не в промпте задачи по расписанию.
+
+timezone: Europe/Berlin          # время в Slack-канале релизов — CET/CEST
+lookback_hours: 26               # окно поиска релизов (26 ч, с запасом на сдвиг расписания)
+
+sources:
+  slack:
+    # Бот «Zencreator Observability» постит сюда «Released to prod (zencreator)»
+    releases_channel_id: C0B2JNNT6GP   # #releases
+    extra_channel_ids: []              # например, канал анонсов продукта, если появится
+  asana:
+    workspace_gid: "1208919739404549"
+    projects:
+      dev: "1210659552423846"          # Dev — сюда ведут ссылки из Slack-бота
+      features: "1214895875527373"     # Features — продуктовые фичи
+      product: "1218211346551774"      # Product — ТЗ / эпики
+      content: "1217310740770304"      # Content — новые темплейты/пресеты
+
+selection:
+  max_promos_per_day: 1          # самый большой релиз дня; 2 только если оба «большие»
+  min_score: 6                   # ниже порога — ролик не делаем, пишем отчёт «больших релизов нет»
+  # Правила скоринга — в CLAUDE.md, раздел «Как выбрать релиз».
+  model_keywords: [Seedream, Seedance, Wan, Kling, Flux, "Nano Banana", MiniMax, "GPT Image", Ideogram, Grok, Qwen, Krea, Z-Image, Veo, Sora, Hailuo]
+
+creative:
+  brand: ZenCreator
+  url: zencreator.pro
+  cta: "Try it on ZenCreator"
+  language: en                   # язык текста в ролике
+  spicy_level: spicy_sfw         # spicy_sfw = соблазнительно, но без обнажённой груди/гениталий и секс-актов
+                                 # (бельё, боди, мокрый лук, позы, взгляд). Так ролик можно крутить в соцсетях/рекламе.
+                                 # explicit = полный NSFW (только для 18+ площадок; включать осознанно).
+  adults_only: true              # все персонажи — явно взрослые (25+), вымышленные лица
+  formats:
+    - { name: "9x16", width: 1080, height: 1920 }
+    - { name: "16x9", width: 1920, height: 1080 }
+  duration_target_s: 20          # цель ~20 с
+  duration_max_s: 30             # жёсткий лимит
+  fps: 30
+
+zencreator:
+  budget_credits_per_day: 120    # потолок на один запуск; при нехватке — урезаем план (см. CLAUDE.md)
+  min_credits_to_start: 40       # меньше — не генерируем, шлём алерт о пополнении
+  keyframe:
+    model: Z_IMAGE_SPICY         # by_prompt; если релиз — сама модель генерации картинок, берём её (dogfooding)
+    mode: quality
+  video:
+    tool: videogen
+    model: seedance_2_0_fast     # uncensored, ~2.4 кр/с при 720p; есть ratio 16:9 и 9:16
+    fallback_model: wan@2.7-nsfw # если seedance зацензурил кадр
+    resolution: 720p
+    clip_seconds: 5              # 2 клипа по 5 с на формат = 4 видеогенерации ≈ 52 кр
+    clips_per_format: 2
+    generate_audio: false        # звук делаем своим треком, клипы — немые слои футажа
+
+motion:
+  skill: bang-motion             # .claude/skills/bang-motion (MIT, github.com/bangtutorial/bang-motion)
+  no_webgl: true                 # в облачном контейнере нет GPU: Three.js/WebGL-фон вешает рендер
+  renderer: tools/render.mjs     # snap (контактный лист) + export (MP4 через ffmpeg)
+
+delivery:
+  # Куда отправлять готовые ролики на ревью. ID канала (C…/D…/G…), не имя.
+  # По умолчанию — личка с собой (только вы видите). Поменяйте на маркетинговый канал, когда будете готовы.
+  slack_channel_id: D0C1XD89N86     # личка с собой
+  marker: "[release-promo]"      # метка в сообщении — по ней агент не делает ролик дважды
+  asana_comment: true            # оставить комментарий со ссылкой на ролик в задаче релиза

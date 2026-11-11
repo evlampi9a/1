@@ -1,0 +1,10 @@
+{
+  "name": "promo-agent-tools",
+  "private": true,
+  "type": "module",
+  "description": "Render helpers for the daily release promo agent (bang-motion + Playwright + ffmpeg)",
+  "dependencies": {
+    "gsap": "3.12.5",
+    "three": "0.161.0"
+  }
+}
