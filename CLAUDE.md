@@ -6,9 +6,10 @@
 
 Инструменты:
 - **Slack + Asana (MCP)** — откуда берём релизы;
-- **ZenCreator (MCP `zencreator_*`)** — генерация spicy-кадров и видеофутажа;
-- **bang-motion** (`.claude/skills/bang-motion`, MIT) — motion-дизайн: ролик собирается как HTML + GSAP
-  и рендерится в MP4 через `tools/render.mjs` (Playwright + ffmpeg).
+- **bang-motion** (`.claude/skills/bang-motion`, MIT) — **основная генерация ролика**: весь ролик — моушн-дизайн
+  (HTML + GSAP: камера, типографика, маски, переходы), рендер в MP4 через `tools/render.mjs` (Playwright + ffmpeg);
+- **ZenCreator (MCP `zencreator_*`)** — **только медиа для моушна**: spicy-кадры, вырезы на прозрачном фоне,
+  крупные планы. Видеоклипы — только если релиз сам видеомодель (`zencreator.video.enabled`).
 
 Все параметры — в `config/promo-agent.yaml`. Прочитай его первым делом. Рабочая папка запуска —
 `runs/<YYYY-MM-DD>/` (в git не коммитится, см. `.gitignore`).
@@ -96,8 +97,9 @@ mkdir -p runs/$(date +%F)/assets
    Раскладку для 9:16 и 16:9 пиши отдельно (`V ? … : …` / `body[data-ratio]`): в 9:16 текст в безопасной зоне
    (отступ ≥ 120 px сверху/снизу под интерфейс TikTok/Reels), в 16:9 — композиция по третям.
 4. **Без WebGL / Three.js** — в облаке нет GPU, рендер зависнет. Фоны — CSS-градиенты, SVG, blur-блобы, grain.
-5. **Футаж — spicy-клипы ZenCreator** (п. 6), это главный «объект» ролика; моушн-графика работает вокруг них:
-   маски, рамки, сплит, push-through, типографика поверх кармана контраста.
+5. **Ролик делает моушн, ZenCreator даёт только медиа** (п. 6). Кадры — это «актёры» моушна: вырез на прозрачном фоне
+   (текст за/перед моделью, параллакс по слоям), крупные планы в масках и рамках, смена фона под вырезом,
+   push-through, типографика. Ken Burns по фото как единственное движение — запрещено.
 6. **Палитра**: основной цвет — из бренда ZenCreator (возьми из логотипа/сайта/продукта; укажи источник),
    акцент — от настроения релиза. Не по умолчанию «тёмный + неон».
 
@@ -106,18 +108,19 @@ mkdir -p runs/$(date +%F)/assets
 
 ## 6. Генерация в ZenCreator (spicy)
 
-**Бюджет**: перед каждой задачей — `zencreator_estimate_price`, сумма за запуск ≤ `zencreator.budget_credits_per_day`.
-Не хватает — урезай план в таком порядке: 1 клип на формат → 480p → без клипов, только spicy-кадры
-(анимируем их сами: параллакс, маски, push — не «Ken Burns only»).
+**ZenCreator — только медиа.** Перед каждой задачей — `zencreator_estimate_price`, сумма за запуск ≤
+`zencreator.budget_credits_per_day`. Не хватает — меньше кадров (минимум 1 hero-кадр), потом 1K вместо 2K.
 
-**Кадры (keyframes)** — `by_prompt`, по одному на клип, **в ratio формата** (`9:16` и `16:9`):
+**Кадры** — `by_prompt`, `zencreator.keyframe.images_per_run` штук, по шот-листу из style brief:
+hero во весь рост (если модель умеет `transparent_background` — вырез: тогда один кадр работает в обоих форматах),
+2–3 крупных плана (детали ткани/кожи/взгляд, разные позы) в ratio под их роль в кадре.
 - модель — `zencreator.keyframe.model`; **если релиз — модель картинок** (Seedream 5.5, Nano Banana …), генерируй
   кадры **этой моделью** (dogfooding: ролик показывает её реальный результат). Если релиз — видеомодель
   (Wan 3.0, Seedance …), используй её для клипов в п. ниже (проверь цену и время: wan@3.0 идёт 15–55 мин).
 - Перед первым вызовом прочитай `zencreator_get_tool_schema("by_prompt")` → `prompt_guide` и соблюдай его.
 - `zencreator_run_and_wait` для картинок; `inputs` — массив (по одному на кадр), один task.
 
-**Клипы** — `videogen`, модель `zencreator.video.model`, `resolution` и `duration = clip_seconds` из конфига,
+**Клипы** (только если `zencreator.video.enabled` или релиз — видеомодель) — `videogen`, модель `zencreator.video.model`, `resolution` и `duration = clip_seconds` из конфига,
 `ratio` = формат, `ref_asset` = кадр, `generate_audio: false`. Отправляй `zencreator_create_task`
 (все клипы одним task'ом), жди `zencreator_wait_for_task` повторно до terminal-статуса — **никаких `sleep` в shell**.
 Если клип вернулся зацензуренным/пустым — один повтор на `fallback_model`, дальше — урезанный план.

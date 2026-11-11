@@ -40,19 +40,24 @@ creative:
   duration_max_s: 30             # жёсткий лимит
   fps: 30
 
+# ZenCreator — ТОЛЬКО источник медиа (кадры, вырезы, при желании короткие клипы).
+# Сам ролик целиком собирается моушном (bang-motion): движение, камера, типографика, переходы — в коде.
 zencreator:
-  budget_credits_per_day: 120    # потолок на один запуск; при нехватке — урезаем план (см. CLAUDE.md)
-  min_credits_to_start: 40       # меньше — не генерируем, шлём алерт о пополнении
+  budget_credits_per_day: 40     # потолок на один запуск
+  min_credits_to_start: 6        # меньше — не генерируем, шлём алерт о пополнении
   keyframe:
     model: Z_IMAGE_SPICY         # by_prompt; если релиз — сама модель генерации картинок, берём её (dogfooding)
     mode: quality
+    images_per_run: 4            # 3–5 кадров: hero-вырез (transparent_background, если модель умеет) + крупные планы
   video:
+    enabled: false               # клипы не нужны по умолчанию; включать, только если релиз — видеомодель
+                                 # (тогда 1 клип на формат как «доказательство» внутри моушн-композиции)
     tool: videogen
     model: seedance_2_0_fast     # uncensored, ~2.4 кр/с при 720p; есть ratio 16:9 и 9:16
     fallback_model: wan@2.7-nsfw # если seedance зацензурил кадр
     resolution: 720p
-    clip_seconds: 5              # 2 клипа по 5 с на формат = 4 видеогенерации ≈ 52 кр
-    clips_per_format: 2
+    clip_seconds: 5              # 1 клип 5 с 720p ≈ 13 кр
+    clips_per_format: 1
     generate_audio: false        # звук делаем своим треком, клипы — немые слои футажа
 
 motion:
@@ -62,7 +67,6 @@ motion:
 
 delivery:
   # Куда отправлять готовые ролики на ревью. ID канала (C…/D…/G…), не имя.
-  # По умолчанию — личка с собой (только вы видите). Поменяйте на маркетинговый канал, когда будете готовы.
-  slack_channel_id: D0C1XD89N86     # личка с собой
+  slack_channel_id: C0CGZQM0NH2     # #promo_for_releases
   marker: "[release-promo]"      # метка в сообщении — по ней агент не делает ролик дважды
   asana_comment: true            # оставить комментарий со ссылкой на ролик в задаче релиза
