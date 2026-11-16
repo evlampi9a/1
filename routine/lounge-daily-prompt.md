@@ -24,7 +24,12 @@
  {"metric_type":"UNIQUES","event":{"event":"ce:Lounge: разговор дольше 5 минут","where":[],"group_by":[]}},
  {"metric_type":"TOTALS","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["watch_episode"]}],"group_by":[]}},
  {"metric_type":"UNIQUES","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["watch_episode"]}],"group_by":[]}},
- {"metric_type":"UNIQUES","event":{"event":"Lounge Tab Selected","where":[{"property":"tab","op":"is","values":["watch"]}],"group_by":[]}}
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Tab Selected","where":[{"property":"tab","op":"is","values":["watch"]}],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"Lounge Gift Sent","where":[],"group_by":[]}},
+ {"metric_type":"UNIQUES","event":{"event":"Lounge Gift Sent","where":[],"group_by":[]}},
+ {"metric_type":"TOTALS","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["gift"]}],"group_by":[]}},
+ {"metric_type":"PROPSUM","event":{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["gift"]}],"group_by":[]},"aggregation_property":"credits"},
+ {"metric_type":"TOTALS","event":{"event":"Lounge Gift Photo Completed","where":[],"group_by":[]}}
 ]}
 Колонки по порядку:
  A = кредитов потрачено, B = людей потратили кредиты, C = людей писали персонажам, D = людей с диалогами 5+ сообщений,
@@ -34,7 +39,8 @@
  ONC = людей закончили онбординг, VT = прослушано голосовых, VU = людей слушали голосовые,
  PR = фото в чате готово (сгенерировано), PP = фото в чате оплачено,
  D5M = людей с разговором дольше 5 минут,
- WE = просмотрено эпизодов сериалов (оплаченные просмотры), WU = людей смотрели сериалы, WT = людей открыли вкладку «Смотреть».
+ WE = просмотрено эпизодов сериалов (оплаченные просмотры), WU = людей смотрели сериалы, WT = людей открыли вкладку «Смотреть»,
+ GT = отправлено подарков, GU = людей дарили подарки, GP = подарков оплачено кредитами, GC = кредитов потрачено на подарки, GPH = фото за подарок сгенерировано.
 
 1б. Второй вызов query_amplitude_data — сколько разных сериалов посмотрели (groupByLimit 1000, timeSeriesLimit 0):
 {"kind":"segmentation","name":"Lounge · сериалы за день","date_range":{"relative":"Last 0 Days Offset 1"},"interval":"day","events":[{"event":"Lounge Credits Spent","where":[{"property":"spendType","op":"is","values":["watch_episode"]}],"group_by":[{"property":"seriesId"}]}],"measured_as":{"as":"unique_users"}}
@@ -56,6 +62,7 @@ SER = число строк (разных seriesId) в ответе, у кото
 • Создано персонажей: <CH> (создали <CHU> чел.)
 • Прослушано голосовых: <VT> (слушали <VU> чел.)
 • Сериалы: посмотрели <SER> сериалов (<WE> эпизодов), смотрели <WU> чел.; вкладку «Смотреть» открыли <WT> чел.
+• Подарки: отправлено <GT> (дарили <GU> чел.), из них за кредиты <GP> на <GC> кредитов; фото за подарок — <GPH>
 • Фото в чате: сгенерировано <PR>, из них не оплачено <UNP>
 • Кредитов потрачено: <A> (потратили <B> чел.)
 • Ошибки генерации фото: <доля>% (<PE> из <PF>)
