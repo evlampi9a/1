@@ -26,6 +26,17 @@ selection:
 
 creative:
   brand: ZenCreator
+  # Фирменный стиль — снят с zencreator.pro / app.zencreator.pro (2026-11-17). Использовать во ВСЕХ роликах.
+  brand_palette:
+    primary: "#7C3AED"           # theme-color сайта и приложения
+    violet: ["#865CC1", "#7143B1", "#603795", "#C084FC"]
+    gradient: ["#F2A93B", "#E5638D", "#865CC1", "#603795"]   # фирменный градиент (как в кольце логотипа)
+    dark: ["#0B0616", "#0F061A", "#180B28", "#27143D"]       # фоны приложения; #27143D — основной тёмный текст на светлом
+    light: ["#F7F3FC", "#C8B3E5"]
+  brand_fonts: { ui: Geist, mono: "Geist Mono", alt: "Work Sans" }   # шрифты продукта (Google Fonts: Geist, Geist Mono, Work Sans)
+  logo:
+    on_dark: brand/zencreator-logo-white-text.png    # 1400×288, PNG с альфой
+    on_light: brand/zencreator-logo-dark-text.png
   url: zencreator.pro
   cta: "Try it on ZenCreator"
   language: en                   # язык текста в ролике
