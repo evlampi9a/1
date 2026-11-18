@@ -59,6 +59,18 @@ Statistics Document Hub. Эти правила дополняют `AGENT.md` и 
 - Отказы провайдера: разбивать по модели (`subType`) — на 11.11 почти всё
   wan@3.0-prime-nsfw (Alibaba).
 
+## Маркетинг (раздел отчёта и презентации)
+
+- Источник — недельный маркетинговый отчёт из Superset / DWH (артефакт «Маркетинг · неделя N», на 18.11 —
+  https://claude.ai/artifact/MNC1NzxbiZR6DNQKJyKHrF; таблицы `emart.bi_channel_event_cohort`, `emart.bi_cohort_roas`,
+  `emart.bi_cohort_roas_geo`). Читать через Artifact read, цифры не пересчитывать.
+- В презентации — раздел «Маркетинг»: по проектам (ZenCreator, UncensoredGen, итого), платный трафик (расход, Δ WoW,
+  пользователи, CPL, первые оплаты, CAC, CAC прошлой недели, ROAS на сегодня), ROAS 7d по зрелым когортам. Не больше 3 слайдов.
+- Слайд регистраций в «Срочном» — таблица каналов по первому клику из этого отчёта (регистрации, первые оплаты, выручка, Δ),
+  итог — «Все каналы» из таблицы по проектам. Амплитудные регистрации ZenCreator — строкой в отчёте.
+- В отчётах — полные таблицы, в полном отчёте ещё кампании (масштабировать / наблюдать / резать) и гео.
+- Сверять выручку DWH с Amplitude (на W46: $857 739 против $858 347).
+
 ## UncensoredGen (отдельный проект Amplitude)
 
 - **Каждую неделю подтягивать проект `uncensoredgen_ai` (868332)** — он не входит в Production 717020.
@@ -67,7 +79,7 @@ Statistics Document Hub. Эти правила дополняют `AGENT.md` и 
   домены (`[Amplitude] Page Domain`), гео (`country`).
 - В «Новичках» — отдельной строкой: воронки за 24 ч от `Registration Completed` до `Email Verified`, `Payment Offer Viewed`, `Promo Link Clicked`; оплата за 24 ч — н/д, пока нет событий оплаты.
 - Показывать отдельной строкой рядом с регистрациями ZenCreator (в отчётах и на слайде регистраций), не складывать.
-- Событий оплаты в проекте нет (на 18.11) — оплаты UncensoredGen брать из биллинга (Grafana / Superset);
+- Событий оплаты в проекте нет (на 18.11) — оплаты UncensoredGen (первые оплаты, платящие, выручка) брать из маркетингового отчёта DWH, таблица «По проектам». В Amplitude Production выручка UncensoredGen сидит внутри ZenCreator;
   в Production проверять `initial_referring_domain` = uncensoredgen.ai и `platformType` uncensoredgen/uncensoredhub.
 - Есть и другие проекты в орге: UncensoredHub (834329), linkly_is (892178), Quest (828137) — проверять, не появились ли там регистрации и оплаты.
 
