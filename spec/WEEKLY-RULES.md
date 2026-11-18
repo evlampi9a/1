@@ -65,6 +65,7 @@ Statistics Document Hub. Эти правила дополняют `AGENT.md` и 
   Брать: регистрации (`Registration Completed`) за неделю и по дням, `SignUp Form Viewed`,
   `Promo Link Clicked` (уники), `Payment Offer Viewed` (уники), источники (`gp:utm_source`),
   домены (`[Amplitude] Page Domain`), гео (`country`).
+- В «Новичках» — отдельной строкой: воронки за 24 ч от `Registration Completed` до `Email Verified`, `Payment Offer Viewed`, `Promo Link Clicked`; оплата за 24 ч — н/д, пока нет событий оплаты.
 - Показывать отдельной строкой рядом с регистрациями ZenCreator (в отчётах и на слайде регистраций), не складывать.
 - Событий оплаты в проекте нет (на 18.11) — оплаты UncensoredGen брать из биллинга (Grafana / Superset);
   в Production проверять `initial_referring_domain` = uncensoredgen.ai и `platformType` uncensoredgen/uncensoredhub.
