@@ -59,6 +59,17 @@ Statistics Document Hub. Эти правила дополняют `AGENT.md` и 
 - Отказы провайдера: разбивать по модели (`subType`) — на 11.11 почти всё
   wan@3.0-prime-nsfw (Alibaba).
 
+## UncensoredGen (отдельный проект Amplitude)
+
+- **Каждую неделю подтягивать проект `uncensoredgen_ai` (868332)** — он не входит в Production 717020.
+  Брать: регистрации (`Registration Completed`) за неделю и по дням, `SignUp Form Viewed`,
+  `Promo Link Clicked` (уники), `Payment Offer Viewed` (уники), источники (`gp:utm_source`),
+  домены (`[Amplitude] Page Domain`), гео (`country`).
+- Показывать отдельной строкой рядом с регистрациями ZenCreator (в отчётах и на слайде регистраций), не складывать.
+- Событий оплаты в проекте нет (на 18.11) — оплаты UncensoredGen брать из биллинга (Grafana / Superset);
+  в Production проверять `initial_referring_domain` = uncensoredgen.ai и `platformType` uncensoredgen/uncensoredhub.
+- Есть и другие проекты в орге: UncensoredHub (834329), linkly_is (892178), Quest (828137) — проверять, не появились ли там регистрации и оплаты.
+
 ## Новички
 
 - Оплата за 24 ч — разбирать **по каналам** с делением Direct на «без страны / со страной».
